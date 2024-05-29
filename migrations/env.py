@@ -83,6 +83,8 @@ def run_migrations_online():
         poolclass=pool.NullPool,
     )
 
+    
+
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
