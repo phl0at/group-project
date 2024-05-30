@@ -10,6 +10,7 @@ reactions_routes = Blueprint("reactions", __name__)
 def create_reaction(id):
     pass
 
+
 @reactions_routes.route("/<int:id>", methods=["DELETE"])
 def delete_reaction(id):
     pass

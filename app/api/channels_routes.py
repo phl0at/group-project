@@ -20,6 +20,7 @@ def create_channel():
 def delete_channel(id):
     pass
 
+
 @channels_routes.route("/<int:id>/messages")
 def get_all_messages(id):
     pass
@@ -28,6 +29,3 @@ def get_all_messages(id):
 @channels_routes.route("/<int:id>/messages", methods=["POST"])
 def create_message(id):
     pass
-
-
-
