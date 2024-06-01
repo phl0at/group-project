@@ -1,15 +1,15 @@
 from app.models import db, User, Server, Channel, Message, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
-
+from werkzeug.security import generate_password_hash
 
 # Adds a demo user, you can add other users here if you want
 def create_seeder():
 
     ## SEED USERS
     user_list = [
-        {'username':'Demo', 'email':'demo@aa.io', 'password':'password'},
-        {'username':'marnie', 'email':'marnie@aa.io', 'password':'password'},
-        {'username':'bobbie', 'email':'bobbie@aa.io', 'password':'password'},
+        {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password")},
+        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password")},
+        {'username':'bobbie', 'email':'bobbie@aa.io', 'password':generate_password_hash("password")},
     ]
 
     for user in user_list:
@@ -86,6 +86,22 @@ def create_seeder():
             type=reaction['type']
         )
         db.session.add(reaction)
+
+
+    ## SEED IMAGES
+    images_list = [
+        {'type': 'servers', 'type_id': 1, 'img_url': 'imgur.com/1'},
+        {'type': 'channels', 'type_id': 1, 'img_url': 'imgur.com/1'},
+    ]
+
+    for image in images_list:
+        image = Reaction(
+            type=image['type'],
+            type_id=image['type_id'],
+            img_url=image['img_url'],
+
+        )
+        db.session.add(image)
 
     db.session.commit()
 
