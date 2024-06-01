@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.models import db
+from app.models import db, Server, User
 from flask_login import current_user
 
 
@@ -8,7 +8,8 @@ servers_routes = Blueprint("servers", __name__)
 
 @servers_routes.route("/")
 def all_servers():
-    pass
+    all_servers = Server.query.all()
+    return [server.to_dict() for server in all_servers]
 
 
 @servers_routes.route("/current")
