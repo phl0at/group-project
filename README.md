@@ -658,42 +658,6 @@ Deletes an existing server.
 
 ## CHANNELS
 
-### Get a Channel by Channel Id
-
-Returns the details of a channel specified by its id.
-
-* Require Authentication: false
-* Request
-  * Method: GET
-  * URL: /api/channels/:channel_id
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "id": 1,
-      "server_id": 1,
-      "name": "General Chat"
-    }
-    ```
-
-* Error response: Couldn't find a Channel with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Channel couldn't be found"
-    }
-    ```
-
 ### Create a Channel
 
 Creates and returns a new channel.
@@ -781,52 +745,6 @@ Delete an existing channel.
     ```
 
 ## MESSAGES
-
-### Get all Messages for a Channel based on the Channel's id
-
-Return all the messages for a channel specified by id.
-
-* Require Authentication: true
-* Request
-  * Method: GET
-  * URL: /api/channels/:channel_id/messages
-  * Body: none
-
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "Messages": [
-        {
-          "User": {
-            "id": 2,
-            "username": "User 1"
-          },
-          "id": 1,
-          "channel_id": 1,
-          "text": "I like bananas",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36"
-        }
-      ]
-    }
-    ```
-
-* Error response: Couldn't find a Channel with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Channel couldn't be found"
-    }
-    ```
 
 ### Create a Message in a Channel based on Channel's id
 
