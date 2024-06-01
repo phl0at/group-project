@@ -14,9 +14,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    servers = db.relationship("Server", backref="user")
-    messages = db.relationship("Message", backref="user")
-    reactions = db.relationship("Reaction", backref="user")
+    servers = db.relationship("Server", backref="user", cascade='all, delete-orphan')
+    messages = db.relationship("Message", backref="user", cascade='all, delete-orphan')
+    reactions = db.relationship("Reaction", backref="user", cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -49,6 +49,14 @@ class Server(db.Model):
     DM = db.Column(db.Boolean, nullable=False, default=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'owner': self.owner_id
+        }
+
+
 
 class Channel(db.Model):
 
@@ -61,7 +69,7 @@ class Channel(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('servers.id')), nullable=False)
     name = db.Column(db.String(50), nullable=False)
 
-    messages = db.relationship("Message", backref='channel')
+    messages = db.relationship("Message", backref='channel', cascade='all, delete-orphan')
 
 
 class Message(db.Model):
@@ -76,7 +84,7 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     text = db.Column(db.String(250), nullable=False)
 
-    reactions = db.relationship("Reaction", backref='message')
+    reactions = db.relationship("Reaction", backref='message', cascade='all, delete-orphan')
 
 
 class Reaction(db.Model):
