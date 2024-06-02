@@ -1,4 +1,4 @@
-from app.models import db, User, Server, Channel, Message, Reaction, environment, SCHEMA
+from app.models import db, User, Server, Channel, Message, Image, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
 from werkzeug.security import generate_password_hash
 
@@ -95,7 +95,7 @@ def create_seeder():
     ]
 
     for image in images_list:
-        image = Reaction(
+        image = Image(
             type=image['type'],
             type_id=image['type_id'],
             img_url=image['img_url'],
