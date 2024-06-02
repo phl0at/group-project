@@ -4,19 +4,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.orm import validates
 
-db = SQLAlchemy()
 
 class Image(db.Model):
     __tablename__ = 'images'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50), nullable=False)
     type_id = db.Column(db.Integer, nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
 
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=True)
-    message_id = db.Column(db.Integer, db.ForeignKey('messages.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=True)
+    server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('servers.id')), nullable=True)
+    message_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('messages.id')), nullable=True)
 
 
     # @validates("type")
@@ -42,6 +45,10 @@ class Image(db.Model):
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
@@ -79,10 +86,14 @@ class User(db.Model, UserMixin):
 
 class Server(db.Model):
     __tablename__ = "servers"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     DM = db.Column(db.Boolean, nullable=False, default=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     images = db.relationship("Image", primaryjoin="and_(Image.server_id==Server.id, Image.type=='server')", backref="server")
 
     __mapper_args__ = {
@@ -101,8 +112,13 @@ class Server(db.Model):
 
 class Channel(db.Model):
     __tablename__ = "channels"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('servers.id')), nullable=False)
     name = db.Column(db.String(50), nullable=False)
 
     messages = db.relationship("Message", backref='channel', cascade='all, delete-orphan')
@@ -118,9 +134,13 @@ class Channel(db.Model):
 
 class Message(db.Model):
     __tablename__ = "messages"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
-    channel_id = db.Column(db.Integer, db.ForeignKey('channels.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('channels.id')), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     text = db.Column(db.String(250), nullable=False)
     images = db.relationship("Image", primaryjoin="and_(Image.message_id==Message.id, Image.type=='message')", backref="message")
 
@@ -140,9 +160,14 @@ class Message(db.Model):
 
 class Reaction(db.Model):
     __tablename__ = 'reactions'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+
     id = db.Column(db.Integer, primary_key=True)
-    message_id = db.Column(db.Integer, db.ForeignKey('messages.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    message_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('messages.id')), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     type = db.Column(db.String(50), nullable=False)
 
     def to_dict(self):
