@@ -51,13 +51,11 @@ function ProfileButton() {
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
-              <li>
-                <OpenModalMenuItem
-                  itemText="Create Server"
-                  onItemClick={closeMenu}
-                  modalComponent={<CreateServerModal />}
-                />
-              </li>
+              <OpenModalMenuItem
+                itemText="Create Server"
+                onItemClick={closeMenu}
+                modalComponent={<CreateServerModal />}
+              />
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

@@ -24,9 +24,11 @@ export const thunkCreateServer = (server) => async (dispatch) => {
 
 const initialState = { servers: null };
 
-export const serverReducer = (state = initialState, action) => {
+const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_SERVER:
             return { ...state, [action.payload.id]: action.payload }
     }
 }
+
+export default serverReducer

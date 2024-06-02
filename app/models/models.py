@@ -38,9 +38,9 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'servers': [server.to_dict() for server in self.servers],
-            'messages': [message.to_dict() for message in self.messages],
-            'images': [image.to_dict() for image in self.images]
+            # 'servers': [server.to_dict() for server in self.servers],
+            # 'messages': [message.to_dict() for message in self.messages],
+            # 'images': [image.to_dict() for image in self.images]
         }
 
 

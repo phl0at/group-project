@@ -1,6 +1,6 @@
-import styles from './CreateServerModal.module.css'
+// import styles from './CreateServerModal.module.css'
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkCreateServer } from "../../redux/server";
 
@@ -9,7 +9,6 @@ const CreateServerModal = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
     const [serverName, setServerName] = useState("");
-    const [ownerId, setOwnerId] = useState("");
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
@@ -18,18 +17,21 @@ const CreateServerModal = () => {
         e.preventDefault();
         setErrors({});
 
-        if (!serverName) setErrors({ ServerNameRequired: 'Server Name is required' })
+        if (!serverName) {
+            setErrors({ ServerNameRequired: 'Server Name is required' })
+            return;
+        }
+
         const serverResponse = await dispatch(
             thunkCreateServer({
                 serverName,
-                ownerId,
+                ownerId: sessionUser.id,
             })
         );
 
         if (serverResponse.errors) {
-            setErrors(prevErrors => ({ ...prevErrors, ...data.errors }))
+            setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }))
         } else {
-            setOwnerId(sessionUser.id)
             closeModal();
         }
     };
@@ -53,9 +55,6 @@ const CreateServerModal = () => {
         </>
     );
 }
-
-
-
 
 
 

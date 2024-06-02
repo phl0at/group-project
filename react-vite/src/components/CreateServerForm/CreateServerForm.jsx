@@ -1,4 +1,4 @@
-import styles from './CreateServerForm.module.css'
+// import styles from './CreateServerForm.module.css'
 import { useState } from "react";
 import { thunkCreateServer } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,32 +10,35 @@ const CreateServerForm = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
     const [serverName, setServerName] = useState("");
-    const [ownerId, setOwnerId] = useState("");
     const [errors, setErrors] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
 
-        if (!serverName) setErrors({ ServerNameRequired: 'Server Name is required' })
+
+        if (!serverName) {
+            setErrors({ ServerNameRequired: 'Server Name is required' })
+            return;
+        }
+
         const serverResponse = await dispatch(
             thunkCreateServer({
                 serverName,
-                ownerId,
+                ownerId: sessionUser.id,
             })
         );
 
+
         if (serverResponse.errors) {
-            setErrors(prevErrors => ({ ...prevErrors, ...data.errors }))
+            setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }))
         } else {
-            setOwnerId(sessionUser.id)
             navigate('/')
         }
     };
 
 
     if (sessionUser) {
-        setOwnerId(sessionUser.id)
         return (
             <>
                 <h1>Create Server</h1>
