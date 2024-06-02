@@ -5,6 +5,7 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import CreateServerModal from "../CreateServerModal"
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -50,6 +51,13 @@ function ProfileButton() {
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
+              <li>
+                <OpenModalMenuItem
+                  itemText="Create Server"
+                  onItemClick={closeMenu}
+                  modalComponent={<CreateServerModal />}
+                />
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
