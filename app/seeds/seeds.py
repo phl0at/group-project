@@ -1,4 +1,4 @@
-from app.models import db, User, Server, Channel, Message, Reaction, environment, SCHEMA
+from app.models import db, User, Server, Channel, Message, Image, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
 from werkzeug.security import generate_password_hash
 
@@ -90,18 +90,19 @@ def create_seeder():
 
     ## SEED IMAGES
     images_list = [
-        {'type': 'servers', 'type_id': 1, 'img_url': 'imgur.com/1'},
-        {'type': 'channels', 'type_id': 1, 'img_url': 'imgur.com/1'},
+        {'type': 'user', 'type_id': 1, 'img_url': 'imgur.com/1'},
+        {'type': 'server', 'type_id': 1, 'img_url': 'imgur.com/2'},
+        {'type': 'server', 'type_id': 2, 'img_url': 'imgur.com/3'},
+        {'type': 'message', 'type_id': 1, 'img_url': 'imgur.com/4'}
     ]
 
-    for image in images_list:
-        image = Reaction(
-            type=image['type'],
-            type_id=image['type_id'],
-            img_url=image['img_url'],
-
+    for image_data in images_list:
+        image = Image(
+            type=image_data['type'],
+            type_id=image_data['type_id'],
+            img_url=image_data['img_url']
         )
-        db.session.add(image)
+    db.session.add(image)
 
     db.session.commit()
 
@@ -125,5 +126,6 @@ def undo_seeder():
         db.session.execute(text("DELETE FROM channels"))
         db.session.execute(text("DELETE FROM messages"))
         db.session.execute(text("DELETE FROM reactions"))
+        db.session.execute(text("DELETE FROM images"))
 
     db.session.commit()
