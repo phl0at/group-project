@@ -16,11 +16,15 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    servers = db.relationship("Server", backref="user", cascade='all, delete-orphan')
+    messages = db.relationship("Message", backref="user", cascade='all, delete-orphan')
+    reactions = db.relationship("Reaction", backref="user", cascade='all, delete-orphan')
+
     image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", lazy=True)
 
-    __mapper_args__ = {
-        "polymorphic_identity": "user"
-    }
+    # __mapper_args__ = {
+    #     "polymorphic_identity": "user"
+    # }
 
     @property
     def password(self):
@@ -38,9 +42,9 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'servers': [server.to_dict() for server in self.servers],
-            'messages': [message.to_dict() for message in self.messages],
-            'images': [image.to_dict() for image in self.images]
+            # 'servers': [server.to_dict() for server in self.servers],
+            # 'messages': [message.to_dict() for message in self.messages],
+            # 'image': [image.to_dict() for image in self.image]
         }
 
 
@@ -56,10 +60,11 @@ class Server(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
 
     image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", lazy=True)
+    channels = db.relationship('Channel', backref='server', cascade='all, delete-orphan')
 
-    __mapper_args__ = {
-        "polymorphic_identity": "server"
-    }
+    # __mapper_args__ = {
+    #     "polymorphic_identity": "server"
+    # }
 
     def to_dict(self):
         return {
@@ -67,7 +72,8 @@ class Server(db.Model):
             'name': self.name,
             'DM': self.DM,
             'owner': self.owner_id,
-            'images': [image.to_dict() for image in self.images]
+            'image': [image.to_dict() for image in self.image],
+            'channels': [channel.to_dict() for channel in self.channels]
         }
 
 
@@ -89,7 +95,7 @@ class Channel(db.Model):
             'id': self.id,
             'server': self.server_id,
             'name': self.name,
-            'messages': [message.to_dict() for message in self.messages]
+            'message': [message.to_dict() for message in self.messages]
         }
 
 
@@ -105,10 +111,11 @@ class Message(db.Model):
     text = db.Column(db.String(250), nullable=False)
 
     image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True)
+    reactions = db.relationship("Reaction", backref='message', cascade='all, delete-orphan')
 
-    __mapper_args__ = {
-        "polymorphic_identity": "message"
-    }
+    # __mapper_args__ = {
+    #     "polymorphic_identity": "message"
+    # }
 
     def to_dict(self):
         return {
@@ -116,7 +123,8 @@ class Message(db.Model):
             'channel': self.channel_id,
             'user': self.user_id,
             'text': self.text,
-            'images': [image.to_dict() for image in self.images]
+            'image': [image.to_dict() for image in self.image]
+            
         }
 
 
@@ -154,16 +162,9 @@ class Image(db.Model):
 
 
 
-    # @validates("type")
-    # def validate_type(self, key, value):
-    #     valid_tables = ['user', 'server', 'message']
-    #     if value not in valid_tables:
-    #         raise ValueError("Invalid type")
-    #     return value
-
     __mapper_args__ = {
         "polymorphic_on": type,
-        "polymorphic_identity": "image"
+        # "polymorphic_identity": "image"
     }
 
     def to_dict(self):
