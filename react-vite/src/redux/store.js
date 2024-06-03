@@ -11,7 +11,6 @@ import serverReducer from "./servers";
 const rootReducer = combineReducers({
   session: sessionReducer,
   server: serverReducer
-  server: serverReducer
 });
 
 let enhancer;

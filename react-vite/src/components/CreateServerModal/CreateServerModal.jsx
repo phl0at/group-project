@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { thunkCreateServer } from "../../redux/server";
+import { thunkCreateServer } from "../../redux/servers";
 
 
 const CreateServerModal = () => {
@@ -26,9 +26,11 @@ const CreateServerModal = () => {
         const serverResponse = await dispatch(
             thunkCreateServer({
                 serverName,
-                owner_id: sessionUser.id,
+                ownerId: sessionUser.id,
             })
         );
+
+        console.log('!!!!!!!!!!!!!!!!!!!!!',serverResponse)
 
         if (serverResponse.errors) {
             setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }))

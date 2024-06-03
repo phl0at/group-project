@@ -26,7 +26,7 @@ def one_server(id):
     server = Server.query.get(id)
 
     if not server:
-        return {'error': 'Server Not Found'}, 404 
+        return {'error': 'Server Not Found'}, 404
 
     return server.to_dict()
 
@@ -37,12 +37,17 @@ def create_server():
     form = CreateServerForm()
     server = Server(
         name = form.data['serverName'],
-        owner_id=form.data['ownerId']
+        owner_id=form.data['ownerId'],
         )
     db.session.add(server)
     db.session.commit()
-    return server.to_dict(), 200
-    return form.errors, 400
+
+    print("!!!!!!!!!!", server.to_dict())
+    if not server.name:
+        return { "errors": server.to_dict()}, 400
+    else:
+        return server.to_dict(), 200
+
 
 
 @servers_routes.route("/<int:id>", methods=["PUT"])
