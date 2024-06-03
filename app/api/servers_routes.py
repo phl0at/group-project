@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from app.models import db, Server, User
 from flask_login import current_user, login_required
-
+from app.forms import CreateServerForm
 
 servers_routes = Blueprint("servers", __name__)
 
@@ -34,7 +34,15 @@ def one_server(id):
 @servers_routes.route("/", methods=["POST"])
 @login_required
 def create_server():
-    pass
+    form = CreateServerForm()
+    server = Server(
+        name = form.data['serverName'],
+        owner_id=form.data['ownerId']
+        )
+    db.session.add(server)
+    db.session.commit()
+    return server.to_dict(), 200
+    return form.errors, 400
 
 
 @servers_routes.route("/<int:id>", methods=["PUT"])
