@@ -12,6 +12,7 @@ const CreateServerForm = () => {
     const [serverName, setServerName] = useState("");
     const [errors, setErrors] = useState({});
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
@@ -22,10 +23,11 @@ const CreateServerForm = () => {
             return;
         }
 
+
         const serverResponse = await dispatch(
             thunkCreateServer({
                 serverName,
-                ownerId: sessionUser.id,
+                owner_id: sessionUser.id,
             })
         );
 
@@ -37,28 +39,26 @@ const CreateServerForm = () => {
         }
     };
 
-
-    if (sessionUser) {
-        return (
-            <>
-                <h1>Create Server</h1>
-                {errors.length > 0 && <p>{errors.name}</p>}
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Server Name
-                        <input
-                            type="text"
-                            value={serverName}
-                            onChange={(e) => setServerName(e.target.value)}
-                            required
-                        />
-                    </label>
-                    <button type="submit">Create Server</button>
-                </form>
-            </>
-        );
-    }
+    return (
+        <>
+            <h1>Create Server</h1>
+            {errors.length > 0 && <p>{errors.name}</p>}
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Server Name
+                    <input
+                        type="text"
+                        value={serverName}
+                        onChange={(e) => setServerName(e.target.value)}
+                        required
+                    />
+                </label>
+                <button type="submit">Create Server</button>
+            </form>
+        </>
+    );
 }
+
 
 
 

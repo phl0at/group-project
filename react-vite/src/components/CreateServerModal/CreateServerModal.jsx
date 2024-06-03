@@ -13,6 +13,7 @@ const CreateServerModal = () => {
     const { closeModal } = useModal();
 
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
@@ -25,7 +26,7 @@ const CreateServerModal = () => {
         const serverResponse = await dispatch(
             thunkCreateServer({
                 serverName,
-                ownerId: sessionUser.id,
+                owner_id: sessionUser.id,
             })
         );
 

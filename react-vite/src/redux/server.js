@@ -11,6 +11,8 @@ export const thunkCreateServer = (server) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(server)
     });
+
+
     if (response.ok) {
         const data = await response.json();
         dispatch(createServer(data))

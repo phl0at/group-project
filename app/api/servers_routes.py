@@ -30,13 +30,13 @@ def one_server(id):
 @login_required
 def create_server():
     form = CreateServerForm()
-    if form.validate_on_submit():
-        server = Server(
-            name = form.data['serverName']
+    server = Server(
+        name = form.data['serverName'],
+        owner_id=form.data['ownerId']
         )
-        db.session.add(server)
-        db.session.commit()
-        return server.to_dict()
+    db.session.add(server)
+    db.session.commit()
+    return server.to_dict(), 200
     return form.errors, 400
 
 

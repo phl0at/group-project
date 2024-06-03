@@ -67,7 +67,7 @@ class Server(db.Model):
             'name': self.name,
             'DM': self.DM,
             'owner': self.owner_id,
-            'images': [image.to_dict() for image in self.images]
+            # 'images': [image.to_dict() for image in self.images]
         }
 
 
