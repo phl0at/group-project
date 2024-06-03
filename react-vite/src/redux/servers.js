@@ -1,7 +1,13 @@
 import { csrfFetch } from "./csrf";
 const GET_ALL_SERVERS = 'servers/GET_ALL_SERVERS';
 const GET_SERVER_ID = 'servers/GET_SERVER_ID'
+const CREATE_SERVER = 'server/createServer'
 const SELECT_SERVER = 'servers/SELECT_SERVER'
+
+const createServer = (server) => ({
+    type: CREATE_SERVER,
+    payload: server
+});
 
 const getAllServers = (servers) => ({
     type: GET_ALL_SERVERS,
@@ -10,7 +16,7 @@ const getAllServers = (servers) => ({
 
 const getServerId = (server)=> ({
     type: GET_SERVER_ID,
-    payload: server 
+    payload: server
 })
 
 export const selectServer = (serverId) => ({
@@ -20,7 +26,7 @@ export const selectServer = (serverId) => ({
 
 
 export const getServerIdThunk = (serverId) => async(dispatch)=> {
-  
+
     try {
         const response = await csrfFetch(`/api/servers/${serverId}`);
         if (response.ok) {
@@ -51,6 +57,22 @@ export const getAllServersThunk = () => async (dispatch) => {
     }
 }
 
+export const thunkCreateServer = (server) => async (dispatch) => {
+    const response = await fetch('/api/servers/', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(server)
+    });
+
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(createServer(data))
+        return data
+    } else {
+        return { errors: "Something went wrong. Please try again" }
+    }
+}
 
 const initialState = {}
 const serverReducer = (state = initialState, action) => {
@@ -58,10 +80,11 @@ const serverReducer = (state = initialState, action) => {
         case GET_ALL_SERVERS: {
             return { ...state, servers: action.payload };
         }
-
         case GET_SERVER_ID: {
             return {...state, [action.payload.id]: action.payload}
         }
+        case CREATE_SERVER:
+            return { ...state, [action.payload.id]: action.payload }
 
         case SELECT_SERVER: {
             return {

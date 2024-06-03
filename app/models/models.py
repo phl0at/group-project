@@ -124,7 +124,7 @@ class Message(db.Model):
             'user': self.user_id,
             'text': self.text,
             'image': [image.to_dict() for image in self.image]
-            
+
         }
 
 
