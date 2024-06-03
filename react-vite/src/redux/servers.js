@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 const GET_ALL_SERVERS = 'servers/GET_ALL_SERVERS';
 const GET_SERVER_ID = 'servers/GET_SERVER_ID'
+const SELECT_SERVER = 'servers/SELECT_SERVER'
 
 const getAllServers = (servers) => ({
     type: GET_ALL_SERVERS,
@@ -11,6 +12,11 @@ const getServerId = (server)=> ({
     type: GET_SERVER_ID,
     payload: server 
 })
+
+export const selectServer = (serverId) => ({
+    type: SELECT_SERVER,
+    payload: serverId,
+  });
 
 
 export const getServerIdThunk = (serverId) => async(dispatch)=> {
@@ -56,6 +62,16 @@ const serverReducer = (state = initialState, action) => {
         case GET_SERVER_ID: {
             return {...state, [action.payload.id]: action.payload}
         }
+
+        case SELECT_SERVER: {
+            return {
+              ...state,
+              selectedServer: action.payload,
+            };
+        }
+
+
+
         default:
             return state
     }
