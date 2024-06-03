@@ -22,8 +22,13 @@ def users_servers():
 @servers_routes.route("/<int:id>")
 @login_required
 def one_server(id):
-    ## GET all servers where id = id, include channels, messages, reactions
-    pass
+    ## GET all servers where id = id, include channels, messages
+    server = Server.query.get(id)
+
+    if not server:
+        return {'error': 'Server Not Found'}, 404 
+
+    return server.to_dict()
 
 
 @servers_routes.route("/", methods=["POST"])

@@ -42,9 +42,9 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            # 'servers': [server.to_dict() for server in self.servers],
-            # 'messages': [message.to_dict() for message in self.messages],
-            # 'image': [image.to_dict() for image in self.image]
+            'servers': [server.to_dict() for server in self.servers],
+            'messages': [message.to_dict() for message in self.messages],
+            'image': [image.to_dict() for image in self.image]
         }
 
 
@@ -86,7 +86,7 @@ class Channel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('servers.id')), nullable=False)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
 
     messages = db.relationship("Message", backref='channel', cascade='all, delete-orphan')
 
