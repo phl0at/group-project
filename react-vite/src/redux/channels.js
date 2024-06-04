@@ -23,12 +23,12 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
   try {
     const response = await fetch(`/api/channels/${server.id}`);
     if (response.ok) {
-      const channels = await response.json()
+      const channels = await response.json();
       dispatch(action(GET_ALL_CHANNELS, channels));
-      return channels
+      return channels;
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 };
 
@@ -48,10 +48,11 @@ export const getChannelsArray = createSelector(
 const initialState = {};
 const channelReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_CHANNELS:
+    case GET_ALL_CHANNELS: {
       const newState = {};
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
+    }
     default:
       return state;
   }
