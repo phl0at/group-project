@@ -71,7 +71,7 @@ class Server(db.Model):
             'id': self.id,
             'name': self.name,
             'DM': self.DM,
-            'owner': self.owner_id,
+            'owner_id': self.owner_id,
             'image': [image.to_dict() for image in self.image],
             'channels': [channel.to_dict() for channel in self.channels]
         }
@@ -93,9 +93,9 @@ class Channel(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'server': self.server_id,
+            'server_id': self.server_id,
             'name': self.name,
-            'message': [message.to_dict() for message in self.messages]
+            'messages': [message.to_dict() for message in self.messages]
         }
 
 
@@ -120,7 +120,7 @@ class Message(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'channel': self.channel_id,
+            'channel_id': self.channel_id,
             'user_id': self.user_id,
             'text': self.text,
             'image': [image.to_dict() for image in self.image]
@@ -143,8 +143,8 @@ class Reaction(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'message': self.message_id,
-            'user': self.user_id,
+            'message_id': self.message_id,
+            'user_id': self.user_id,
             'type': self.type
         }
 
