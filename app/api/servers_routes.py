@@ -27,7 +27,6 @@ def users_servers():
 @servers_routes.route("/<int:id>")
 @login_required
 def one_server(id):
-    ## GET all servers where id = id, include channels, messages
     server = Server.query.get(id)
 
     if not server:

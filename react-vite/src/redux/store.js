@@ -7,10 +7,12 @@ import {
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import serverReducer from "./servers";
+import channelReducer from "./channels";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  server: serverReducer
+  server: serverReducer,
+  channel: channelReducer
 });
 
 let enhancer;

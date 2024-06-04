@@ -14,7 +14,7 @@ const DELETE_SERVER = "servers/DELETE_SERVER";
 
 
 //! --------------------------------------------------------------------
-//*                         Action Creators
+//*                         Action Creator
 //! --------------------------------------------------------------------
 
 const createServer = (server) => ({
@@ -39,11 +39,16 @@ export const selectServer = (serverId) => ({
 
 const deleteServer = (payload) => ({
   type: DELETE_SERVER,
-  payload,
-});
+  payload
+})
+
+// const action = (type, payload) => ({
+//   type,
+//   payload
+// })
 
 //! --------------------------------------------------------------------
-//*                       Thunk Action Creators
+//*                             Thunks
 //! --------------------------------------------------------------------
 
 export const getServerIdThunk = (serverId) => async (dispatch) => {
@@ -121,8 +126,8 @@ export const deleteServerThunk = (server) => async (dispatch) => {
 //! --------------------------------------------------------------------
 
 export const getServersArray = createSelector(
-  (state) => state.servers,
-  (servers) => Object.values(servers)
+  (state) => state.server,
+  (server) => Object.values(server)
 );
 
 //! --------------------------------------------------------------------
@@ -149,7 +154,13 @@ const serverReducer = (state = initialState, action) => {
     }
     case DELETE_SERVER: {
       const newState = { ...state };
-      delete newState[action.payload.id];
+
+      for(let i = 0; i < newState.servers.length; i++){
+        if(newState.servers[i].id === action.payload.id){
+          newState.servers.splice(i, 1)
+        }
+      }
+      // delete newState[action.payload.id];
       return newState;
     }
 
