@@ -13,7 +13,7 @@ function ServerDetails() {
     const navigate = useNavigate()
 
     const allServers = useSelector((state) => Object.values(state.server));
-  
+
     const server = allServers?.find((server) => server.id === parseInt(serverId, 10));
 
 
@@ -23,6 +23,15 @@ function ServerDetails() {
         }
     }, [serverId, server, dispatch]);
 
+  // useEffect(() => {
+  //     if (serverId && !server) {
+  //     dispatch(getServerIdThunk(serverId));
+  //     }
+  // }, [serverId, server, dispatch]);
+
+  if (!server) {
+    return <div>Loading...</div>;
+  }
 
     return (
         <div>
@@ -41,5 +50,13 @@ function ServerDetails() {
         </div>
       );
   }
-  
-  export default ServerDetails;
+
+  // return (
+  //   <div>
+  //     <h2>{server.name}</h2>
+  //     <AllChannels server={server} />
+  //   </div>
+  // );
+
+
+export default ServerDetails;

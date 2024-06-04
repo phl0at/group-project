@@ -6,16 +6,18 @@ from flask_login import current_user, login_required
 channels_routes = Blueprint("channels", __name__)
 
 
-@channels_routes.route("/<int:id>")
+@channels_routes.route("/<int:server_id>")
 @login_required
-def get_channel(id):
-    pass
+def get_server_channels(server_id):
+    channels = Channel.query.filter(Channel.server_id == server_id)
+    return [channel.to_dict() for channel in channels]
 
 
 @channels_routes.route("/", methods=["POST"])
 @login_required
 def create_channel():
     pass
+
 
 @channels_routes.route("/<int:id>", methods=['PUT'])
 @login_required

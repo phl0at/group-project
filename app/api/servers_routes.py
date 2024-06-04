@@ -9,9 +9,14 @@ servers_routes = Blueprint("servers", __name__)
 @servers_routes.route("/")
 @login_required
 def all_servers():
-    all_servers = Server.query.filter(Server.DM == 0).all()
+    all_servers = Server.query.filter(Server.DM == 0)
     return [server.to_dict() for server in all_servers]
 
+@servers_routes.route("/direct")
+@login_required
+def direct_messages():
+    dms = Server.query.filter(Server.DM == 1).filter(Server.owner_id == current_user.id)
+    return [dm.to_dict() for dm in dms]
 
 @servers_routes.route("/current")
 @login_required
@@ -22,7 +27,6 @@ def users_servers():
 @servers_routes.route("/<int:id>")
 @login_required
 def one_server(id):
-    ## GET all servers where id = id, include channels, messages
     server = Server.query.get(id)
 
     if not server:
@@ -60,4 +64,11 @@ def edit_server(id):
 def delete_server(id):
     server = Server.query.get(id)
 
-    return server.to_dict()
+    if not server:
+        return { "error": "Server not found" }, 404
+    elif server.to_dict()['owner_id'] is not current_user.id:
+        return { "error": "Forbidden"}, 403
+    else:
+        db.session.delete(server)
+        db.session.commit()
+        return { "message": "Successfully deleted"}, 200
