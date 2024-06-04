@@ -11,13 +11,13 @@ const GET_SERVER_ID = "servers/GET_SERVER_ID";
 const CREATE_SERVER = "server/CREATE_SERVER";
 const SELECT_SERVER = "servers/SELECT_SERVER";
 const DELETE_SERVER = "servers/DELETE_SERVER";
+const UPDATE_SERVER = 'server/UPDATE_SERVER';
 
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
 //! --------------------------------------------------------------------
-const SELECT_SERVER = 'servers/SELECT_SERVER'
-const UPDATE_SERVER = 'server/UPDATE_SERVER';
+
 
 const updateServer = (server) => ({
     type: UPDATE_SERVER,

@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectServer, getAllServersThunk, selectServer } from "../../redux/servers";
+import { selectServer, getAllServersThunk } from "../../redux/servers";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import DeleteServer from "../DeleteServerModal";
-import { useNavigate } from 'react-router-dom';
+
 
 function ServersList() {
   const dispatch = useDispatch();
@@ -18,9 +18,7 @@ function ServersList() {
   }, [dispatch])
 
   const handleServerClick = (serverId) => {
-    dispatch(selectServer(serverId));
-    dispatch(selectServer(serverId));
-    navigate(`/servers/${serverId}`);
+    dispatch(selectServer(serverId));;
     navigate(`/servers/${serverId}`);
   };
   return (
