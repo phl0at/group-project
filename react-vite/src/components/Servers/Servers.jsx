@@ -14,13 +14,12 @@ function ServersList() {
   useEffect(() => {
     dispatch(getAllServersThunk())
   }, [dispatch])
-  
+
   const handleServerClick = (serverId) => {
     dispatch(selectServer(serverId));
     dispatch(getServerIdThunk(serverId));
     navigate(`/servers/${serverId}`);
   };
-
   return (
     <ul>
       {servers?.map((server) => (
@@ -33,7 +32,7 @@ function ServersList() {
               <OpenModalMenuItem
                 className="delete"
                 itemText="Delete"
-                modalComponent={<DeleteServer serverId={server.id} />}
+                modalComponent={<DeleteServer server={server} />}
               />
             </div>
           )}

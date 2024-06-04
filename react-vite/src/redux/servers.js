@@ -37,9 +37,9 @@ export const selectServer = (serverId) => ({
   payload: serverId,
 });
 
-const deleteServer = (serverId) => ({
+const deleteServer = (payload) => ({
   type: DELETE_SERVER,
-  payload: serverId,
+  payload,
 });
 
 //! --------------------------------------------------------------------
@@ -101,14 +101,14 @@ export const createServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const deleteServerThunk = (serverId) => async (dispatch) => {
+export const deleteServerThunk = (server) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/servers/${serverId}`, {
+    const response = await fetch(`/api/servers/${server.id}`, {
       method: "DELETE",
       header: { "Content-Type": "application/json" },
     });
     if (response.ok) {
-      dispatch(deleteServer(serverId));
+      dispatch(deleteServer(server));
     }
   } catch (e) {
     const err = await e.json();
@@ -149,7 +149,7 @@ const serverReducer = (state = initialState, action) => {
     }
     case DELETE_SERVER: {
       const newState = { ...state };
-      delete newState[action.payload];
+      delete newState[action.payload.id];
       return newState;
     }
 

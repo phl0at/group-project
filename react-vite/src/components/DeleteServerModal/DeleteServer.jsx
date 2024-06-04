@@ -3,13 +3,13 @@ import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import "./DeleteServer.css";
 
-const DeleteServer = (serverId) => {
+const DeleteServer = ({server}) => {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
   const onClick = async () => {
     try {
-      await dispatch(deleteServerThunk(serverId.serverId));
+      await dispatch(deleteServerThunk(server));
       closeModal();
     } catch (e) {
       closeModal();
