@@ -2,8 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllServersThunk } from "../../redux/servers";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import DeleteServer from "../DeleteServerModal";
 
 
 function ServersList() {

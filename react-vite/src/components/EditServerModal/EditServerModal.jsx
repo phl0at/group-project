@@ -24,7 +24,6 @@ const EditServerModal = ({ server }) => {
                 name: serverName
             })
         );
-
         if (serverResponse.errors) {
             setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }));
         } else {

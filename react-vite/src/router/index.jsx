@@ -3,7 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ServerDetails from '../components/Servers/ServerDetails';
 import Layout from './Layout';
-import Navigation from '../components/Navigation/Navigation';
+import MainComponent from '../components/Main/Main';
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigation/>,
+        element: <MainComponent/>,
       },
       {
         path: "login",
