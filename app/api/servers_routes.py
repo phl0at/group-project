@@ -42,7 +42,6 @@ def create_server():
     db.session.add(server)
     db.session.commit()
 
-    print("!!!!!!!!!!", server.to_dict())
     if not server.name:
         return { "errors": server.to_dict()}, 400
     else:
