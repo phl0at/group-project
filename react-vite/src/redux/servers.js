@@ -16,6 +16,13 @@ const DELETE_SERVER = "servers/DELETE_SERVER";
 //! --------------------------------------------------------------------
 //*                         Action Creator
 //! --------------------------------------------------------------------
+const SELECT_SERVER = 'servers/SELECT_SERVER'
+const UPDATE_SERVER = 'server/UPDATE_SERVER';
+
+const updateServer = (server) => ({
+    type: UPDATE_SERVER,
+    payload: server
+});
 
 const createServer = (server) => ({
   type: CREATE_SERVER,
@@ -134,6 +141,23 @@ export const getServersArray = createSelector(
 //*                            Reducer
 //! --------------------------------------------------------------------
 
+export const updateServerThunk = (server) => async (dispatch) => {
+    const response = await fetch(`/api/servers/${server.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: server.name })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(updateServer(data));
+        return data;
+    } else {
+        const errorData = await response.json();
+        return { errors: errorData };
+    }
+}
+
 const initialState = {};
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -145,6 +169,23 @@ const serverReducer = (state = initialState, action) => {
         }
         case CREATE_SERVER:
             return { ...state, servers: [...state.servers, action.payload] }
+
+        case UPDATE_SERVER: {
+            const updatedServers = state.servers.map((server) =>
+                server.id === action.payload.id ? action.payload : server
+            );
+            return { ...state, servers: updatedServers };
+        }
+
+        case SELECT_SERVER: {
+            return {
+                ...state,
+                selectedServer: action.payload,
+            };
+        }
+
+
+
 
 
     case SELECT_SERVER: {

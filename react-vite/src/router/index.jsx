@@ -3,7 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ServerDetails from '../components/Servers/ServerDetails';
 import CreateServerForm from '../components/CreateServerForm';
-import Navigation from '../components/Navigation';
+import ServerDetails from '../components/Servers/ServerDetails'
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
