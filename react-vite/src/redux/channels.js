@@ -23,7 +23,7 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
   try {
     const response = await fetch(`/api/servers/${server.id}`);
     if (response.ok) {
-      dispatch(action(GET_ALL_CHANNELS, server));
+      dispatch(action(GET_ALL_CHANNELS, server.channels));
     }
   } catch (e) {
     console.log(e)
@@ -48,7 +48,7 @@ const channelReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_CHANNELS:
       const newState = {};
-      action.payload.channels.forEach((channel) => (newState[channel.id] = channel));
+      action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
     default:
       return state;
