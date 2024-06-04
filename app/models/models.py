@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
     messages = db.relationship("Message", backref="user", cascade='all, delete-orphan')
     reactions = db.relationship("Reaction", backref="user", cascade='all, delete-orphan')
 
-    image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", lazy=True)
+    image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", cascade='all, delete-orphan', lazy=True)
 
     # __mapper_args__ = {
     #     "polymorphic_identity": "user"
@@ -59,7 +59,7 @@ class Server(db.Model):
     DM = db.Column(db.Boolean, nullable=False, default=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
 
-    image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", lazy=True)
+    image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", cascade='all, delete-orphan', lazy=True)
     channels = db.relationship('Channel', backref='server', cascade='all, delete-orphan')
 
     # __mapper_args__ = {
@@ -110,7 +110,7 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     text = db.Column(db.String(250), nullable=False)
 
-    image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True)
+    image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True, cascade='all, delete-orphan')
     reactions = db.relationship("Reaction", backref='message', cascade='all, delete-orphan')
 
     # __mapper_args__ = {
@@ -121,7 +121,7 @@ class Message(db.Model):
         return {
             'id': self.id,
             'channel': self.channel_id,
-            'user': self.user_id,
+            'user_id': self.user_id,
             'text': self.text,
             'image': [image.to_dict() for image in self.image]
 
