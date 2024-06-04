@@ -39,17 +39,18 @@ def one_server(id):
 @login_required
 def create_server():
     form = CreateServerForm()
-    print('**********This is form data:', form)
     server = Server(
         name = form.data['serverName'],
         owner_id=form.data['ownerId'],
         )
-    db.session.add(server)
-    db.session.commit()
 
-    if not server.name:
-        return { "errors": server.to_dict()}, 400
+
+    if server.name.isspace():
+
+        return { "errors": 'server name required'}, 400
     else:
+        db.session.add(server)
+        db.session.commit()
         return server.to_dict(), 200
 
 

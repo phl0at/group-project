@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createServerThunk } from "../../redux/servers";
-
+import { useEffect } from "react";
 
 const CreateServerModal = () => {
     const dispatch = useDispatch();
@@ -12,35 +12,39 @@ const CreateServerModal = () => {
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
+    useEffect(() => {
+        if (errors.length) {
+            setErrors(errors)
 
+        }
+    }, [errors])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
-
-        if (!serverName) {
-            setErrors({ ServerNameRequired: 'Server Name is required' })
-            return;
+        try {
+            if (!serverName.trim().length) {
+                setErrors({ error: 'Server Name is required' })
+                console.log('!!!!!!!!!!!!!!!!!!!', errors)
+                // return;
+            } else {
+                await dispatch(
+                    createServerThunk({
+                        serverName,
+                        ownerId: sessionUser.id,
+                    })
+                );
+                closeModal();
+            }
+        } catch (e) {
+            console.log('!!!!!!!!!!!!!!!!!!!', e)
         }
-
-        const serverResponse = await dispatch(
-            createServerThunk({
-                serverName,
-                ownerId: sessionUser.id,
-            })
-        );
-
-        if (serverResponse.errors) {
-            setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }))
-        } else {
-            closeModal();
-        }
-    };
+    }
 
     return (
         <>
             <h1>Create Server</h1>
-            {errors.length > 0 && <p>{errors.name}</p>}
+            {errors.error && <p>{errors.error}</p>}
             <form onSubmit={handleSubmit}>
                 <label>
                     Server Name
