@@ -1,6 +1,6 @@
 // import styles from './CreateServerForm.module.css'
 import { useState } from "react";
-import { thunkCreateServer } from "../../redux/servers";
+import { createServerThunk } from "../../redux/servers";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +25,7 @@ const CreateServerForm = () => {
 
 
         const serverResponse = await dispatch(
-            thunkCreateServer({
+            createServerThunk({
                 serverName,
                 owner_id: sessionUser.id,
             })
