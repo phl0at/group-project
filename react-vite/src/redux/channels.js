@@ -21,9 +21,11 @@ const action = (type, payload) => ({
 
 export const getAllChannelsThunk = (server) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/servers/${server.id}`);
+    const response = await fetch(`/api/channels/${server.id}`);
     if (response.ok) {
-      dispatch(action(GET_ALL_CHANNELS, server.channels));
+      const channels = await response.json()
+      dispatch(action(GET_ALL_CHANNELS, channels));
+      return channels
     }
   } catch (e) {
     console.log(e)
