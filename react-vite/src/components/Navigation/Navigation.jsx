@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import ProfileButton from "./ProfileButton";
 import { getAllServersThunk } from "../../redux/servers";
 import ServersList from "../Servers/Servers";
+import ServerDetails from "../Servers/ServerDetails"
 import "./Navigation.css";
 
 function Navigation() {
@@ -25,7 +26,8 @@ function Navigation() {
       {user && (
         <>
           <li>
-            <ServersList />          
+            <ServersList />
+            <ServerDetails />
           </li>
         </>
       )}
