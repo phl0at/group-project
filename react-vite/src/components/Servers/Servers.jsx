@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectServer, getAllServersThunk } from "../../redux/servers";
+import { getAllServersThunk } from "../../redux/servers";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
@@ -18,7 +18,6 @@ function ServersList() {
   }, [dispatch])
 
   const handleServerClick = (serverId) => {
-    dispatch(selectServer(serverId));;
     navigate(`/servers/${serverId}`);
   };
   return (

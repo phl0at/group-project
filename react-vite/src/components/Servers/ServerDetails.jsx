@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { getServerIdThunk } from '../../redux/servers';
+import { getServerIdThunk, getServersArray } from '../../redux/servers';
 import ServersList from './Servers';
 import { useNavigate } from 'react-router-dom';
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
@@ -13,14 +13,12 @@ function ServerDetails() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const allServers = useSelector((state) => Object.values(state.server));
-
-    const server = allServers?.find((server) => server.id === parseInt(serverId, 10));
-
+    // const allServers = useSelector(getServersArray);
+    const server = useSelector(state => state.server[serverId])
 
     useEffect(() => {
         if (serverId && !server) {
-        dispatch(getServerIdThunk(serverId));
+        dispatch(getServerIdThunk(server));
         }
     }, [serverId, server, dispatch]);
 

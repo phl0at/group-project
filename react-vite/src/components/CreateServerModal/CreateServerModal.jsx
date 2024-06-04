@@ -30,7 +30,6 @@ const CreateServerModal = () => {
             })
         );
 
-
         if (serverResponse.errors) {
             setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }))
         } else {
