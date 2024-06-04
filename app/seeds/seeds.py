@@ -101,7 +101,7 @@ def create_seeder():
             type_id=image_data['type_id'],
             img_url=image_data['img_url']
         )
-    db.session.add(image)
+        db.session.add(image)
 
     db.session.commit()
 
