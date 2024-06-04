@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getServerIdThunk } from '../../redux/servers';
 import { useParams } from 'react-router-dom';
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import EditServerModal from '../EditServerModal/EditServerModal';
+import EditServerModal from '../EditServerModal';
 
 function ServerDetails() {
   const { serverId } = useParams();
