@@ -42,7 +42,6 @@ def create_server():
     db.session.add(server)
     db.session.commit()
 
-    print("!!!!!!!!!!", server.to_dict())
     if not server.name:
         return { "errors": server.to_dict()}, 400
     else:
@@ -59,4 +58,6 @@ def edit_server(id):
 @servers_routes.route("/<int:id>", methods=["DELETE"])
 @login_required
 def delete_server(id):
-    pass
+    server = Server.query.get(id)
+
+    return server.to_dict()
