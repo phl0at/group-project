@@ -85,7 +85,7 @@ const serverReducer = (state = initialState, action) => {
         }
         case CREATE_SERVER:
             return { ...state, servers: [...state.servers, action.payload] }
-            
+
 
         case SELECT_SERVER: {
             return {

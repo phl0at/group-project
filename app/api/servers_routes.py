@@ -60,4 +60,11 @@ def edit_server(id):
 def delete_server(id):
     server = Server.query.get(id)
 
-    return server.to_dict()
+    if not server:
+        return { "error": "Server not found" }, 404
+    elif server.to_dict()['owner_id'] is not current_user.id:
+        return { "error": "Forbidden"}, 403
+    else:
+        db.session.delete(server)
+        db.session.commit()
+        return { "message": "Successfully deleted"}, 200

@@ -18,7 +18,7 @@ def delete_message(id):
     message = Message.query.get(id)
 
     if not message:
-        return { "error": "Message couldn't be found" }, 400
+        return { "error": "Message couldn't be found" }, 404
     elif message.to_dict()["user_id"] is not current_user.id:
         return { "error": "Forbidden" }, 403
     else:
