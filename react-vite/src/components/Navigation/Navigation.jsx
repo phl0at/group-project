@@ -1,13 +1,10 @@
-import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import ProfileButton from "./ProfileButton";
 import { getAllServersThunk } from "../../redux/servers";
 import ServersList from "../Servers/Servers";
-import ServerDetails from "../Servers/ServerDetails";
 import "./Navigation.css";
 
-function Navigation() {
+function AllServers() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user)
 
@@ -20,23 +17,11 @@ function Navigation() {
   return (
     <ul>
       <li>
-        <NavLink to="/">Home</NavLink>
+       {user && <ServersList />}
       </li>
 
-      {user && (
-        <>
-          <li>
-            <ServersList />  
-            <ServerDetails />        
-          </li>
-        </>
-      )}
-
-      <li>
-        <ProfileButton />
-      </li>
     </ul>
   );
 }
 
-export default Navigation;
+export default AllServers;
