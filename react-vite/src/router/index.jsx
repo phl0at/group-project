@@ -2,8 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ServerDetails from '../components/Servers/ServerDetails';
-import ServersList from '../components/Servers/Servers';
 import CreateServerForm from '../components/CreateServerForm';
+import Navigation from '../components/Navigation';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <ServersList />,
+        element: <Navigation/>,
       },
       {
         path: "login",

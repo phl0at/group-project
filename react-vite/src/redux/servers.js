@@ -78,7 +78,12 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_SERVERS: {
-            return { ...state, servers: action.payload };
+            const newState = {}
+            action.payload.forEach(server => {
+                newState[server.id] = server
+            });
+
+            return newState;
         }
         case GET_SERVER_ID: {
             return { ...state, [action.payload.id]: action.payload }
@@ -93,8 +98,6 @@ const serverReducer = (state = initialState, action) => {
               selectedServer: action.payload,
             };
         }
-
-
 
         default:
             return state

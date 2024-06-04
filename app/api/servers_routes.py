@@ -9,7 +9,7 @@ servers_routes = Blueprint("servers", __name__)
 @servers_routes.route("/")
 @login_required
 def all_servers():
-    all_servers = Server.query.all()
+    all_servers = Server.query.filter(Server.DM == 0).all()
     return [server.to_dict() for server in all_servers]
 
 
