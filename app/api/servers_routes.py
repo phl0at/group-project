@@ -9,9 +9,14 @@ servers_routes = Blueprint("servers", __name__)
 @servers_routes.route("/")
 @login_required
 def all_servers():
-    all_servers = Server.query.all()
+    all_servers = Server.query.filter(Server.DM == 0)
     return [server.to_dict() for server in all_servers]
 
+@servers_routes.route("/direct")
+@login_required
+def direct_messages():
+    dms = Server.query.filter(Server.DM == 1).filter(Server.owner_id == current_user.id)
+    return [dm.to_dict() for dm in dms]
 
 @servers_routes.route("/current")
 @login_required
