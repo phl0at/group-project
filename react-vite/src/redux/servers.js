@@ -1,9 +1,20 @@
 import { csrfFetch } from "./csrf";
+
+//! --------------------------------------------------------------------
+//*                          Action Types
+//! --------------------------------------------------------------------
+
+
 const GET_ALL_SERVERS = "servers/GET_ALL_SERVERS";
 const GET_SERVER_ID = "servers/GET_SERVER_ID";
 const CREATE_SERVER = "server/CREATE_SERVER";
 const SELECT_SERVER = "servers/SELECT_SERVER";
 const DELETE_SERVER = "servers/DELETE_SERVER";
+
+
+//! --------------------------------------------------------------------
+//*                         Action Creators
+//! --------------------------------------------------------------------
 
 const createServer = (server) => ({
   type: CREATE_SERVER,
@@ -30,6 +41,10 @@ const deleteServer = (serverId) => ({
   payload: serverId,
 });
 
+//! --------------------------------------------------------------------
+//*                       Thunk Action Creators
+//! --------------------------------------------------------------------
+
 export const getServerIdThunk = (serverId) => async (dispatch) => {
   try {
     const response = await csrfFetch(`/api/servers/${serverId}`);
@@ -43,6 +58,8 @@ export const getServerIdThunk = (serverId) => async (dispatch) => {
     );
   }
 };
+
+//! --------------------------------------------------------------------
 
 export const getAllServersThunk = () => async (dispatch) => {
   try {
@@ -63,6 +80,8 @@ export const getAllServersThunk = () => async (dispatch) => {
   }
 };
 
+//! --------------------------------------------------------------------
+
 export const createServerThunk = (server) => async (dispatch) => {
   const response = await fetch("/api/servers/", {
     method: "POST",
@@ -79,9 +98,10 @@ export const createServerThunk = (server) => async (dispatch) => {
   }
 };
 
+//! --------------------------------------------------------------------
+
 export const deleteServerThunk = (serverId) => async (dispatch) => {
   try {
-
     const response = await fetch(`/api/servers/${serverId}`, {
       method: "DELETE",
       header: { "Content-Type": "application/json" },
@@ -94,6 +114,19 @@ export const deleteServerThunk = (serverId) => async (dispatch) => {
     return err ? err : e;
   }
 };
+
+//! --------------------------------------------------------------------
+//*                            Selectors
+//! --------------------------------------------------------------------
+
+export const getServersArray = createSelector(
+  (state) => state.servers,
+  (servers) => Object.values(servers)
+);
+
+//! --------------------------------------------------------------------
+//*                            Reducer
+//! --------------------------------------------------------------------
 
 const initialState = {};
 const serverReducer = (state = initialState, action) => {
@@ -114,9 +147,7 @@ const serverReducer = (state = initialState, action) => {
       };
     }
     case DELETE_SERVER: {
-      console.log("!!!!!!!!", action.payload)
       const newState = { ...state };
-      console.log("!!!!!!!!!", newState)
       delete newState[action.payload];
       return newState;
     }
