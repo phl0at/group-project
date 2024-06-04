@@ -35,6 +35,7 @@ def one_server(id):
 @login_required
 def create_server():
     form = CreateServerForm()
+    print('**********This is form data:', form)
     server = Server(
         name = form.data['serverName'],
         owner_id=form.data['ownerId'],
@@ -52,7 +53,30 @@ def create_server():
 @servers_routes.route("/<int:id>", methods=["PUT"])
 @login_required
 def edit_server(id):
-    pass
+    server = Server.query.get(id)
+
+    if not server:
+        return {"error": "Server not found"}, 404
+
+    if server.owner_id != current_user.id:
+        return {"error": "Unauthorized"}, 403
+
+    data = request.get_json()
+    if not data:
+        return {"error": "Invalid input"}, 400
+
+    name = data.get('name')
+    if not name or len(name) < 1 or len(name) > 50:
+        return {"error": "Name must be between 1 and 50 characters"}, 400
+
+    try:
+        server.name = name
+        db.session.commit()
+
+        return server.to_dict()
+    except Exception as e:
+        db.session.rollback()
+        return {"error": "An error occurred while updating the server"}, 500
 
 
 @servers_routes.route("/<int:id>", methods=["DELETE"])
