@@ -129,15 +129,6 @@ const channelReducer = (state = initialState, action) => {
     case CREATE_CHANNEL: {
       return { ...state, [action.payload.id]: action.payload };
     }
-
-    case UPDATE_CHANNEL: {
-      return { ...state, [action.payload.id]: action.payload };
-
-    }
-    case CREATE_CHANNEL: {
-      return { ...state, [action.payload.id]: action.payload };
-    }
-
     case UPDATE_CHANNEL: {
       return { ...state, [action.payload.id]: action.payload };
     }
