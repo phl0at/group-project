@@ -1,4 +1,3 @@
-console.log("!!!!!!!!!!!!!!!!!!")
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAllServersThunk } from "../../redux/servers";

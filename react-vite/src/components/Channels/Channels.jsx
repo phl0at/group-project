@@ -21,22 +21,26 @@ function ChannelsList() {
   return (
     <>
       {server &&
-        channels.map((channel) => (
-          <div key={channel.id}>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                handleChannelClick(channel);
-              }}
-            >
-              {channel.name}
-            </button>
-            <OpenModalMenuItem
-              itemText={<CiEdit />}
-              modalComponent={<EditChannelModel channel={channel} />}
-            />
-          </div>
-        ))}
+        channels.map((channel) => {
+          if (channel.server_id === server.id) {
+            return (
+              <div key={channel.id}>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleChannelClick(channel);
+                  }}
+                >
+                  {channel.name}
+                </button>
+                <OpenModalMenuItem
+                  itemText={<CiEdit />}
+                  modalComponent={<EditChannelModel channel={channel} />}
+                />
+              </div>
+            );
+          }
+        })}
     </>
   );
 }
