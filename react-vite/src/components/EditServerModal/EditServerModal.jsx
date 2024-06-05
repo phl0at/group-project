@@ -5,33 +5,43 @@ import { updateServerThunk } from "../../redux/servers";
 
 const EditServerModal = ({ server }) => {
     const dispatch = useDispatch();
+    const sessionUser = useSelector((state) => state.session.user);
     const [serverName, setServerName] = useState(server.name);
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
+    useEffect(() => {
+        if (errors.length) {
+            setErrors(errors)
+
+        }
+    }, [errors])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
-
-        if (!serverName) {
-            setErrors({ ServerNameRequired: 'Server Name is required' });
-            return;
+        try {
+            if (!serverName.trim().length) {
+                setErrors({ error: 'Server Name is required' })
+                // return;
+            } else {
+                await dispatch(
+                    updateServerThunk({
+                        serverName,
+                        ownerId: sessionUser.id,
+                    })
+                );
+                closeModal();
+            }
+        } catch (e) {
+            console.log(e)
         }
-        server.name = serverName
-        const serverResponse = await dispatch(
-            updateServerThunk(server)
-        );
-        if (serverResponse.errors) {
-            setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }));
-        } else {
-            closeModal();
-        }
-    };
+    }
 
     return (
         <>
             <h1>Edit Server</h1>
-            {errors.ServerNameRequired && <p>{errors.ServerNameRequired}</p>}
+            {errors.error && <p>{errors.error}</p>}
             <form onSubmit={handleSubmit}>
                 <label>
                     Server Name

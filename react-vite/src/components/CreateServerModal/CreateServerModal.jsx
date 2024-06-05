@@ -36,7 +36,7 @@ const CreateServerModal = () => {
                 closeModal();
             }
         } catch (e) {
-            console.log('!!!!!!!!!!!!!!!!!!!', e)
+            console.log(e)
         }
     }
 
