@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
+import { getMessagesArray } from "../../redux/messages";
 
 function MessagesList() {
-  const channel = useSelector((state) => state.channel.current);
   const server = useSelector((state) => state.server.current);
+  const messages = useSelector(getMessagesArray);
 
   if (!server) return "";
-  if (!channel) return "Select a channel!";
-
-  const messages = channel.messages;
+  if (!messages) return "Select a channel!";
 
   return (
     <>

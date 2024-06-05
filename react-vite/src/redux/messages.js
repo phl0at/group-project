@@ -5,6 +5,7 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL_MESSAGES = "messages/GET_ALL";
+const CLEAR_CURRENT = "messages/CLEAR_CURRENT";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -21,12 +22,22 @@ const action = (type, payload) => ({
 
 export const getAllMessagesThunk = (channel) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/channels/${channel.id}/messages/`);
+    const response = await fetch(`/api/channels/${channel.id}/messages`);
     if (response.ok) {
       const data = await response.json();
       dispatch(action(GET_ALL_MESSAGES, data));
       return data;
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const clearCurrentMessagesThunk = () => async (dispatch) => {
+  try {
+    dispatch(action(CLEAR_CURRENT))
   } catch (error) {
     console.log(error);
   }
@@ -52,6 +63,9 @@ const messageReducer = (state = initialState, action) => {
       const newState = {};
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
+    }
+    case CLEAR_CURRENT: {
+      return {}
     }
     default:
       return state;

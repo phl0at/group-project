@@ -23,7 +23,7 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const getServerIdThunk = (server) => async (dispatch) => {
+export const setCurrentServerThunk = (server) => async (dispatch) => {
   try {
     const response = await fetch(`/api/servers/${server.id}`);
     if (response.ok) {
@@ -145,7 +145,7 @@ const serverReducer = (state = initialState, action) => {
       return { ...state, [action.payload.id]: action.payload };
     }
     case DELETE_SERVER: {
-      const newState = { ...state };
+      let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
     }

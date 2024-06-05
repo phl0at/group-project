@@ -1,5 +1,6 @@
 import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllMessagesThunk } from "../../redux/messages";
 
 function ChannelsList() {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ function ChannelsList() {
 
   const handleChannelClick = (channel) =>{
     dispatch(setCurrentChannelThunk(channel))
+    dispatch(getAllMessagesThunk(channel))
   }
 
   return (

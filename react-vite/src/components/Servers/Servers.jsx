@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getServerIdThunk, getServersArray } from "../../redux/servers";
-import { getAllChannelsThunk } from "../../redux/channels";
+import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
+import { clearCurrentChannelThunk, getAllChannelsThunk } from "../../redux/channels";
+import { clearCurrentMessagesThunk } from "../../redux/messages";
 
 function ServersList() {
   const dispatch = useDispatch();
@@ -8,7 +9,9 @@ function ServersList() {
 
   const handleServerClick = (server) => {
     dispatch(getAllChannelsThunk(server));
-    dispatch(getServerIdThunk(server))
+    dispatch(setCurrentServerThunk(server))
+    dispatch(clearCurrentMessagesThunk())
+    dispatch(clearCurrentChannelThunk())
   };
 
   return (

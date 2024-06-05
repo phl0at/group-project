@@ -4,8 +4,9 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_CHANNELS = "channels/GET_ALL";
-const SET_CURRENT_CHANNEL = "channels/SET_CURRENT";
+const GET_ALL = "channels/GET_ALL";
+const SET_CURRENT = "channels/SET_CURRENT";
+const CLEAR_CURRENT = "channels/CLEAR_CURRENT"
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -25,7 +26,7 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
     const response = await fetch(`/api/channels/${server.id}`);
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL_CHANNELS, data));
+      dispatch(action(GET_ALL, data));
       return data;
     }
   } catch (error) {
@@ -33,9 +34,21 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
   }
 };
 
+//! --------------------------------------------------------------------
+
 export const setCurrentChannelThunk = (channel) => async (dispatch) => {
   try {
-    dispatch(action(SET_CURRENT_CHANNEL, channel));
+    dispatch(action(SET_CURRENT, channel));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const clearCurrentChannelThunk = () => async (dispatch) => {
+  try {
+    dispatch(action(CLEAR_CURRENT))
   } catch (error) {
     console.log(error);
   }
@@ -65,13 +78,18 @@ export const getChannelsArray = createSelector(
 const initialState = {};
 const channelReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_CHANNELS: {
+    case GET_ALL: {
       const newState = {};
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
     }
-    case SET_CURRENT_CHANNEL: {
+    case SET_CURRENT: {
       return { ...state, current: action.payload };
+    }
+    case CLEAR_CURRENT: {
+      let newState = {...state}
+      delete newState["current"]
+      return newState
     }
     default:
       return state;
