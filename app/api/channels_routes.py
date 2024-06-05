@@ -5,6 +5,13 @@ from flask_login import current_user, login_required
 
 channels_routes = Blueprint("channels", __name__)
 
+@channels_routes.route("/")
+@login_required
+def get_all_channels():
+    channels = Channel.query.all()
+    return [channel.to_dict() for channel in channels]
+
+
 
 @channels_routes.route("/<int:server_id>")
 @login_required

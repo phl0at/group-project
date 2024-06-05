@@ -5,6 +5,8 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL_CHANNELS = "channels/GET_ALL_CHANNELS";
+const UPDATE_CHANNEL = "channels/UPDATE_CHANNEL" 
+
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -19,9 +21,29 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const getAllChannelsThunk = (server) => async (dispatch) => {
+export const updateChannelThunk = (channel) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/channels/${server.id}`);
+    const response = await fetch(`/api/channels/${channel.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: channel.name }),
+    });
+
+    if (response.ok){
+      const data = await response.json()
+      dispatch(action(UPDATE_CHANNEL, data))
+      return data 
+    }
+
+  }catch(error){
+    console.log(error)
+  }
+}
+
+
+export const getAllChannelsThunk = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/channels/`);
     if (response.ok) {
       const data = await response.json();
       dispatch(action(GET_ALL_CHANNELS, data));
@@ -52,6 +74,11 @@ const channelReducer = (state = initialState, action) => {
       const newState = {};
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
+    }
+
+    case UPDATE_CHANNEL: {
+      return { ...state, [action.payload.id]: action.payload };
+
     }
     default:
       return state;

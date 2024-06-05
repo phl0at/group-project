@@ -5,6 +5,8 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import MainComponent from '../components/Main/Main';
 
+import AllChannels from '../components/Channels/Channels';
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,
