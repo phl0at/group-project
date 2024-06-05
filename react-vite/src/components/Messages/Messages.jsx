@@ -6,16 +6,13 @@ function MessagesList() {
   const messages = useSelector(getMessagesArray);
 
   if (!server) return "";
-  if (!messages) return "Select a channel!";
+  if (!messages.length) return "Please select a channel!"
 
   return (
     <>
       <div>
         {messages.length > 0 &&
           messages.map((message) => <div key={message.id}>{message.text}</div>)}
-      </div>
-      <div>
-        {messages.length === 0 && <div>No messages in this channel!</div>}
       </div>
     </>
   );
