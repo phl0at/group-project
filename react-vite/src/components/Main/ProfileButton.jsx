@@ -57,6 +57,9 @@ function ProfileButton() {
                 modalComponent={<CreateServerModal />}
               />
               <li>
+
+
+                
                 <button onClick={logout}>Log Out</button>
               </li>
             </>

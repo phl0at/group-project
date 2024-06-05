@@ -53,4 +53,4 @@ function ServerDetails() {
 
 
 
-export default ServerDetails;
+// export default ServerDetails;
