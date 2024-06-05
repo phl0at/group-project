@@ -6,6 +6,11 @@ import ServersList from "../Servers/Servers";
 import ProfileButton from "./ProfileButton";
 import AllChannels from "../Channels/Channels";
 import "./MainComponent.css";
+import ServersList from "../Servers/";
+import ChannelsList from "../Channels/";
+import MessagesList from "../Messages/";
+import ProfileButton from "./ProfileButton/";
+import "./Main.css";
 
 function MainComponent() {
   const dispatch = useDispatch();
@@ -19,29 +24,23 @@ function MainComponent() {
 
   return (
     <>
-      <ul>
-        <li>
-          {/* <DirectButton /> */}
-        </li>
-        <li>
-          <ProfileButton />
-        </li>
-        <li>
-          <ServersList />
-          {/* <ServerDetails /> */}
-        </li>
-        <ul>
-          <li>{/* <ChannelsList /> */}</li>
-          <li> 
-            <AllChannels/>
-          </li>
-        </ul>
-      </ul>
-      <ul>
-        <li>
-          {/* <MessagesList /> */}
-        </li>
-      </ul>
+      <div>
+        <ProfileButton />
+      </div>
+      {user && (
+        <>
+          <div>{/* <DirectButton /> */}</div>
+          <div>
+            <ServersList />
+          </div>
+          <div>
+            <ChannelsList />
+          </div>
+          <div>
+            <MessagesList />
+          </div>
+        </>
+      )}
     </>
   );
 }

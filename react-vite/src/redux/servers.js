@@ -4,11 +4,11 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_SERVERS = "servers/GET_ALL_SERVERS";
+const GET_ALL_SERVERS = "servers/GET_ALL";
 const GET_SERVER_ID = "servers/GET_SERVER_ID";
-const CREATE_SERVER = "server/CREATE_SERVER";
-const DELETE_SERVER = "servers/DELETE_SERVER";
-const UPDATE_SERVER = "server/UPDATE_SERVER";
+const CREATE_SERVER = "servers/CREATE";
+const DELETE_SERVER = "servers/DELETE";
+const UPDATE_SERVER = "server/UPDATE";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -23,7 +23,7 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const getServerIdThunk = (server) => async (dispatch) => {
+export const setCurrentServerThunk = (server) => async (dispatch) => {
   try {
     const response = await fetch(`/api/servers/${server.id}`);
     if (response.ok) {
@@ -113,8 +113,15 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
 export const getServersArray = createSelector(
   (state) => state.server,
-  (server) => Object.values(server)
-);
+  (server) => {
+    let arr = []
+    for(const key in server){
+        if(Number.isInteger(Number(key))){
+          arr.push(server[key])
+        }
+    }
+    return arr
+  });
 
 //! --------------------------------------------------------------------
 //*                            Reducer
@@ -129,7 +136,7 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     }
     case GET_SERVER_ID: {
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, current: action.payload };
     }
     case CREATE_SERVER:
       return { ...state, [action.payload.id]: action.payload };
@@ -138,7 +145,7 @@ const serverReducer = (state = initialState, action) => {
       return { ...state, [action.payload.id]: action.payload };
     }
     case DELETE_SERVER: {
-      const newState = { ...state };
+      let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
     }

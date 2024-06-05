@@ -97,11 +97,11 @@ def delete_channel(id):
     pass
 
 
-@channels_routes.route("/<int:id>/messages")
+@channels_routes.route("/<int:channel_id>/messages")
 @login_required
-def get_all_messages(id):
-    pass
-
+def get_all_messages(channel_id):
+    messages = Message.query.filter(Message.channel_id == channel_id)
+    return [message.to_dict() for message in messages]
 
 @channels_routes.route("/<int:id>/messages", methods=["POST"])
 @login_required
