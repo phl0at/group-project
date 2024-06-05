@@ -42,6 +42,7 @@ export const updateChannelThunk = (channel) => async (dispatch) => {
   }
 }
 
+//! --------------------------------------------------------------------
 
 export const getAllChannelsThunk = () => async (dispatch) => {
   try {
@@ -56,23 +57,7 @@ export const getAllChannelsThunk = () => async (dispatch) => {
   }
 };
 
-export const createChannelThunk = (channel) => async (dispatch) => {
-  try {
-    const response = await fetch("/api/channels/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(channel),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      dispatch(action(CREATE_CHANNEL, data));
-      return data;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+//! --------------------------------------------------------------------
 
 export const createChannelThunk = (channel) => async (dispatch) => {
   try {

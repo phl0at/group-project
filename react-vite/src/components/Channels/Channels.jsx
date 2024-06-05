@@ -10,13 +10,13 @@ function ChannelsList() {
   const channels = useSelector(getChannelsArray);
   const server = useSelector((state) => state.server.current);
 
-  if (!server) return ""
+  if (!server) return "";
   if (!channels.length) return "No channels in this server!";
 
-  const handleChannelClick = (channel) =>{
-    dispatch(setCurrentChannelThunk(channel))
-    dispatch(getAllMessagesThunk(channel))
-  }
+  const handleChannelClick = (channel) => {
+    dispatch(setCurrentChannelThunk(channel));
+    dispatch(getAllMessagesThunk(channel));
+  };
 
   return (
     <>
@@ -31,6 +31,10 @@ function ChannelsList() {
             >
               {channel.name}
             </button>
+            <OpenModalMenuItem
+              itemText={<CiEdit />}
+              modalComponent={<EditChannelModel channel={channel} />}
+            />
           </div>
         ))}
     </>
