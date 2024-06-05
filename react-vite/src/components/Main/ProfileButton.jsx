@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
-import CreateServerModal from "../CreateServerModal"
+import LoginFormModal from "../Auth/LoginFormModal";
+import SignupFormModal from "../Auth/SignupFormModal";
+import CreateServerModal from "../Servers/CreateServerModal"
 
 function ProfileButton() {
   const dispatch = useDispatch();
