@@ -1,19 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getAllServersThunk, getServersArray } from "../../redux/servers";
-import { useEffect } from "react";
+import { getServerIdThunk, getServersArray } from "../../redux/servers";
 import { getAllChannelsThunk } from "../../redux/channels";
 
 function ServersList() {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
 
-  useEffect(() => {
-    dispatch(getAllServersThunk());
-  }, [dispatch]);
-
   const handleServerClick = (server) => {
     dispatch(getAllChannelsThunk(server));
+    dispatch(getServerIdThunk(server))
   };
+
   return (
     <ul>
       {servers?.map((server, i) => (
@@ -22,7 +19,7 @@ function ServersList() {
             key={server.id}
             onClick={(e) => {
               e.preventDefault();
-              return handleServerClick(server);
+              handleServerClick(server);
             }}
           >
             {server.name}

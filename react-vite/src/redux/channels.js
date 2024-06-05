@@ -5,6 +5,7 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL_CHANNELS = "channels/GET_ALL";
+const SET_CURRENT_CHANNEL = "channels/SET_CURRENT";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -32,13 +33,29 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
   }
 };
 
+export const setCurrentChannelThunk = (channel) => async (dispatch) => {
+  try {
+    dispatch(action(SET_CURRENT_CHANNEL, channel));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //! --------------------------------------------------------------------
 //*                            Selectors
 //! --------------------------------------------------------------------
 
 export const getChannelsArray = createSelector(
   (state) => state.channel,
-  (channel) => Object.values(channel)
+  (channel) => {
+    let arr = [];
+    for (const key in channel) {
+      if (Number.isInteger(Number(key))) {
+        arr.push(channel[key]);
+      }
+    }
+    return arr;
+  }
 );
 
 //! --------------------------------------------------------------------
@@ -52,6 +69,9 @@ const channelReducer = (state = initialState, action) => {
       const newState = {};
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
+    }
+    case SET_CURRENT_CHANNEL: {
+      return { ...state, current: action.payload };
     }
     default:
       return state;

@@ -113,8 +113,15 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
 export const getServersArray = createSelector(
   (state) => state.server,
-  (server) => Object.values(server)
-);
+  (server) => {
+    let arr = []
+    for(const key in server){
+        if(Number.isInteger(Number(key))){
+          arr.push(server[key])
+        }
+    }
+    return arr
+  });
 
 //! --------------------------------------------------------------------
 //*                            Reducer
@@ -129,7 +136,7 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     }
     case GET_SERVER_ID: {
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, current: action.payload };
     }
     case CREATE_SERVER:
       return { ...state, [action.payload.id]: action.payload };

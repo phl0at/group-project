@@ -1,24 +1,33 @@
-import { getAllChannelsThunk, getChannelsArray } from "../../redux/channels";
-import { useEffect } from "react";
+import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 
 function ChannelsList() {
-  return "NULL";
   const dispatch = useDispatch();
   const channels = useSelector(getChannelsArray);
-  useEffect(() => {
-    dispatch(getAllChannelsThunk(server));
-  }, []);
+  const server = useSelector((state) => state.server.current);
 
+  if (!server) return ""
   if (!channels.length) return "No channels in this server!";
+
+  const handleChannelClick = (channel) =>{
+    dispatch(setCurrentChannelThunk(channel))
+  }
 
   return (
     <>
-      {channels.map((channel) => (
-        <div key={channel.id}>
-          <button>{channel.name}</button>
-        </div>
-      ))}
+      {server &&
+        channels.map((channel) => (
+          <div key={channel.id}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handleChannelClick(channel);
+              }}
+            >
+              {channel.name}
+            </button>
+          </div>
+        ))}
     </>
   );
 }

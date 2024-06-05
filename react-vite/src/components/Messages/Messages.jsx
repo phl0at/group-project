@@ -1,22 +1,23 @@
-import { getAllMessagesThunk, getMessagesArray } from "../../redux/messages";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function MessagesList() {
-  return "NULL";
-  const dispatch = useDispatch();
-  const messages = useSelector(getMessagesArray);
-  useEffect(() => {
-    dispatch(getAllMessagesThunk(channel));
-  }, []);
+  const channel = useSelector((state) => state.channel.current);
+  const server = useSelector((state) => state.server.current);
 
-  if (!messages.length) return "No Messages Here!";
+  if (!server) return "";
+  if (!channel) return "Select a channel!";
+
+  const messages = channel.messages;
 
   return (
     <>
-      {messages.map((message) => (
-        <div key={message.id}></div>
-      ))}
+      <div>
+        {messages.length > 0 &&
+          messages.map((message) => <div key={message.id}>{message.text}</div>)}
+      </div>
+      <div>
+        {messages.length === 0 && <div>No messages in this channel!</div>}
+      </div>
     </>
   );
 }
