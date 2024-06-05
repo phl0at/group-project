@@ -16,16 +16,13 @@ function ServersList() {
   }, [dispatch])
 
   const handleServerClick = (serverId) => {
-    navigate(`/servers/${serverId}`);
+    // navigate(`/servers/${serverId}`);
   };
   return (
     <ul>
 
       {servers?.map((server) => (
         <li key={server.id} onClick={()=> handleServerClick(server.id)}>{server.name}</li>
-
-
-
       ))}
 
 

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
-import ServerDetails from '../components/Servers/ServerDetails';
+
 import Layout from './Layout';
 import MainComponent from '../components/Main/Main';
 
@@ -22,10 +22,6 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
 
-      {
-        path: "/servers/:serverId",
-        element: <ServerDetails />,
-      },
     ],
   },
 ]);

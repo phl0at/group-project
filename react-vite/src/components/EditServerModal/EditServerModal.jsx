@@ -17,12 +17,9 @@ const EditServerModal = ({ server }) => {
             setErrors({ ServerNameRequired: 'Server Name is required' });
             return;
         }
-
+        server.name = serverName
         const serverResponse = await dispatch(
-            updateServerThunk({
-                id: server.id,
-                name: serverName
-            })
+            updateServerThunk(server)
         );
         if (serverResponse.errors) {
             setErrors(prevErrors => ({ ...prevErrors, ...serverResponse.errors }));

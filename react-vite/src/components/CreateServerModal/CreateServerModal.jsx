@@ -25,7 +25,6 @@ const CreateServerModal = () => {
         try {
             if (!serverName.trim().length) {
                 setErrors({ error: 'Server Name is required' })
-                console.log('!!!!!!!!!!!!!!!!!!!', errors)
                 // return;
             } else {
                 await dispatch(
