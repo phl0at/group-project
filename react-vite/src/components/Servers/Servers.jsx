@@ -1,34 +1,35 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getAllServersThunk } from "../../redux/servers";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from 'react';
-
+import { getAllServersThunk, getServersArray } from "../../redux/servers";
+import { useEffect } from "react";
+import { getAllChannelsThunk } from "../../redux/channels";
 
 function ServersList() {
   const dispatch = useDispatch();
-  const servers = useSelector((state) => Object.values(state.server));
-  const currentUser = useSelector((state) => state.session.user);
-  const navigate = useNavigate();
-
+  const servers = useSelector(getServersArray);
 
   useEffect(() => {
-    dispatch(getAllServersThunk())
-  }, [dispatch])
+    dispatch(getAllServersThunk());
+  }, [dispatch]);
 
-  const handleServerClick = (serverId) => {
-    // navigate(`/servers/${serverId}`);
+  const handleServerClick = (server) => {
+    dispatch(getAllChannelsThunk(server));
   };
   return (
     <ul>
-
-      {servers?.map((server) => (
-        <li key={server.id} onClick={()=> handleServerClick(server.id)}>{server.name}</li>
+      {servers?.map((server, i) => (
+        <div key={i}>
+          <button
+            key={server.id}
+            onClick={(e) => {
+              e.preventDefault();
+              return handleServerClick(server);
+            }}
+          >
+            {server.name}
+          </button>
+        </div>
       ))}
-
-
     </ul>
-
-
   );
 }
 

@@ -2,24 +2,25 @@ import { getAllChannelsThunk, getChannelsArray } from "../../redux/channels";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-function AllChannels({ server }) {
+function ChannelsList() {
+  return "NULL";
   const dispatch = useDispatch();
   const channels = useSelector(getChannelsArray);
   useEffect(() => {
     dispatch(getAllChannelsThunk(server));
   }, []);
 
-  if (!channels) return "Loading...";
+  if (!channels.length) return "No channels in this server!";
 
   return (
     <>
-      {channels?.map((channel) => (
-        <li key={channel.id}>
+      {channels.map((channel) => (
+        <div key={channel.id}>
           <button>{channel.name}</button>
-        </li>
+        </div>
       ))}
     </>
   );
 }
 
-export default AllChannels;
+export default ChannelsList;

@@ -4,11 +4,11 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_SERVERS = "servers/GET_ALL_SERVERS";
+const GET_ALL_SERVERS = "servers/GET_ALL";
 const GET_SERVER_ID = "servers/GET_SERVER_ID";
-const CREATE_SERVER = "server/CREATE_SERVER";
-const DELETE_SERVER = "servers/DELETE_SERVER";
-const UPDATE_SERVER = "server/UPDATE_SERVER";
+const CREATE_SERVER = "servers/CREATE";
+const DELETE_SERVER = "servers/DELETE";
+const UPDATE_SERVER = "server/UPDATE";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator

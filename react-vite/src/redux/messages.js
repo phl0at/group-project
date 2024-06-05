@@ -4,7 +4,7 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_CHANNELS = "channels/GET_ALL";
+const GET_ALL_MESSAGES = "messages/GET_ALL";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -19,12 +19,12 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const getAllChannelsThunk = (server) => async (dispatch) => {
+export const getAllMessagesThunk = (channel) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/channels/${server.id}`);
+    const response = await fetch(`/api/channels/${channel.id}/messages/`);
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL_CHANNELS, data));
+      dispatch(action(GET_ALL_MESSAGES, data));
       return data;
     }
   } catch (error) {
@@ -36,9 +36,9 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
 //*                            Selectors
 //! --------------------------------------------------------------------
 
-export const getChannelsArray = createSelector(
-  (state) => state.channel,
-  (channel) => Object.values(channel)
+export const getMessagesArray = createSelector(
+  (state) => state.message,
+  (message) => Object.values(message)
 );
 
 //! --------------------------------------------------------------------
@@ -46,11 +46,11 @@ export const getChannelsArray = createSelector(
 //! --------------------------------------------------------------------
 
 const initialState = {};
-const channelReducer = (state = initialState, action) => {
+const messageReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_CHANNELS: {
+    case GET_ALL_MESSAGES: {
       const newState = {};
-      action.payload.forEach((channel) => (newState[channel.id] = channel));
+      action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }
     default:
@@ -58,4 +58,4 @@ const channelReducer = (state = initialState, action) => {
   }
 };
 
-export default channelReducer;
+export default messageReducer;
