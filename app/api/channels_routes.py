@@ -16,7 +16,37 @@ def get_server_channels(server_id):
 @channels_routes.route("/", methods=["POST"])
 @login_required
 def create_channel():
-    pass
+    data = request.get_json()
+
+    server_id = data.get('server_id')
+    name = data.get('name')
+
+    if not server_id or not name:
+        return {"error": "Server ID and Name are required"}, 400
+
+    if len(name) < 1 or len(name) > 50:
+        return {"error": "Name must be between 1 and 50 characters"}, 400
+
+    server = Server.query.get(server_id)
+    if not server:
+        return {"error": "Server not found"}, 404
+
+    if server.owner_id != current_user.id:
+        return {"error": "Unauthorized"}, 403
+
+    try:
+        new_channel = Channel(
+            server_id=server_id,
+            name=name
+        )
+        db.session.add(new_channel)
+        db.session.commit()
+
+        return new_channel.to_dict(), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return {"error": "An error occurred while creating the channel"}, 500
 
 
 @channels_routes.route("/<int:id>", methods=['PUT'])

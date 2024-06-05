@@ -43,11 +43,12 @@ def create_server():
         name = form.data['serverName'],
         owner_id=form.data['ownerId'],
         )
-
-
     if server.name.isspace():
-
         return { "errors": 'server name required'}, 400
+
+    if len(name) < 1 or len(name) > 50:
+        return {"errors": "Name must be between 1 and 50 characters"}, 400
+
     else:
         db.session.add(server)
         db.session.commit()
@@ -59,29 +60,24 @@ def create_server():
 @login_required
 def edit_server(id):
     server = Server.query.get(id)
-
-    if not server:
-        return {"error": "Server not found"}, 404
-
-    if server.owner_id != current_user.id:
-        return {"error": "Unauthorized"}, 403
-
     data = request.get_json()
-    if not data:
-        return {"error": "Invalid input"}, 400
-
     name = data.get('name')
-    if not name or len(name) < 1 or len(name) > 50:
-        return {"error": "Name must be between 1 and 50 characters"}, 400
 
-    try:
-        server.name = name
-        db.session.commit()
+    if server.name.isspace():
+        return { "errors": 'server name required'}, 400
 
-        return server.to_dict()
-    except Exception as e:
-        db.session.rollback()
-        return {"error": "An error occurred while updating the server"}, 500
+    if len(name) < 1 or len(name) > 50:
+        return {"errors": "Name must be between 1 and 50 characters"}, 400
+
+    else:
+        try:
+            server.name = name
+            db.session.commit()
+            return server.to_dict(), 200
+
+        except Exception as e:
+            db.session.rollback()
+            return {"error": "An error occurred while updating the server"}, 500
 
 
 @servers_routes.route("/<int:id>", methods=["DELETE"])
