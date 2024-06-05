@@ -46,7 +46,7 @@ def create_server():
     if server.name.isspace():
         return { "errors": 'server name required'}, 400
 
-    if len(name) < 1 or len(name) > 50:
+    if len(server.name) < 1 or len(server.name) > 50:
         return {"errors": "Name must be between 1 and 50 characters"}, 400
 
     else:
@@ -66,7 +66,7 @@ def edit_server(id):
     if server.name.isspace():
         return { "errors": 'server name required'}, 400
 
-    if len(name) < 1 or len(name) > 50:
+    if len(server.name) < 1 or len(server.name) > 50:
         return {"errors": "Name must be between 1 and 50 characters"}, 400
 
     else:

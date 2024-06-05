@@ -5,6 +5,7 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL_CHANNELS = "channels/GET_ALL_CHANNELS";
+const CREATE_CHANNEL = "channels/CREATE_CHANNEL";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -32,6 +33,24 @@ export const getAllChannelsThunk = (server) => async (dispatch) => {
   }
 };
 
+export const createChannelThunk = (channel) => async (dispatch) => {
+  try {
+    const response = await fetch("/api/channels/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(channel),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(CREATE_CHANNEL, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //! --------------------------------------------------------------------
 //*                            Selectors
 //! --------------------------------------------------------------------
@@ -52,6 +71,9 @@ const channelReducer = (state = initialState, action) => {
       const newState = {};
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
+    }
+    case CREATE_CHANNEL: {
+      return { ...state, [action.payload.id]: action.payload };
     }
     default:
       return state;

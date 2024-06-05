@@ -1,12 +1,14 @@
+// import styles from './CreateServerModal.module.css'
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { updateServerThunk } from "../../redux/servers";
+import { useModal } from "../../../context/Modal";
+import { createServerThunk } from "../../../redux/servers";
+import { useEffect } from "react";
 
-const EditServerModal = ({ server }) => {
+const CreateServerModal = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const [serverName, setServerName] = useState(server.name);
+    const [serverName, setServerName] = useState("");
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
@@ -26,7 +28,7 @@ const EditServerModal = ({ server }) => {
                 // return;
             } else {
                 await dispatch(
-                    updateServerThunk({
+                    createServerThunk({
                         serverName,
                         ownerId: sessionUser.id,
                     })
@@ -34,13 +36,13 @@ const EditServerModal = ({ server }) => {
                 closeModal();
             }
         } catch (e) {
-            console.log(e)
+            console.log
         }
     }
 
     return (
         <>
-            <h1>Edit Server</h1>
+            <h1>Create Server</h1>
             {errors.error && <p>{errors.error}</p>}
             <form onSubmit={handleSubmit}>
                 <label>
@@ -52,10 +54,12 @@ const EditServerModal = ({ server }) => {
                         required
                     />
                 </label>
-                <button type="submit">Update Server</button>
+                <button type="submit">Create Server</button>
             </form>
         </>
     );
 }
 
-export default EditServerModal;
+
+
+export default CreateServerModal

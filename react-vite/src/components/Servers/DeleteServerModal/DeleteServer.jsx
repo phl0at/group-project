@@ -1,5 +1,5 @@
-import { deleteServerThunk } from "../../redux/servers";
-import { useModal } from "../../context/Modal";
+import { deleteServerThunk } from "../../../redux/servers";
+import { useModal } from "../../../context/Modal";
 import { useDispatch } from "react-redux";
 import "./DeleteServer.css";
 
