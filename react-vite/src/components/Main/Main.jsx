@@ -5,7 +5,7 @@ import ServersList from "../Servers/";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import ProfileButton from "./ProfileButton/";
-import "./MainComponent.css";
+import "./Main.css";
 
 function MainComponent() {
   const dispatch = useDispatch();
