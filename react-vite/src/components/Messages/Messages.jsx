@@ -7,6 +7,7 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { CiEdit } from "react-icons/ci";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
+import MessageReactions from "../Reactions";
 
 function MessagesList() {
   const server = useSelector((state) => state.server.current);
@@ -14,6 +15,7 @@ function MessagesList() {
   const messages = useSelector(getMessagesArray);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
+  const user = useSelector((state) => state.session.user.id);
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
@@ -21,6 +23,17 @@ function MessagesList() {
   useEffect(() => {
     dispatch(thunkGetAll());
   }, [dispatch]);
+    if (channel) {
+      dispatch(getAllMessagesThunk(channel));
+    }
+  }, [dispatch, channel]);
+
+  useEffect(() => {
+    if (errors.length) {
+      setErrors(errors);
+      setInputText("");
+    }
+  }, [errors]);
 
   if (!server || !channel) return "";
 
@@ -92,6 +105,12 @@ function MessagesList() {
           </button>
           <div className={styles.error}>{errors.error && errors.error}</div>
         </form>
+          messages.map((message) => (
+            <div key={message.id} className="message">
+              <div>{message.text}</div>
+              <MessageReactions message={message} />
+            </div>
+          ))}
       </div>
     </main>
   );

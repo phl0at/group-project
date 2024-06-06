@@ -123,8 +123,8 @@ class Message(db.Model):
             'channel_id': self.channel_id,
             'user_id': self.user_id,
             'text': self.text,
-            'image': [image.to_dict() for image in self.image]
-
+            'image': [image.to_dict() for image in self.image],
+            'reactions': [reaction.to_dict() for reaction in self.reactions]
         }
 
 

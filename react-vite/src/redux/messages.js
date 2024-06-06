@@ -8,6 +8,7 @@ const GET_ALL = "messages/getAll";
 const CLEAR = "messages/clearCurrent";
 const CREATE = "messages/create";
 
+
 //! --------------------------------------------------------------------
 //*                         Action Creator
 //! --------------------------------------------------------------------
@@ -33,6 +34,7 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
     console.log(error);
   }
 };
+
 
 //! --------------------------------------------------------------------
 
@@ -92,6 +94,7 @@ const messageReducer = (state = initialState, action) => {
     case CLEAR: {
       return {};
     }
+
     default:
       return state;
   }
