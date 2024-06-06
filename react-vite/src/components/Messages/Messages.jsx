@@ -71,7 +71,7 @@ function MessagesList() {
                 <div className={styles.message} key={message.id}>
                   {message.text}
                 </div>
-                {user.id === message.user_id && <button>delete</button>}
+                {user.id === message.user_id && <button className={styles.delete}>delete</button>}
               </>
             );
           })}
