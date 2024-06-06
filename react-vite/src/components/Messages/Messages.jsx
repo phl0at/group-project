@@ -7,6 +7,7 @@ function MessagesList() {
   const server = useSelector((state) => state.server.current);
   const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
+  const user = useSelector((state)=> state.session.user)
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function MessagesList() {
     }
   }, [errors]);
 
-  if (!server || !channel) return "Select a channel to comm!";
+  if (!server || !channel) return "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +43,14 @@ function MessagesList() {
     <main>
       <div>
         {messages.length > 0 &&
-          messages.map((message) => <div key={message.id}>{message.text}</div>)}
+          messages.map((message) => {
+          <div key={message.id}>{message.text}</div>
+          if(user.id === message.owner_id){
+            "render delete message button"
+          }
+        }
+          )}
+
       </div>
       <form onSubmit={handleSubmit}>
         <input
