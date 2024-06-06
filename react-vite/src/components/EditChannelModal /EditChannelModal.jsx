@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { updateChannelThunk } from "../../redux/channels";
+import { setCurrentChannelThunk, updateChannelThunk } from "../../redux/channels";
 
 const EditChannelModel = ({ channel }) => {
     const dispatch = useDispatch()
@@ -28,8 +28,9 @@ const EditChannelModel = ({ channel }) => {
                 id: channel.id,
                 name: name,
             }));
-    
+
             if (success) {
+                dispatch(setCurrentChannelThunk(success))
                 closeModal();
             } else {
                 setErrors({ error: 'Failed to update channel' });
@@ -37,7 +38,7 @@ const EditChannelModel = ({ channel }) => {
         } catch (error) {
             setErrors({ error: 'An unexpected error occurred' });
         }
- 
+
     }
 
     return (

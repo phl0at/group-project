@@ -1,14 +1,25 @@
+import { createSelector } from "reselect";
+
+//! --------------------------------------------------------------------
+//*                          Action Types
+//! --------------------------------------------------------------------
+
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const GET_ALL = 'session/getAll'
 
-const setUser = (user) => ({
-  type: SET_USER,
-  payload: user
+//! --------------------------------------------------------------------
+//*                         Action Creator
+//! --------------------------------------------------------------------
+
+const action = (type, payload) => ({
+  type,
+  payload,
 });
 
-const removeUser = () => ({
-  type: REMOVE_USER
-});
+//! --------------------------------------------------------------------
+//*                             Thunks
+//! --------------------------------------------------------------------
 
 export const thunkAuthenticate = () => async (dispatch) => {
 	const response = await fetch("/api/auth/");
@@ -18,9 +29,11 @@ export const thunkAuthenticate = () => async (dispatch) => {
 			return;
 		}
 
-		dispatch(setUser(data));
+		dispatch(action(SET_USER, data));
 	}
 };
+
+//! --------------------------------------------------------------------
 
 export const thunkLogin = (credentials) => async dispatch => {
   const response = await fetch("/api/auth/login", {
@@ -31,7 +44,7 @@ export const thunkLogin = (credentials) => async dispatch => {
 
   if(response.ok) {
     const data = await response.json();
-    dispatch(setUser(data));
+    dispatch(action(SET_USER, data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
     return errorMessages
@@ -39,6 +52,8 @@ export const thunkLogin = (credentials) => async dispatch => {
     return { server: "Something went wrong. Please try again" }
   }
 };
+
+//! --------------------------------------------------------------------
 
 export const thunkSignup = (user) => async (dispatch) => {
   const response = await fetch("/api/auth/signup", {
@@ -49,7 +64,7 @@ export const thunkSignup = (user) => async (dispatch) => {
 
   if(response.ok) {
     const data = await response.json();
-    dispatch(setUser(data));
+    dispatch(action(SET_USER, data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
     return errorMessages
@@ -58,19 +73,61 @@ export const thunkSignup = (user) => async (dispatch) => {
   }
 };
 
+//! --------------------------------------------------------------------
+
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
-  dispatch(removeUser());
+  dispatch(action(REMOVE_USER));
 };
 
-const initialState = { user: null };
+//! --------------------------------------------------------------------
 
+export const thunkGetAll = () => async (dispatch) => {
+  try {
+    const response = await fetch("/api/users/");
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(GET_ALL, data.users));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+//*                            Selectors
+//! --------------------------------------------------------------------
+
+export const getUsersArray = createSelector(
+  (state) => state.session,
+  (user) => {
+    let arr = [];
+    for (const key in user) {
+      if (Number.isInteger(Number(key))) {
+        arr.push(user[key]);
+      }
+    }
+    return arr;
+  }
+);
+
+//! --------------------------------------------------------------------
+//*                            Reducer
+//! --------------------------------------------------------------------
+
+const initialState = { user: null };
 function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.payload };
     case REMOVE_USER:
       return { ...state, user: null };
+    case GET_ALL: {
+      const newState = { ...state };
+      action.payload.forEach((user) => (newState[user.id] = user));
+      return newState;
+    }
     default:
       return state;
   }

@@ -89,10 +89,10 @@ def create_seeder():
 
     ## SEED IMAGES
     images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': 'imgur.com/1'},
-        {'type': 'server', 'type_id': 1, 'img_url': 'imgur.com/2'},
-        {'type': 'server', 'type_id': 2, 'img_url': 'imgur.com/3'},
-        {'type': 'message', 'type_id': 1, 'img_url': 'imgur.com/4'}
+        {'type': 'user', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 2, 'img_url': ''},
+        {'type': 'message', 'type_id': 1, 'img_url': ''}
     ]
 
     for image_data in images_list:

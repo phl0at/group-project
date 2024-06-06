@@ -7,16 +7,18 @@ import CreateChannelModal from "./CreateChannelModal";
 import DeleteChannelModal from "./DeleteChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
 import { CiEdit } from "react-icons/ci";
-import "./Channels.module.css";
+import styles from "./Channels.module.css";;
+
+import CreateChannelModal from "../Channels/CreateChannelModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 function ChannelsList() {
   const dispatch = useDispatch();
   const channels = useSelector(getChannelsArray);
   const server = useSelector((state) => state.server.current);
-  const sessionUser = useSelector((state) => state.session.user);
+  const user = useSelector((state) => state.session.user);
 
   if (!server) return "";
-  if (!channels.length) return "No channels in this server!";
 
   const handleChannelClick = async (channel) => {
     await dispatch(setCurrentChannelThunk(channel));

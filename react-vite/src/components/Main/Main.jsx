@@ -13,31 +13,27 @@ function MainComponent() {
 
   useEffect(() => {
     if (user) {
-      const getUsers = async () => {
+      const getServers = async () => {
         await dispatch(getAllServersThunk());
       };
-      getUsers()
+      getServers();
     }
   }, [user, dispatch]);
 
   return (
     <>
-      <div>
-        <ProfileButton className={styles.profile}/>
-      </div>
+      <ProfileButton className={styles.profile} />
+
       {user && (
-        <>
-          <div>{/* <DirectButton /> */}</div>
-          <div>
-            <ServersList />
-          </div>
-          <div>
-            <ChannelsList />
-          </div>
-          <div>
-            <MessagesList />
-          </div>
-        </>
+        <main className={styles.page}>
+          {/* <DirectButton /> */}
+
+          <ServersList />
+
+          <ChannelsList />
+
+          <MessagesList />
+        </main>
       )}
     </>
   );

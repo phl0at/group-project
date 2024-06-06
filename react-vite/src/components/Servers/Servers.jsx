@@ -5,14 +5,19 @@ import {
   getAllChannelsThunk,
 } from "../../redux/channels";
 import { clearCurrentMessagesThunk } from "../../redux/messages";
+import styles from "./Servers.module.css";
+import default_server from "../../../../images/default_server.jpg";
+import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 function ServersList() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
   const servers = useSelector(getServersArray);
+  const curServer = useSelector((state) => state.server.current);
   const channel = useSelector((state) => state.channel.current);
 
   const handleServerClick = (server) => {
-    
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentServerThunk(server));
 
@@ -23,21 +28,34 @@ function ServersList() {
   };
 
   return (
-    <ul>
-      {servers?.map((server, i) => (
-        <div key={i}>
+    <main className={styles.main}>
+      <div className={styles.list}>
+        {servers?.map((server) => (
           <button
+            className={styles.button}
             key={server.id}
             onClick={(e) => {
               e.preventDefault();
               handleServerClick(server);
             }}
           >
-            {server.name}
+            {server.image[0]?.img_url ? (
+              <img className={styles.image} src={server.image[0].img_url} />
+            ) : (
+              <img className={styles.image} src={default_server} />
+            )}
           </button>
-        </div>
-      ))}
-    </ul>
+        ))}
+      </div>
+      <div className={styles.delete}>
+        {curServer && user.id === curServer.owner_id && (
+          <OpenModalButton
+            buttonText={`Delete Server`}
+            modalComponent={<DeleteServer />}
+          />
+        )}
+      </div>
+    </main>
   );
 }
 
