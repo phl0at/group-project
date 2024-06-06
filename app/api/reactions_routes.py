@@ -11,14 +11,13 @@ reactions_routes = Blueprint("reactions", __name__)
 def create_reaction(message_id):
     try:
         data = request.get_json()
-        # print(f"Received data: {data}")
-        valid_reactions = ["👍", "👎", "😊"]   
+
+        valid_reactions = ["👍", "👎", "😊"]
 
         if not data:
             return {"error": "Please try again"}, 400
-        elif data["type"] not in valid_reactions:
-            # print(f"Invalid reaction: {data['type']}")
-
+        elif data.get("type") not in valid_reactions:
+            # print(f"Invalid reaction: {data.get('type')}")
             return {"error": "Invalid reaction"}, 400
         else:
             reaction = Reaction(
@@ -34,7 +33,6 @@ def create_reaction(message_id):
         db.session.rollback()
         print(f"Error creating reaction: {str(e)}")
         return {"error": str(e)}, 500
-    
 
 @reactions_routes.route("/<int:id>", methods=["DELETE"])
 @login_required
@@ -57,3 +55,14 @@ def delete_reaction(id):
         db.session.rollback()
         return {"error": "An error occurred while deleting the reaction"}
 
+
+@reactions_routes.route("/", methods=["GET"])
+@login_required
+def get_all_reactions():
+    try:
+        reactions = Reaction.query.all()
+        reactions_list = [reaction.to_dict() for reaction in reactions] 
+        
+        return {"reactions": reactions_list}, 200
+    except Exception as e:
+        return {"error": "An error occurred while fetching reactions"}, 500
