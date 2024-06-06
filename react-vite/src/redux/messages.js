@@ -4,8 +4,9 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_MESSAGES = "messages/GET_ALL";
+const GET_ALL = "messages/GET_ALL";
 const CLEAR_CURRENT = "messages/CLEAR_CURRENT";
+const CREATE = "messages/CREATE";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -25,7 +26,7 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channel.id}/messages`);
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL_MESSAGES, data));
+      dispatch(action(GET_ALL, data));
       return data;
     }
   } catch (error) {
@@ -37,7 +38,28 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
 
 export const clearCurrentMessagesThunk = () => async (dispatch) => {
   try {
-    dispatch(action(CLEAR_CURRENT))
+    dispatch(action(CLEAR_CURRENT));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const createMessageThunk = (channel, message) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/channels/${channel.id}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(CREATE, data));
+      return data;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -59,13 +81,16 @@ export const getMessagesArray = createSelector(
 const initialState = {};
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_MESSAGES: {
+    case GET_ALL: {
       const newState = {};
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }
+    case CREATE: {
+      return { ...state, [action.payload.id]: action.payload };
+    }
     case CLEAR_CURRENT: {
-      return {}
+      return {};
     }
     default:
       return state;

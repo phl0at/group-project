@@ -1,20 +1,74 @@
-import { useSelector } from "react-redux";
-import { getMessagesArray } from "../../redux/messages";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createMessageThunk,
+  getAllMessagesThunk,
+  getMessagesArray,
+} from "../../redux/messages";
+import "./Messages.module.css";
+import { useEffect, useState } from "react";
 
 function MessagesList() {
   const server = useSelector((state) => state.server.current);
+  const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
+  const user = useSelector((state) => state.session.user);
+  const [inputText, setInputText] = useState("");
+  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
 
-  if (!server) return "";
-  if (!messages.length) return "Please select a channel!"
+  useEffect(() => {
+    if (errors.length) {
+      setErrors(errors);
+      setInputText("");
+    }
+  }, [errors]);
+
+  if (!server || !channel) return "";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors({});
+    const message = {
+      channel_id: channel.id,
+      text: inputText,
+    };
+    if (!inputText.trim().length) {
+      setErrors({ error: "Message Text Required" });
+    } else if (inputText.length < 1 || inputText.length > 250) {
+      setErrors({ error: "Max length: 250" });
+    } else {
+      await dispatch(createMessageThunk(channel, message));
+      // await dispatch(getAllMessagesThunk(channel));
+      setInputText("");
+    }
+  };
 
   return (
-    <>
+    <main>
       <div>
         {messages.length > 0 &&
-          messages.map((message) => <div key={message.id}>{message.text}</div>)}
+          messages.map((message) => {
+            if (user.id === message.owner_id) {
+              return (
+                // <DeleteMessage/>
+                <div key={message.id}>{message.text}</div>
+              );
+            } else {
+              return <div key={message.id}>{message.text}</div>;
+            }
+          })}
       </div>
-    </>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={inputText}
+          placeholder="Type your message here..."
+          onChange={(e) => setInputText(e.target.value)}
+        />
+        <button type="submit">Send Message</button>
+        {errors.error && errors.error}
+      </form>
+    </main>
   );
 }
 

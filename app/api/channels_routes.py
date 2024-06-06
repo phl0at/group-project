@@ -5,13 +5,6 @@ from flask_login import current_user, login_required
 
 channels_routes = Blueprint("channels", __name__)
 
-@channels_routes.route("/")
-@login_required
-def get_all_channels():
-    channels = Channel.query.all()
-    return [channel.to_dict() for channel in channels]
-
-
 
 @channels_routes.route("/<int:server_id>")
 @login_required
@@ -107,8 +100,13 @@ def get_all_messages(channel_id):
 @login_required
 def create_message(id):
     data = request.get_json()
-    if not data or len(data["text"]) < 0:
-        return { "error": "Message required"}
+
+    if data["text"].isspace():
+        return { "errors": "Message text required"}, 400
+
+    if len(data["text"]) < 1 or len(data["text"]) > 140:
+        return { "errors": "Message must be between 1 and 250 characters"}, 400
+
 
     newMessage = Message(
         channel_id = id,
