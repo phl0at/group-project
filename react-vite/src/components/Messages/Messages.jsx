@@ -3,7 +3,7 @@ import { createMessageThunk, getMessagesArray } from "../../redux/messages";
 import styles from "./Messages.module.css";
 import { useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
-import OpenModalMenuItem from "../Main/OpenModalMenuItem";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { CiEdit } from "react-icons/ci";
 
 function MessagesList() {
@@ -39,9 +39,9 @@ function MessagesList() {
       <div className={styles.channelHead}>
       <h1>{channel.name}</h1>
         {server?.owner_id === user.id && (
-          <OpenModalMenuItem
+          <OpenModalButton
             className={styles.channel}
-            itemText={
+            buttonText={
               <>
                 Create Channel: <CiEdit />
               </>

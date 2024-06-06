@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
 import CreateServerModal from "../Servers/CreateServerModal"
@@ -51,27 +51,27 @@ function ProfileButton() {
             <>
               <li>{user.username}</li>
               <li>{user.email}</li>
-              <OpenModalMenuItem
-                itemText="Create Server"
+              <OpenModalButton
+                buttonText="Create Server"
                 onItemClick={closeMenu}
                 modalComponent={<CreateServerModal />}
               />
               <li>
 
 
-                
+
                 <button onClick={logout}>Log Out</button>
               </li>
             </>
           ) : (
             <>
-              <OpenModalMenuItem
-                itemText="Log In"
+              <OpenModalButton
+                buttonText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
-              <OpenModalMenuItem
-                itemText="Sign Up"
+              <OpenModalButton
+                buttonText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />

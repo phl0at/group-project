@@ -1,12 +1,12 @@
 import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
-import OpenModalMenuItem from "../Main/OpenModalMenuItem";
 import EditChannelModel from "../EditChannelModal ";
 import { CiEdit } from "react-icons/ci";
 import styles from "./Channels.module.css";
 
 import CreateChannelModal from "../Channels/CreateChannelModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 function ChannelsList() {
   const dispatch = useDispatch();
@@ -42,8 +42,9 @@ function ChannelsList() {
                       {channel.name}
                     </button>
                     {user.id === server.owner_id && (
-                      <OpenModalMenuItem
-                        itemText={<CiEdit />}
+                      <OpenModalButton
+                        title="Rename"
+                        buttonText={<CiEdit />}
                         modalComponent={<EditChannelModel channel={channel} />}
                       />
                     )}
@@ -54,9 +55,9 @@ function ChannelsList() {
         </div>
         <div className={styles.create}>
           {server?.owner_id === user.id && (
-            <OpenModalMenuItem
+            <OpenModalButton
               className={styles.channel}
-              itemText={"Create Channel"}
+              buttonText={"Create Channel"}
               modalComponent={<CreateChannelModal serverId={server.id} />}
             />
           )}
