@@ -10,34 +10,30 @@ import styles from "./Main.module.css";
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-
+  const server = useSelector((state) => state.server.current);
   useEffect(() => {
     if (user) {
       const getUsers = async () => {
         await dispatch(getAllServersThunk());
       };
-      getUsers()
+      getUsers();
     }
   }, [user, dispatch]);
 
   return (
     <>
-      <div>
-        <ProfileButton className={styles.profile}/>
-      </div>
+      <ProfileButton className={styles.profile} />
+
       {user && (
-        <>
-          <div>{/* <DirectButton /> */}</div>
-          <div>
-            <ServersList />
-          </div>
-          <div>
-            <ChannelsList />
-          </div>
-          <div>
-            <MessagesList />
-          </div>
-        </>
+        <main className={styles.page}>
+          {/* <DirectButton /> */}
+
+          <ServersList />
+
+          <ChannelsList />
+
+          <MessagesList />
+        </main>
       )}
     </>
   );

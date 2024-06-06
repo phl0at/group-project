@@ -4,9 +4,7 @@
   margin: 0;
   padding: 0;
 }
-#root {
-  display: flex;
-}
+
 
 body {
   font-family: "Montserrat", Inter, Arial, Helvetica, sans-serif;

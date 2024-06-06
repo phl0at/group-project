@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createMessageThunk,
-  getAllMessagesThunk,
-  getMessagesArray,
-} from "../../redux/messages";
-import "./Messages.module.css";
-import { useEffect, useState } from "react";
+import { createMessageThunk, getMessagesArray } from "../../redux/messages";
+import styles from "./Messages.module.css";
+import { useState } from "react";
+import CreateChannelModal from "../Channels/CreateChannelModal";
+import OpenModalMenuItem from "../Main/OpenModalMenuItem";
+import { CiEdit } from "react-icons/ci";
 
 function MessagesList() {
   const server = useSelector((state) => state.server.current);
@@ -15,13 +14,6 @@ function MessagesList() {
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (errors.length) {
-      setErrors(errors);
-      setInputText("");
-    }
-  }, [errors]);
 
   if (!server || !channel) return "";
 
@@ -34,40 +26,57 @@ function MessagesList() {
     };
     if (!inputText.trim().length) {
       setErrors({ error: "Message Text Required" });
-    } else if (inputText.length < 1 || inputText.length > 250) {
+    } else if (inputText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      // await dispatch(getAllMessagesThunk(channel));
       setInputText("");
     }
   };
 
   return (
-    <main>
-      <div>
+    <main className={styles.main}>
+      <div className={styles.channelHead}>
+        {server?.owner_id === user.id && (
+          <OpenModalMenuItem
+            className={styles.channel}
+            itemText={
+              <>
+                Create Channel: <CiEdit />
+              </>
+            }
+            modalComponent={<CreateChannelModal serverId={server.id} />}
+          />
+        )}
+      </div>
+      <div className={styles.list}>
         {messages.length > 0 &&
           messages.map((message) => {
-            if (user.id === message.owner_id) {
+            if (user.id === message.user_id) {
               return (
                 // <DeleteMessage/>
-                <div key={message.id}>{message.text}</div>
+                <div className={styles.message} key={message.id}>{message.text}</div>
               );
             } else {
-              return <div key={message.id}>{message.text}</div>;
+              return <div className={styles.message} key={message.id}>{message.text}</div>;
             }
           })}
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            className={styles.input}
+            type="text"
+            value={inputText}
+            placeholder="Type your message here..."
+            onChange={(e) => {
+              setInputText(e.target.value);
+              setErrors({});
+            }}
+          />
+          <button className={styles.submit} type="submit">Send Message</button>
+          <div className={styles.error}>{errors.error && errors.error}</div>
+        </form>
       </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={inputText}
-          placeholder="Type your message here..."
-          onChange={(e) => setInputText(e.target.value)}
-        />
-        <button type="submit">Send Message</button>
-        {errors.error && errors.error}
-      </form>
     </main>
   );
 }

@@ -5,6 +5,7 @@ import {
   getAllChannelsThunk,
 } from "../../redux/channels";
 import { clearCurrentMessagesThunk } from "../../redux/messages";
+import styles from "./Servers.module.css";
 
 function ServersList() {
   const dispatch = useDispatch();
@@ -12,7 +13,6 @@ function ServersList() {
   const channel = useSelector((state) => state.channel.current);
 
   const handleServerClick = (server) => {
-    
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentServerThunk(server));
 
@@ -23,21 +23,20 @@ function ServersList() {
   };
 
   return (
-    <ul>
-      {servers?.map((server, i) => (
-        <div key={i}>
-          <button
-            key={server.id}
-            onClick={(e) => {
-              e.preventDefault();
-              handleServerClick(server);
-            }}
-          >
-            {server.name}
-          </button>
-        </div>
+    <main className={styles.list}>
+      {servers?.map((server) => (
+        <button
+          className={styles.button}
+          key={server.id}
+          onClick={(e) => {
+            e.preventDefault();
+            handleServerClick(server);
+          }}
+        >
+          <img className={styles.image} src={server.image[0].img_url} />
+        </button>
       ))}
-    </ul>
+    </main>
   );
 }
 

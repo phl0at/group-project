@@ -1,0 +1,22 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 5%;
+  height: 100%;
+  border-radius: 5px;
+  border: solid 1px rgb(53, 157, 253);
+}
+
+.button {
+  height: 15fr;
+  padding: 15%;
+  display: flex;
+
+}
+
+.image {
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 45%;
+}

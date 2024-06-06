@@ -1,0 +1,18 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  height: 100%;
+  padding: 2%;
+  border-radius: 5px;
+  border: solid 1px rgb(53, 157, 253);
+}
+
+.server {
+  padding-bottom: 2%;
+}
+
+.channel {
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
