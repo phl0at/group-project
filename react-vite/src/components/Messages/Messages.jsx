@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { createMessageThunk, getMessagesArray, getAllMessagesThunk } from "../../redux/messages";
+import {
+  createMessageThunk,
+  getMessagesArray,
+  getAllMessagesThunk,
+} from "../../redux/messages";
 import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
@@ -29,8 +33,6 @@ function MessagesList() {
       setInputText("");
     }
   }, [dispatch, channel, errors]);
-
-  
 
   if (!server || !channel) return "";
 
@@ -75,14 +77,19 @@ function MessagesList() {
               ? author.image[0].img_url
               : default_user;
             return (
-              <>
+              <main className={styles.messageBody}>
                 <img className={styles.userImage} src={src} />
                 <div>{author.username}</div>
                 <div className={styles.message} key={message.id}>
                   {message.text}
                 </div>
-                {user.id === message.user_id && <button className={styles.delete}>delete</button>}
-              </>
+                {user.id === message.user_id && (
+                  <button className={styles.delete}>delete</button>
+                )}
+                <div key={message.id} className="message">
+                  <MessageReactions message={message} />
+                </div>
+              </main>
             );
           })}
 
@@ -102,12 +109,6 @@ function MessagesList() {
           </button>
           <div className={styles.error}>{errors.error && errors.error}</div>
         </form>
-          {messages.map((message) => (
-            <div key={message.id} className="message">
-              <div>{message.text}</div>
-              <MessageReactions message={message} />
-            </div>
-          ))}
       </div>
     </main>
   );
