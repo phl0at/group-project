@@ -86,6 +86,9 @@ const messageReducer = (state = initialState, action) => {
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }
+    case CREATE: {
+      return { ...state, [action.payload.id]: action.payload };
+    }
     case CLEAR_CURRENT: {
       return {};
     }

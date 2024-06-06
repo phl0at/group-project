@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { createMessageThunk, getAllMessagesThunk, getMessagesArray } from "../../redux/messages";
+import {
+  createMessageThunk,
+  getAllMessagesThunk,
+  getMessagesArray,
+} from "../../redux/messages";
 import "./Messages.module.css";
 import { useEffect, useState } from "react";
 
@@ -7,7 +11,7 @@ function MessagesList() {
   const server = useSelector((state) => state.server.current);
   const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
-  const user = useSelector((state)=> state.session.user)
+  const user = useSelector((state) => state.session.user);
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
@@ -15,7 +19,7 @@ function MessagesList() {
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
-      setInputText("")
+      setInputText("");
     }
   }, [errors]);
 
@@ -34,7 +38,7 @@ function MessagesList() {
       setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      await dispatch(getAllMessagesThunk(channel))
+      // await dispatch(getAllMessagesThunk(channel));
       setInputText("");
     }
   };
@@ -44,13 +48,15 @@ function MessagesList() {
       <div>
         {messages.length > 0 &&
           messages.map((message) => {
-          <div key={message.id}>{message.text}</div>
-          if(user.id === message.owner_id){
-            "render delete message button"
-          }
-        }
-          )}
-
+            if (user.id === message.owner_id) {
+              return (
+                // <DeleteMessage/>
+                <div key={message.id}>{message.text}</div>
+              );
+            } else {
+              return <div key={message.id}>{message.text}</div>;
+            }
+          })}
       </div>
       <form onSubmit={handleSubmit}>
         <input
