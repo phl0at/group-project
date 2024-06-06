@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { createChannelThunk } from "../../redux/channels";
+import { useModal } from "../../../context/Modal";
+import { createChannelThunk } from "../../../redux/channels";
 
 const CreateChannelModal = ({ serverId }) => {
     const dispatch = useDispatch();
