@@ -4,6 +4,7 @@ import { getAllMessagesThunk } from "../../redux/messages";
 import OpenModalMenuItem from "../Main/OpenModalMenuItem";
 import EditChannelModel from "../EditChannelModal ";
 import { CiEdit } from "react-icons/ci";
+import "./Channels.module.css"
 
 function ChannelsList() {
   const dispatch = useDispatch();
@@ -13,16 +14,16 @@ function ChannelsList() {
   if (!server) return "";
   if (!channels.length) return "No channels in this server!";
 
-  const handleChannelClick = (channel) => {
-    dispatch(setCurrentChannelThunk(channel));
-    dispatch(getAllMessagesThunk(channel));
+  const handleChannelClick = async (channel) => {
+    await dispatch(setCurrentChannelThunk(channel));
+    await dispatch(getAllMessagesThunk(channel));
   };
 
   return (
     <>
       {server &&
         channels.map((channel) => {
-          if (channel.server_id === server.id) {
+
             return (
               <div key={channel.id}>
                 <button
@@ -39,7 +40,7 @@ function ChannelsList() {
                 />
               </div>
             );
-          }
+          
         })}
     </>
   );

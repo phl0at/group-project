@@ -5,7 +5,7 @@ import ServersList from "../Servers/Servers";
 import ProfileButton from "./ProfileButton";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
-import "./Main.css";
+import styles from "./Main.module.css";
 
 function MainComponent() {
   const dispatch = useDispatch();
@@ -13,14 +13,17 @@ function MainComponent() {
 
   useEffect(() => {
     if (user) {
-      dispatch(getAllServersThunk());
+      const getUsers = async () => {
+        await dispatch(getAllServersThunk());
+      };
+      getUsers()
     }
   }, [user, dispatch]);
 
   return (
     <>
       <div>
-        <ProfileButton />
+        <ProfileButton className={styles.profile}/>
       </div>
       {user && (
         <>
