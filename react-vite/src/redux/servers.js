@@ -1,104 +1,176 @@
-import { csrfFetch } from "./csrf";
-const GET_ALL_SERVERS = 'servers/GET_ALL_SERVERS';
-const GET_SERVER_ID = 'servers/GET_SERVER_ID'
-const CREATE_SERVER = 'server/CREATE_SERVER'
-const SELECT_SERVER = 'servers/SELECT_SERVER'
+import { createSelector } from "reselect";
 
-const createServer = (server) => ({
-    type: CREATE_SERVER,
-    payload: server
+//! --------------------------------------------------------------------
+//*                          Action Types
+//! --------------------------------------------------------------------
+
+const GET_ALL = "servers/getAll";
+const GET_CURRENT = "servers/getCurrent";
+const CLEAR_CURRENT = "servers/clearCurrent";
+const CREATE = "servers/create";
+const UPDATE = "servers/update";
+const DELETE = "servers/delete";
+
+//! --------------------------------------------------------------------
+//*                         Action Creator
+//! --------------------------------------------------------------------
+
+const action = (type, payload) => ({
+  type,
+  payload,
 });
 
-const getAllServers = (servers) => ({
-    type: GET_ALL_SERVERS,
-    payload: servers,
-})
+//! --------------------------------------------------------------------
+//*                             Thunks
+//! --------------------------------------------------------------------
 
-const getServerId = (server) => ({
-    type: GET_SERVER_ID,
-    payload: server
-})
-
-export const selectServer = (serverId) => ({
-    type: SELECT_SERVER,
-    payload: serverId,
-  });
-
-
-export const getServerIdThunk = (serverId) => async (dispatch) => {
-
-    try {
-        const response = await csrfFetch(`/api/servers/${serverId}`);
-        if (response.ok) {
-            const data = await response.json();
-            dispatch(getServerId(data));
-        }
-    } catch (error) {
-        dispatch(getServerId({ server: "Something went wrong. Please try again", error }));
+export const setCurrentServerThunk = (server) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/servers/${server.id}`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(GET_CURRENT, data));
+      return data;
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-}
-
+//! --------------------------------------------------------------------
 
 export const getAllServersThunk = () => async (dispatch) => {
-    try {
-        const response = await csrfFetch('/api/servers/')
-        if (response.ok) {
-            const data = await response.json()
-
-            if (data.errors) {
-                return;
-            }
-
-            dispatch(getAllServers(data))
-        }
-    } catch (error) {
-        dispatch(getAllServers({ server: "Something went wrong. Please try again", error }));
+  try {
+    const response = await fetch("/api/servers/");
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(GET_ALL, data));
+      return data;
     }
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
 
 export const createServerThunk = (server) => async (dispatch) => {
-    const response = await fetch('/api/servers/', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(server)
+  try {
+    const response = await fetch("/api/servers/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(server),
     });
 
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(CREATE, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const deleteServerThunk = (server) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/servers/${server.id}`, {
+      method: "DELETE",
+      header: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      dispatch(action(DELETE, server));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const updateServerThunk = (server) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/servers/${server.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: server.name }),
+    });
 
     if (response.ok) {
-        const data = await response.json();
-        dispatch(createServer(data))
-        return data
-    } else {
-        return { errors: "Something went wrong. Please try again" }
+      const data = await response.json();
+      console.log(data)
+      dispatch(action(UPDATE, data));
+      dispatch(action(GET_CURRENT, data))
+      return data;
     }
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const initialState = {}
+//! --------------------------------------------------------------------
+
+export const clearCurrentServerThunk = () => async (dispatch) => {
+  try {
+    dispatch(action(CLEAR_CURRENT));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+//*                            Selectors
+//! --------------------------------------------------------------------
+
+export const getServersArray = createSelector(
+  (state) => state.server,
+  (server) => {
+    let arr = [];
+    for (const key in server) {
+      if (Number.isInteger(Number(key))) {
+        arr.push(server[key]);
+      }
+    }
+    return arr;
+  }
+);
+
+//! --------------------------------------------------------------------
+//*                            Reducer
+//! --------------------------------------------------------------------
+
+const initialState = {};
 const serverReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case GET_ALL_SERVERS: {
-            return { ...state, servers: action.payload };
-        }
-        case GET_SERVER_ID: {
-            return { ...state, [action.payload.id]: action.payload }
-        }
-        case CREATE_SERVER:
-            return { ...state, servers: [...state.servers, action.payload] }
-            
-
-        case SELECT_SERVER: {
-            return {
-              ...state,
-              selectedServer: action.payload,
-            };
-        }
-
-
-
-        default:
-            return state
+  switch (action.type) {
+    case GET_ALL: {
+      const newState = {};
+      action.payload.forEach((server) => (newState[server.id] = server));
+      return newState;
     }
-}
+    case CREATE:
+      return { ...state, [action.payload.id]: action.payload };
 
-export default serverReducer
+    case UPDATE: {
+      return { ...state, [action.payload.id]: action.payload };
+    }
+    case GET_CURRENT: {
+      return { ...state, current: action.payload };
+    }
+    case CLEAR_CURRENT: {
+      let newState = { ...state };
+      delete newState["current"];
+      return newState;
+    }
+    case DELETE: {
+      let newState = { ...state };
+      delete newState[action.payload.id];
+      return newState;
+    }
+    default:
+      return state;
+  }
+};
+
+export default serverReducer;

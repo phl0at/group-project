@@ -1,0 +1,13 @@
+.profile {
+  position: absolute;
+}
+
+.page {
+  display: flex;
+  height: 95vh;
+  padding: 1%
+}
+
+.channel {
+  margin-left: 2px;
+}

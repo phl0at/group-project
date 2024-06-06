@@ -26,7 +26,7 @@ def create_seeder():
     server_list = [
         {'name':'test_server', 'DM':False, 'owner_id':1},
         {'name':'AppAcademy', 'DM':False, 'owner_id':2},
-        {'name':'ProjectServer', 'DM':True, 'owner_id':3}
+        {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1}
     ]
 
     for server in server_list:
@@ -44,8 +44,7 @@ def create_seeder():
         {'server_id': 1, 'name': 'Announcements'},
         {'server_id': 2, 'name': 'Wins'},
         {'server_id': 2, 'name': 'Questions'},
-        {'server_id': 3, 'name': 'off-topic'},
-        {'server_id': 3, 'name': 'study-group'},
+        {'server_id': 3, 'name': 'direct_message'},
     ]
 
     for channel in channel_list:
@@ -74,9 +73,9 @@ def create_seeder():
 
     ## SEED REACTIONS
     reaction_list = [
-        {'message_id':1, 'user_id':3, 'type':'thumbsup'},
-        {'message_id':2, 'user_id':2, 'type':'thumbsup'},
-        {'message_id':3, 'user_id':1, 'type':'thumbsup'},
+        {'message_id':1, 'user_id':3, 'type':'😊'},
+        {'message_id':2, 'user_id':2, 'type':'👍'},
+        {'message_id':3, 'user_id':1, 'type':'👍'},
     ]
 
     for reaction in reaction_list:
@@ -90,10 +89,10 @@ def create_seeder():
 
     ## SEED IMAGES
     images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': 'imgur.com/1'},
-        {'type': 'server', 'type_id': 1, 'img_url': 'imgur.com/2'},
-        {'type': 'server', 'type_id': 2, 'img_url': 'imgur.com/3'},
-        {'type': 'message', 'type_id': 1, 'img_url': 'imgur.com/4'}
+        {'type': 'user', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 2, 'img_url': ''},
+        {'type': 'message', 'type_id': 1, 'img_url': ''}
     ]
 
     for image_data in images_list:
@@ -102,7 +101,7 @@ def create_seeder():
             type_id=image_data['type_id'],
             img_url=image_data['img_url']
         )
-    db.session.add(image)
+        db.session.add(image)
 
     db.session.commit()
 
@@ -120,6 +119,7 @@ def undo_seeder():
         db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.messages RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.reactions RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.images RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
         db.session.execute(text("DELETE FROM servers"))

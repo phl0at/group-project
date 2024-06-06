@@ -1,33 +1,50 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getServerIdThunk, selectServer } from "../../redux/servers";
-import { useNavigate } from 'react-router-dom';
+import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
+import {
+  clearCurrentChannelThunk,
+  getAllChannelsThunk,
+} from "../../redux/channels";
+import { clearCurrentMessagesThunk } from "../../redux/messages";
+import styles from "./Servers.module.css";
+import default_server from "../../../../images/default_server.jpg";
 
 function ServersList() {
+  const dispatch = useDispatch();
+  const servers = useSelector(getServersArray);
+  const channel = useSelector((state) => state.channel.current);
 
-  const dispatch = useDispatch()
-  const servers = useSelector((state) => state.server.servers)
-  const navigate = useNavigate();
+  const handleServerClick = (server) => {
+    dispatch(getAllChannelsThunk(server));
+    dispatch(setCurrentServerThunk(server));
 
-
-  const handleServerClick = (serverId) => {
-    dispatch(selectServer(serverId));
-    dispatch(getServerIdThunk(serverId));
-    navigate(`/servers/${serverId}`);
+    if (channel) {
+      dispatch(clearCurrentMessagesThunk());
+      dispatch(clearCurrentChannelThunk());
+    }
   };
 
   return (
-    <ul>
-      {servers?.map((server) => (
-        <li key={server.id} onClick={()=> handleServerClick(server.id)}>{server.name}</li>
-
-      
-
-      ))}
-
-    </ul>
+    <main className={styles.main}>
+      <div className={styles.list}>
+        {servers?.map((server) => {
 
 
+          const src = server.image[0]?.img_url ? server.image[0]?.img_url : default_server
+
+          return (<button
+            className={styles.button}
+            key={server.id}
+            onClick={(e) => {
+              e.preventDefault();
+              handleServerClick(server);
+            }}
+          >
+            <img className={styles.image} src={src} />
+          </button>)
+        })}
+      </div>
+    </main>
   );
 }
 
-export default ServersList
+export default ServersList;

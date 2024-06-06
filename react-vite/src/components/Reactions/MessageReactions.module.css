@@ -1,0 +1,30 @@
+.reactionsContainer {
+    position: relative;
+  }
+  
+  .reactions {
+    display: none;
+  }
+  
+  .message:hover .reactions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .active {
+    font-weight: bold;
+    color: blue;
+  }
+  
+  .reactionList {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  
+  .reaction {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
