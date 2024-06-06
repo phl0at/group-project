@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { createMessageThunk, getMessagesArray } from "../../redux/messages";
+import { createMessageThunk, getMessagesArray, getAllMessagesThunk } from "../../redux/messages";
 import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
@@ -15,25 +15,22 @@ function MessagesList() {
   const messages = useSelector(getMessagesArray);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
-  const user = useSelector((state) => state.session.user.id);
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, [dispatch]);
     if (channel) {
       dispatch(getAllMessagesThunk(channel));
     }
-  }, [dispatch, channel]);
-
-  useEffect(() => {
     if (errors.length) {
       setErrors(errors);
       setInputText("");
     }
-  }, [errors]);
+  }, [dispatch, channel, errors]);
+
+  
 
   if (!server || !channel) return "";
 
@@ -105,7 +102,7 @@ function MessagesList() {
           </button>
           <div className={styles.error}>{errors.error && errors.error}</div>
         </form>
-          messages.map((message) => (
+          {messages.map((message) => (
             <div key={message.id} className="message">
               <div>{message.text}</div>
               <MessageReactions message={message} />

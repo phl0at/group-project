@@ -26,8 +26,12 @@ function ServersList() {
   return (
     <main className={styles.main}>
       <div className={styles.list}>
-        {servers?.map((server) => (
-          <button
+        {servers?.map((server) => {
+
+        
+          const src = server?.image[0].url ? server?.image[0].url : default_server
+
+          return (<button
             className={styles.button}
             key={server.id}
             onClick={(e) => {
@@ -35,13 +39,9 @@ function ServersList() {
               handleServerClick(server);
             }}
           >
-            {server.image[0]?.img_url ? (
-              <img className={styles.image} src={server.image[0].img_url} />
-            ) : (
-              <img className={styles.image} src={default_server} />
-            )}
-          </button>
-        ))}
+              <img className={styles.image} src={src} />
+          </button>)
+        })}
       </div>
     </main>
   );
