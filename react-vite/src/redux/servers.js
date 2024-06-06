@@ -100,7 +100,9 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log(data)
       dispatch(action(UPDATE, data));
+      dispatch(action(GET_CURRENT, data))
       return data;
     }
   } catch (error) {

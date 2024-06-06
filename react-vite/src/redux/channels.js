@@ -80,14 +80,19 @@ export const createChannelThunk = (channel) => async (dispatch) => {
 };
 
 //! --------------------------------------------------------------------
-export const deleteChannelThunk = (channel) => async (dispatch) => {
+export const deleteChannelThunk = (channel, serverId) => async (dispatch) => {
   try {
     const response = await fetch(`/api/channels/${channel.id}`, {
       method: "DELETE",
       header: { "Content-Type": "application/json" },
+      body: {
+        serverId
+      }
     });
+
     if (response.ok) {
       dispatch(action(DELETE, channel));
+      return response
     }
   } catch (error) {
     console.log(error);
@@ -118,9 +123,9 @@ export const clearCurrentChannelThunk = () => async (dispatch) => {
 //! --------------------------------------------------------------------
 
 export const clearChannelsThunk = () => async (dispatch) => {
-  try{
+  try {
     dispatch(action(CLEAR_ALL))
-  }catch (error){
+  } catch (error) {
     console.log(error)
   }
 }
@@ -173,7 +178,7 @@ const channelReducer = (state = initialState, action) => {
       delete newState["current"];
       return newState;
     }
-    case CLEAR_ALL:{
+    case CLEAR_ALL: {
       return {}
     }
     default:

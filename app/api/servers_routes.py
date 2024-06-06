@@ -62,11 +62,11 @@ def edit_server(id):
     server = Server.query.get(id)
     data = request.get_json()
     name = data.get('name')
-
-    if server.name.isspace():
+    print('!!!!!!!!!!!', name)
+    if name.isspace():
         return { "errors": 'server name required'}, 400
 
-    if len(server.name) < 1 or len(server.name) > 50:
+    if len(name) < 1 or len(name) > 50:
         return {"errors": "Name must be between 1 and 50 characters"}, 400
 
     else:

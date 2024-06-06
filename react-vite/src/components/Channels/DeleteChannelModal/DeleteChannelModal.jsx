@@ -3,20 +3,21 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { deleteChannelThunk } from "../../../redux/channels";
 
-const DeleteChannelModal = ({ channel }) => {
+const DeleteChannelModal = ({ channel, serverId }) => {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
-
     const handleDelete = async () => {
         setErrors({});
         try {
-            const response = await dispatch(deleteChannelThunk(channel));
+
+
+            const response = await dispatch(deleteChannelThunk(channel, serverId));
 
             if (response) {
-                setErrors({ error: 'Failed to delete the channel' });
-            } else {
                 closeModal()
+            } else {
+                setErrors({ error: 'Failed to delete the channel' });
             }
         } catch (error) {
             setErrors({ error: 'An unexpected error occurred' });

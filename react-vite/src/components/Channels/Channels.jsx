@@ -63,7 +63,7 @@ function ChannelsList() {
                         title="Delete Channel"
                         buttonText={<HiBan />}
                         modalComponent={
-                          <DeleteChannelModal channel={channel} />
+                          <DeleteChannelModal channel={channel} serverId={server.id} />
                         }
                       />
                       <OpenModalButton
@@ -78,14 +78,14 @@ function ChannelsList() {
             }
           })}
       </div>
-        {server.owner_id === user.id && (
-          <div className={styles.create}>
-            <OpenModalButton
-              buttonText={"Create Channel"}
-              modalComponent={<CreateChannelModal serverId={server.id} />}
-            />
-          </div>
-        )}
+      {server.owner_id === user.id && (
+        <div className={styles.create}>
+          <OpenModalButton
+            buttonText={"Create Channel"}
+            modalComponent={<CreateChannelModal serverId={server.id} />}
+          />
+        </div>
+      )}
     </main>
   );
 }

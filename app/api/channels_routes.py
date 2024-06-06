@@ -88,12 +88,13 @@ def edit_channel(id):
 @login_required
 def delete_channel(id):
     channel = Channel.query.get(id)
+    server = Server.query.get(channel.server_id)
+    if server.owner_id != current_user.id:
+        return {"error": "Unauthorized"}, 403
 
     if not channel:
         return { "error": "Channel couldn't be found" }, 404
 
-    # elif channel.to_dict()['server_id'] is not current_user.id:
-    #     return { "error": "Forbidden"}, 403
     else:
         db.session.delete(channel)
         db.session.commit()
@@ -127,6 +128,3 @@ def create_message(id):
     db.session.commit()
 
     return newMessage.to_dict()
-
-
-

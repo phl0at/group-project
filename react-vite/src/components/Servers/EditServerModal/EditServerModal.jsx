@@ -27,7 +27,7 @@ const EditServerModal = ({ server }) => {
                 await dispatch(
                     updateServerThunk({
                         id: server.id,
-                        serverName,
+                        name: serverName,
                         ownerId: sessionUser.id,
                     })
                 );
