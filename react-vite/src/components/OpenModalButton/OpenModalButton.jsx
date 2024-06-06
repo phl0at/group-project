@@ -1,7 +1,7 @@
 import { useModal } from "../../context/Modal";
 
 function OpenModalButton({
-  title,
+  title, // create and set text for a mouse hover tooltip
   modalComponent, // component to render inside the modal
   buttonText, // text of the button that opens the modal
   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
@@ -16,7 +16,7 @@ function OpenModalButton({
   };
 
   return (
-    <button title={title ? title : ""} onClick={onClick}>
+    <button title={title ? title : null} onClick={onClick}>
       {buttonText}
     </button>
   );
