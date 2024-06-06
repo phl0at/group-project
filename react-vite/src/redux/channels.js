@@ -11,6 +11,7 @@ const CLEAR_CURRENT = "channels/clearCurrent";
 const CLEAR_ALL = "channels/clearAll";
 const CREATE = "channels/create";
 const UPDATE = "channels/update";
+const DELETE = "channels/delete"
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -86,7 +87,7 @@ export const deleteChannelThunk = (channel) => async (dispatch) => {
       header: { "Content-Type": "application/json" },
     });
     if (response.ok) {
-      dispatch(action(DELETE_CHANNEL, channel));
+      dispatch(action(DELETE, channel));
     }
   } catch (error) {
     console.log(error);
@@ -159,7 +160,7 @@ const channelReducer = (state = initialState, action) => {
     case UPDATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case DELETE_CHANNEL: {
+    case DELETE: {
       const newState = { ...state };
       delete newState[action.payload.id];
       return newState;
