@@ -10,7 +10,7 @@ import styles from "./Main.module.css";
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-  const server = useSelector((state) => state.server.current);
+
   useEffect(() => {
     if (user) {
       const getUsers = async () => {

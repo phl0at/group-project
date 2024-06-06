@@ -4,11 +4,12 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const CREATE_CHANNEL = "channels/CREATE_CHANNEL";
-const UPDATE_CHANNEL = "channels/UPDATE_CHANNEL"
-const GET_ALL = "channels/GET_ALL";
-const SET_CURRENT = "channels/SET_CURRENT";
-const CLEAR_CURRENT = "channels/CLEAR_CURRENT"
+const GET_ALL = "channels/getAll";
+const SET_CURRENT = "channels/setCurrent";
+const CLEAR_CURRENT = "channels/clearCurrent";
+const CLEAR_ALL = "channels/clearAll";
+const CREATE = "channels/create";
+const UPDATE = "channels/update";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -31,16 +32,15 @@ export const updateChannelThunk = (channel) => async (dispatch) => {
       body: JSON.stringify({ name: channel.name }),
     });
 
-    if (response.ok){
-      const data = await response.json()
-      dispatch(action(UPDATE_CHANNEL, data))
-      return data
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(UPDATE, data));
+      return data;
     }
-
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
 //! --------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ export const createChannelThunk = (channel) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(CREATE_CHANNEL, data));
+      dispatch(action(CREATE, data));
       return data;
     }
   } catch (error) {
@@ -91,11 +91,21 @@ export const setCurrentChannelThunk = (channel) => async (dispatch) => {
 
 export const clearCurrentChannelThunk = () => async (dispatch) => {
   try {
-    dispatch(action(CLEAR_CURRENT))
+    dispatch(action(CLEAR_CURRENT));
   } catch (error) {
     console.log(error);
   }
 };
+
+//! --------------------------------------------------------------------
+
+export const clearChannelsThunk = () => async (dispatch) => {
+  try{
+    dispatch(action(CLEAR_ALL))
+  }catch (error){
+    console.log(error)
+  }
+}
 
 //! --------------------------------------------------------------------
 //*                            Selectors
@@ -126,19 +136,22 @@ const channelReducer = (state = initialState, action) => {
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
     }
-    case CREATE_CHANNEL: {
+    case CREATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case UPDATE_CHANNEL: {
+    case UPDATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
     case SET_CURRENT: {
       return { ...state, current: action.payload };
     }
     case CLEAR_CURRENT: {
-      let newState = {...state}
-      delete newState["current"]
-      return newState
+      let newState = { ...state };
+      delete newState["current"];
+      return newState;
+    }
+    case CLEAR_ALL:{
+      return {}
     }
     default:
       return state;

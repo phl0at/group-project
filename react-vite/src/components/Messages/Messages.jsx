@@ -37,6 +37,7 @@ function MessagesList() {
   return (
     <main className={styles.main}>
       <div className={styles.channelHead}>
+      <h1>{channel.name}</h1>
         {server?.owner_id === user.id && (
           <OpenModalMenuItem
             className={styles.channel}
@@ -55,10 +56,16 @@ function MessagesList() {
             if (user.id === message.user_id) {
               return (
                 // <DeleteMessage/>
-                <div className={styles.message} key={message.id}>{message.text}</div>
+                <div className={styles.message} key={message.id}>
+                  {message.text}
+                </div>
               );
             } else {
-              return <div className={styles.message} key={message.id}>{message.text}</div>;
+              return (
+                <div className={styles.message} key={message.id}>
+                  {message.text}
+                </div>
+              );
             }
           })}
 
@@ -73,7 +80,9 @@ function MessagesList() {
               setErrors({});
             }}
           />
-          <button className={styles.submit} type="submit">Send Message</button>
+          <button className={styles.submit} type="submit">
+            Send Message
+          </button>
           <div className={styles.error}>{errors.error && errors.error}</div>
         </form>
       </div>

@@ -4,9 +4,9 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL = "messages/GET_ALL";
-const CLEAR_CURRENT = "messages/CLEAR_CURRENT";
-const CREATE = "messages/CREATE";
+const GET_ALL = "messages/getAll";
+const CLEAR = "messages/clearCurrent";
+const CREATE = "messages/create";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -38,7 +38,7 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
 
 export const clearCurrentMessagesThunk = () => async (dispatch) => {
   try {
-    dispatch(action(CLEAR_CURRENT));
+    dispatch(action(CLEAR));
   } catch (error) {
     console.log(error);
   }
@@ -89,7 +89,7 @@ const messageReducer = (state = initialState, action) => {
     case CREATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case CLEAR_CURRENT: {
+    case CLEAR: {
       return {};
     }
     default:

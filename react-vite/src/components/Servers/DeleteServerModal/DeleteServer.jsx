@@ -1,15 +1,19 @@
-import { deleteServerThunk } from "../../../redux/servers";
+import { clearCurrentServerThunk, deleteServerThunk } from "../../../redux/servers";
 import { useModal } from "../../../context/Modal";
-import { useDispatch } from "react-redux";
-import "./DeleteServer.css";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./DeleteServer.module.css";
+import { clearChannelsThunk } from "../../../redux/channels";
 
-const DeleteServer = ({server}) => {
+const DeleteServer = () => {
+  const server = useSelector((state) => state.server.current);
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
   const onClick = async () => {
     try {
       await dispatch(deleteServerThunk(server));
+      dispatch(clearCurrentServerThunk())
+      dispatch(clearChannelsThunk())
       closeModal();
     } catch (e) {
       closeModal();
@@ -19,27 +23,29 @@ const DeleteServer = ({server}) => {
 
   return (
     <>
-      <div className="delete-server-menu">
-        <h1 className="header">Confirm Delete</h1>
-        <h5 className="header">Are you sure you want to delete this server?</h5>
+        <main className={styles.main}>
+          <h1 className={styles.head}>Confirm Delete</h1>
+          <h5
+            className={styles.head}
+          >{`Are you sure you want to delete server: ${server?.name}?`}</h5>
 
-        <button
-          onClick={() => {
-            onClick();
-          }}
-          className="shadow"
-        >
-          Yes (Delete Server)
-        </button>
-        <button
-          className="shadow"
-          onClick={() => {
-            closeModal();
-          }}
-        >
-          No (Keep Server)
-        </button>
-      </div>
+          <button
+            onClick={() => {
+              onClick();
+            }}
+            className="shadow"
+          >
+            Yes (Delete Server)
+          </button>
+          <button
+            className="shadow"
+            onClick={() => {
+              closeModal();
+            }}
+          >
+            No (Keep Server)
+          </button>
+        </main>
     </>
   );
 };

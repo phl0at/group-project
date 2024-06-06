@@ -89,10 +89,10 @@ def create_seeder():
 
     ## SEED IMAGES
     images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': 'https://static.thenounproject.com/png/5034901-200.png'},
-        {'type': 'server', 'type_id': 1, 'img_url': 'https://png.pngtree.com/png-vector/20190811/ourmid/pngtree-vector-server-icon-png-image_1683167.jpg'},
-        {'type': 'server', 'type_id': 2, 'img_url': 'https://png.pngtree.com/png-vector/20190811/ourmid/pngtree-vector-server-icon-png-image_1683167.jpg'},
-        {'type': 'message', 'type_id': 1, 'img_url': 'imgur.com/4'}
+        {'type': 'user', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 2, 'img_url': ''},
+        {'type': 'message', 'type_id': 1, 'img_url': ''}
     ]
 
     for image_data in images_list:

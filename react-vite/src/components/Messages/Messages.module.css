@@ -5,9 +5,10 @@
 }
 .channelHead {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  align-items: center;
   height: 10%;
-  padding-right: 2%;
+  padding: 2%;
   border-radius: 5px;
   border: solid 1px rgb(53, 157, 253);
 }

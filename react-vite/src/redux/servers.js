@@ -4,11 +4,12 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_SERVERS = "servers/GET_ALL";
-const GET_SERVER_ID = "servers/GET_SERVER_ID";
-const CREATE_SERVER = "servers/CREATE";
-const DELETE_SERVER = "servers/DELETE";
-const UPDATE_SERVER = "server/UPDATE";
+const GET_ALL = "servers/getAll";
+const GET_CURRENT = "servers/getCurrent";
+const CLEAR_CURRENT = "servers/clearCurrent";
+const CREATE = "servers/create";
+const UPDATE = "servers/update";
+const DELETE = "servers/delete";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -28,7 +29,7 @@ export const setCurrentServerThunk = (server) => async (dispatch) => {
     const response = await fetch(`/api/servers/${server.id}`);
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_SERVER_ID, data));
+      dispatch(action(GET_CURRENT, data));
       return data;
     }
   } catch (error) {
@@ -43,7 +44,7 @@ export const getAllServersThunk = () => async (dispatch) => {
     const response = await fetch("/api/servers/");
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL_SERVERS, data));
+      dispatch(action(GET_ALL, data));
       return data;
     }
   } catch (error) {
@@ -63,7 +64,7 @@ export const createServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(CREATE_SERVER, data));
+      dispatch(action(CREATE, data));
       return data;
     }
   } catch (error) {
@@ -80,7 +81,7 @@ export const deleteServerThunk = (server) => async (dispatch) => {
       header: { "Content-Type": "application/json" },
     });
     if (response.ok) {
-      dispatch(action(DELETE_SERVER, server));
+      dispatch(action(DELETE, server));
     }
   } catch (error) {
     console.log(error);
@@ -99,9 +100,19 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(UPDATE_SERVER, data));
+      dispatch(action(UPDATE, data));
       return data;
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const clearCurrentServerThunk = () => async (dispatch) => {
+  try {
+    dispatch(action(CLEAR_CURRENT));
   } catch (error) {
     console.log(error);
   }
@@ -114,14 +125,15 @@ export const updateServerThunk = (server) => async (dispatch) => {
 export const getServersArray = createSelector(
   (state) => state.server,
   (server) => {
-    let arr = []
-    for(const key in server){
-        if(Number.isInteger(Number(key))){
-          arr.push(server[key])
-        }
+    let arr = [];
+    for (const key in server) {
+      if (Number.isInteger(Number(key))) {
+        arr.push(server[key]);
+      }
     }
-    return arr
-  });
+    return arr;
+  }
+);
 
 //! --------------------------------------------------------------------
 //*                            Reducer
@@ -130,21 +142,26 @@ export const getServersArray = createSelector(
 const initialState = {};
 const serverReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_SERVERS: {
+    case GET_ALL: {
       const newState = {};
       action.payload.forEach((server) => (newState[server.id] = server));
       return newState;
     }
-    case GET_SERVER_ID: {
-      return { ...state, current: action.payload };
-    }
-    case CREATE_SERVER:
+    case CREATE:
       return { ...state, [action.payload.id]: action.payload };
 
-    case UPDATE_SERVER: {
+    case UPDATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case DELETE_SERVER: {
+    case GET_CURRENT: {
+      return { ...state, current: action.payload };
+    }
+    case CLEAR_CURRENT: {
+      let newState = { ...state };
+      delete newState["current"];
+      return newState;
+    }
+    case DELETE: {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
