@@ -1,3 +1,3 @@
-import EditChannelModel from "./EditChannelModal";
+import EditChannelModal from "./EditChannelModal";
 
-export default EditChannelModel
+export default EditChannelModal

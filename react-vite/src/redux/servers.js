@@ -115,10 +115,10 @@ export const getServersArray = createSelector(
   (state) => state.server,
   (server) => {
     let arr = []
-    for(const key in server){
-        if(Number.isInteger(Number(key))){
-          arr.push(server[key])
-        }
+    for (const key in server) {
+      if (Number.isInteger(Number(key))) {
+        arr.push(server[key])
+      }
     }
     return arr
   });

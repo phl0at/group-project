@@ -2,16 +2,18 @@ import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
 import OpenModalMenuItem from "../Main/OpenModalMenuItem";
-import EditChannelModel from "../EditChannelModal ";
-import CreateChannelModal from "../Channels/CreateChannelModal"
+import EditChannelModal from "../EditChannelModal ";
+import CreateChannelModal from "./CreateChannelModal";
+import DeleteChannelModal from "./DeleteChannelModal";
+import EditServerModal from "../Servers/EditServerModal";
 import { CiEdit } from "react-icons/ci";
-import "./Channels.module.css"
+import "./Channels.module.css";
 
 function ChannelsList() {
   const dispatch = useDispatch();
   const channels = useSelector(getChannelsArray);
   const server = useSelector((state) => state.server.current);
-
+  const sessionUser = useSelector((state) => state.session.user);
 
   if (!server) return "";
   if (!channels.length) return "No channels in this server!";
@@ -27,12 +29,16 @@ function ChannelsList() {
         <OpenModalMenuItem
           itemText={
             <>
-              Create Channel: <CiEdit />
+              <h1>
+                {server.name} Edit
+                <CiEdit />
+              </h1>
             </>
           }
-          modalComponent={<CreateChannelModal serverId={server.id} />}
+          modalComponent={<EditServerModal server={server} />}
         />
       </div>
+
       <div>
         {server &&
           channels.map((channel) => {
@@ -47,16 +53,39 @@ function ChannelsList() {
                   >
                     {channel.name}
                   </button>
-                  <OpenModalMenuItem
-                    itemText={<CiEdit />}
-                    modalComponent={<EditChannelModel channel={channel} />}
-                  />
+                  {server.owner_id === sessionUser.id && (
+                    <>
+                      <OpenModalMenuItem
+                        itemText={
+                          <>
+                            Edit<CiEdit />
+                          </>
+                        }
+                        modalComponent={<EditChannelModal channel={channel} />}
+                      />
+                      <OpenModalMenuItem
+                        itemText={
+                          <>
+                            Delete<CiEdit />
+                          </>
+                        }
+                        modalComponent={<DeleteChannelModal channel={channel} />}
+                      />
+                    </>
+                  )}
                 </div>
               );
             }
           })}
       </div>
-
+      <div>
+        {server.owner_id === sessionUser.id && (
+          <OpenModalMenuItem
+            itemText={<button>Create Channel</button>}
+            modalComponent={<CreateChannelModal serverId={server.id} />}
+          />
+        )}
+      </div>
     </>
   );
 }

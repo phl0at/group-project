@@ -5,7 +5,8 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const CREATE_CHANNEL = "channels/CREATE_CHANNEL";
-const UPDATE_CHANNEL = "channels/UPDATE_CHANNEL"
+const UPDATE_CHANNEL = "channels/UPDATE_CHANNEL";
+const DELETE_CHANNEL = "channels/DELETE_CHANNEL";
 const GET_ALL = "channels/GET_ALL";
 const SET_CURRENT = "channels/SET_CURRENT";
 const CLEAR_CURRENT = "channels/CLEAR_CURRENT"
@@ -31,13 +32,13 @@ export const updateChannelThunk = (channel) => async (dispatch) => {
       body: JSON.stringify({ name: channel.name }),
     });
 
-    if (response.ok){
+    if (response.ok) {
       const data = await response.json()
       dispatch(action(UPDATE_CHANNEL, data))
       return data
     }
 
-  }catch(error){
+  } catch (error) {
     console.log(error)
   }
 }
@@ -76,6 +77,22 @@ export const createChannelThunk = (channel) => async (dispatch) => {
     console.log(error);
   }
 };
+
+//! --------------------------------------------------------------------
+export const deleteChannelThunk = (channel) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/channels/${channel.id}`, {
+      method: "DELETE",
+      header: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      dispatch(action(DELETE_CHANNEL, channel));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 //! --------------------------------------------------------------------
 
@@ -132,11 +149,16 @@ const channelReducer = (state = initialState, action) => {
     case UPDATE_CHANNEL: {
       return { ...state, [action.payload.id]: action.payload };
     }
+    case DELETE_CHANNEL: {
+      const newState = { ...state };
+      delete newState[action.payload.id];
+      return newState;
+    }
     case SET_CURRENT: {
       return { ...state, current: action.payload };
     }
     case CLEAR_CURRENT: {
-      let newState = {...state}
+      let newState = { ...state }
       delete newState["current"]
       return newState
     }

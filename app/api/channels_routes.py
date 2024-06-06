@@ -84,10 +84,20 @@ def edit_channel(id):
 
 
 
-@channels_routes.route("/<int:id>")
+@channels_routes.route("/<int:id>", methods=['DELETE'])
 @login_required
 def delete_channel(id):
-    pass
+    channel = Channel.query.get(id)
+
+    if not channel:
+        return { "error": "Channel couldn't be found" }, 404
+
+    # elif channel.to_dict()['server_id'] is not current_user.id:
+    #     return { "error": "Forbidden"}, 403
+    else:
+        db.session.delete(channel)
+        db.session.commit()
+        return { "message": "Successfully deleted"}, 200
 
 
 @channels_routes.route("/<int:channel_id>/messages")
