@@ -5,11 +5,11 @@ import EditChannelModal from "../EditChannelModal ";
 import DeleteChannelModal from "./DeleteChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
 import { CiEdit } from "react-icons/ci";
+import { HiBan } from "react-icons/hi";
 import styles from "./Channels.module.css";
-
 import CreateChannelModal from "../Channels/CreateChannelModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-
+import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
 function ChannelsList() {
   const dispatch = useDispatch();
   const channels = useSelector(getChannelsArray);
@@ -24,28 +24,31 @@ function ChannelsList() {
   };
 
   return (
-    <>
-      <div>
+    <main className={styles.main}>
+      <h3 className={styles.server}>{server.name}</h3>
+      <div className={styles.serverEdit}>
+        <div className={styles.delete}>
+          {server && user.id === server.owner_id && (
+            <OpenModalButton
+              buttonText={<HiBan />}
+              modalComponent={<DeleteServer />}
+            />
+          )}
+        </div>
         <OpenModalButton
-          buttonText={
-            <>
-              <h1>
-                {server.name} Edit
-                <CiEdit />
-              </h1>
-            </>
-          }
+          title="Rename Server"
+          buttonText={<CiEdit />}
           modalComponent={<EditServerModal server={server} />}
         />
       </div>
-
-      <div>
+      <div className={styles.list}>
         {server &&
           channels.map((channel) => {
             if (channel.server_id === server.id) {
               return (
-                <div key={channel.id}>
+                <div className={styles.channel} key={channel.id}>
                   <button
+                    className={styles.name}
                     onClick={(e) => {
                       e.preventDefault();
                       handleChannelClick(channel);
@@ -53,44 +56,37 @@ function ChannelsList() {
                   >
                     {channel.name}
                   </button>
+
                   {server.owner_id === user.id && (
-                    <>
+                    <div className={styles.buttons}>
                       <OpenModalButton
-                        buttonText={
-                          <>
-                            Edit
-                            <CiEdit />
-                          </>
-                        }
-                        modalComponent={<EditChannelModal channel={channel} />}
-                      />
-                      <OpenModalButton
-                        buttonText={
-                          <>
-                            Delete
-                            <CiEdit />
-                          </>
-                        }
+                        title="Delete Channel"
+                        buttonText={<HiBan />}
                         modalComponent={
                           <DeleteChannelModal channel={channel} />
                         }
                       />
-                    </>
+                      <OpenModalButton
+                        title="Rename Channel"
+                        buttonText={<CiEdit />}
+                        modalComponent={<EditChannelModal channel={channel} />}
+                      />
+                    </div>
                   )}
                 </div>
               );
             }
           })}
       </div>
-      <div>
         {server.owner_id === user.id && (
-          <OpenModalButton
-            buttonText={"Create Channel"}
-            modalComponent={<CreateChannelModal serverId={server.id} />}
-          />
+          <div className={styles.create}>
+            <OpenModalButton
+              buttonText={"Create Channel"}
+              modalComponent={<CreateChannelModal serverId={server.id} />}
+            />
+          </div>
         )}
-      </div>
-    </>
+    </main>
   );
 }
 

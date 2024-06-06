@@ -7,14 +7,10 @@ import {
 import { clearCurrentMessagesThunk } from "../../redux/messages";
 import styles from "./Servers.module.css";
 import default_server from "../../../../images/default_server.jpg";
-import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 function ServersList() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user);
   const servers = useSelector(getServersArray);
-  const curServer = useSelector((state) => state.server.current);
   const channel = useSelector((state) => state.channel.current);
 
   const handleServerClick = (server) => {
@@ -46,14 +42,6 @@ function ServersList() {
             )}
           </button>
         ))}
-      </div>
-      <div className={styles.delete}>
-        {curServer && user.id === curServer.owner_id && (
-          <OpenModalButton
-            buttonText={`Delete Server`}
-            modalComponent={<DeleteServer />}
-          />
-        )}
       </div>
     </main>
   );

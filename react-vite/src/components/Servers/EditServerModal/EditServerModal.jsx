@@ -23,10 +23,10 @@ const EditServerModal = ({ server }) => {
         try {
             if (!serverName.trim().length) {
                 setErrors({ error: 'Server Name is required' })
-                // return;
             } else {
                 await dispatch(
                     updateServerThunk({
+                        id: server.id,
                         serverName,
                         ownerId: sessionUser.id,
                     })
