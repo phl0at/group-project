@@ -6,15 +6,22 @@ import {
 } from "../../redux/messages";
 import "./Messages.module.css";
 import { useEffect, useState } from "react";
+import MessageReactions from "../Reactions";
 
 function MessagesList() {
   const server = useSelector((state) => state.server.current);
   const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
-  const user = useSelector((state) => state.session.user);
+  const user = useSelector((state) => state.session.user.id);
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (channel) {
+      dispatch(getAllMessagesThunk(channel));
+    }
+  }, [dispatch, channel]);
 
   useEffect(() => {
     if (errors.length) {
@@ -38,7 +45,6 @@ function MessagesList() {
       setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      // await dispatch(getAllMessagesThunk(channel));
       setInputText("");
     }
   };
@@ -47,16 +53,12 @@ function MessagesList() {
     <main>
       <div>
         {messages.length > 0 &&
-          messages.map((message) => {
-            if (user.id === message.owner_id) {
-              return (
-                // <DeleteMessage/>
-                <div key={message.id}>{message.text}</div>
-              );
-            } else {
-              return <div key={message.id}>{message.text}</div>;
-            }
-          })}
+          messages.map((message) => (
+            <div key={message.id} className="message">
+              <div>{message.text}</div>
+              <MessageReactions message={message} />
+            </div>
+          ))}
       </div>
       <form onSubmit={handleSubmit}>
         <input
