@@ -13,10 +13,10 @@ function MainComponent() {
 
   useEffect(() => {
     if (user) {
-      const getUsers = async () => {
+      const getServers = async () => {
         await dispatch(getAllServersThunk());
       };
-      getUsers();
+      getServers();
     }
   }, [user, dispatch]);
 

@@ -12,10 +12,12 @@ import OpenModalMenuItem from "../Main/OpenModalMenuItem";
 
 function ServersList() {
   const dispatch = useDispatch();
-  const servers = useSelector(getServersArray);
-  const channel = useSelector((state) => state.channel.current);
   const user = useSelector((state) => state.session.user);
+  const servers = useSelector(getServersArray);
   const curServer = useSelector((state) => state.server.current);
+  const channel = useSelector((state) => state.channel.current);
+
+
   const handleServerClick = (server) => {
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentServerThunk(server));
