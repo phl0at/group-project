@@ -37,3 +37,8 @@
 .submit{
     padding: 1%;
 }
+.userImage {
+  height: 6%;
+  width: 3%;
+  border-radius: 50%;
+}

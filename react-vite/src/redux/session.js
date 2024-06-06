@@ -1,9 +1,12 @@
+import { createSelector } from "reselect";
+
 //! --------------------------------------------------------------------
 //*                          Action Types
 //! --------------------------------------------------------------------
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const GET_ALL = 'session/getAll'
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -78,6 +81,38 @@ export const thunkLogout = () => async (dispatch) => {
 };
 
 //! --------------------------------------------------------------------
+
+export const thunkGetAll = () => async (dispatch) => {
+  try {
+    const response = await fetch("/api/users/");
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(GET_ALL, data.users));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+//*                            Selectors
+//! --------------------------------------------------------------------
+
+export const getUsersArray = createSelector(
+  (state) => state.session,
+  (user) => {
+    let arr = [];
+    for (const key in user) {
+      if (Number.isInteger(Number(key))) {
+        arr.push(user[key]);
+      }
+    }
+    return arr;
+  }
+);
+
+//! --------------------------------------------------------------------
 //*                            Reducer
 //! --------------------------------------------------------------------
 
@@ -88,6 +123,11 @@ function sessionReducer(state = initialState, action) {
       return { ...state, user: action.payload };
     case REMOVE_USER:
       return { ...state, user: null };
+    case GET_ALL: {
+      const newState = { ...state };
+      action.payload.forEach((user) => (newState[user.id] = user));
+      return newState;
+    }
     default:
       return state;
   }
