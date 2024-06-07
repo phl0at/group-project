@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { createChannelThunk, setCurrentChannelThunk } from "../../../redux/channels";
+import { getAllMessagesThunk } from "../../../redux/messages";
 
 const CreateChannelModal = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const CreateChannelModal = () => {
         setErrors(response.errors);
       } else {
         dispatch(setCurrentChannelThunk(response))
+        dispatch(getAllMessagesThunk(response))
         closeModal();
       }
     } catch (e) {

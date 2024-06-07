@@ -4,14 +4,13 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-
 const GET_ALL = "channels/getAll";
 const SET_CURRENT = "channels/setCurrent";
 const CLEAR_CURRENT = "channels/clearCurrent";
 const CLEAR_ALL = "channels/clearAll";
 const CREATE = "channels/create";
 const UPDATE = "channels/update";
-const DELETE = "channels/delete"
+const DELETE = "channels/delete";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -46,8 +45,12 @@ export const updateChannelThunk = (channel) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const getAllChannelsThunk = (server) => async (dispatch) => {
+export const getAllChannelsThunk = (server, noDb) => async (dispatch) => {
   try {
+    if(noDb){
+      const newState = dispatch(action(GET_ALL, server.channels))
+      return newState.payload
+    }
     const response = await fetch(`/api/channels/${server.id}`);
     if (response.ok) {
       const data = await response.json();
@@ -86,26 +89,25 @@ export const deleteChannelThunk = (channel, serverId) => async (dispatch) => {
       method: "DELETE",
       header: { "Content-Type": "application/json" },
       body: {
-        serverId
-      }
+        serverId,
+      },
     });
 
     if (response.ok) {
       dispatch(action(DELETE, channel));
-      return response
+      return response;
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-
 //! --------------------------------------------------------------------
 
 export const setCurrentChannelThunk = (channel) => async (dispatch) => {
   try {
     dispatch(action(SET_CURRENT, channel));
-    return channel
+    return channel;
   } catch (error) {
     console.log(error);
   }
@@ -125,11 +127,11 @@ export const clearCurrentChannelThunk = () => async (dispatch) => {
 
 export const clearChannelsThunk = () => async (dispatch) => {
   try {
-    dispatch(action(CLEAR_ALL))
+    dispatch(action(CLEAR_ALL));
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 //! --------------------------------------------------------------------
 //*                            Selectors
@@ -141,6 +143,7 @@ export const getChannelsArray = createSelector(
     let arr = [];
     for (const key in channel) {
       if (Number.isInteger(Number(key))) {
+        // console.log("TRUE")
         arr.push(channel[key]);
       }
     }
@@ -156,7 +159,7 @@ const initialState = {};
 const channelReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = { ...state };
+      const newState = { current: { ...state["current"] } };
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
     }
@@ -167,7 +170,7 @@ const channelReducer = (state = initialState, action) => {
       return { ...state, [action.payload.id]: action.payload };
     }
     case DELETE: {
-      const newState = { ...state };
+      let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
     }
@@ -180,7 +183,7 @@ const channelReducer = (state = initialState, action) => {
       return newState;
     }
     case CLEAR_ALL: {
-      return {}
+      return {};
     }
     default:
       return state;

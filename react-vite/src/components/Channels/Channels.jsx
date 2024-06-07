@@ -70,14 +70,14 @@ function ChannelsList() {
                         modalComponent={
                           <DeleteChannelModal
                             channel={channel}
-                            serverId={server.id}
+                            server={server}
                           />
                         }
                       />
                       <OpenModalButton
                         title="Rename Channel"
                         buttonText={<CiEdit />}
-                        modalComponent={<EditChannelModal channel={channel} />}
+                        modalComponent={<EditChannelModal channel={channel} serverId={channel.server_id} />}
                       />
                     </div>
                   )}

@@ -24,7 +24,9 @@ function MainComponent() {
     const currServer = await dispatch(setCurrentServerThunk(allServers[0]));
     const allChannels = await dispatch(getAllChannelsThunk(currServer));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
-    await dispatch(getAllMessagesThunk(currChannel));
+    if (currChannel) {
+      await dispatch(getAllMessagesThunk(currChannel));
+    }
   };
 
   useEffect(() => {
