@@ -8,7 +8,7 @@ const GET_ALL = "messages/getAll";
 const CLEAR = "messages/clearCurrent";
 const CREATE = "messages/create";
 const EDIT = "messages/edit";
-
+const DELETE = "messages/delete";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -89,6 +89,24 @@ export const createMessageThunk = (channel, message) => async (dispatch) => {
 };
 
 //! --------------------------------------------------------------------
+
+export const deleteMessageThunk = (message) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/messages/${message.id}`, {
+      method: "DELETE",
+      header: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      dispatch(action(DELETE, message));
+      return response;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
 //*                            Selectors
 //! --------------------------------------------------------------------
 
@@ -114,6 +132,11 @@ const messageReducer = (state = initialState, action) => {
     }
     case EDIT_MESSAGE: {
       return { ...state, [action.payload.id]: action.payload };
+    }
+    case DELETE: {
+      let newState = { ...state };
+      delete newState[action.payload.id];
+      return newState;
     }
     case CLEAR: {
       return {};
