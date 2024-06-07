@@ -9,7 +9,29 @@ messages_routes = Blueprint("messages", __name__)
 @messages_routes.route("/<int:id>", methods=["POST"])
 @login_required
 def edit_message(id):
-    pass
+    data = request.get_json()
+
+    if not data.get('text'):
+        return {"error": "Message text is required"}, 400
+
+    if len(data["text"]) < 1 or len(data["text"]) > 140:
+        return {"error": "Message must be between 1 and 140 characters"}, 400
+
+    message = Message.query.get(id)
+
+    if not message:
+        return {"error": "Message not found"}, 404
+
+    if message.user_id != current_user.id:
+        return {"error": "Unauthorized"}, 403
+
+    try:
+        message.text = data["text"]
+        db.session.commit()
+        return message.to_dict(), 200
+    except Exception as e:
+        db.session.rollback()
+        return {"error": "An error occurred while updating the message"}, 500
 
 
 @messages_routes.route("<int:id>", methods=["DELETE"])
