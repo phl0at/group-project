@@ -7,7 +7,6 @@ import {
 } from "../../redux/messages";
 import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
-import CreateChannelModal from "../Channels/CreateChannelModal";
 import OpenModalButton from "../OpenModalButton/";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
