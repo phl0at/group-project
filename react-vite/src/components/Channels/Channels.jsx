@@ -35,6 +35,7 @@ function ChannelsList() {
         <div className={styles.delete}>
           {server && user.id === server.owner_id && (
             <OpenModalButton
+              title={"Delete Server"}
               buttonText={<HiBan />}
               modalComponent={<DeleteServer />}
             />
