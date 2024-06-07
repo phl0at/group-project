@@ -25,7 +25,6 @@ function ChannelsList() {
 
   return (
     <main className={styles.main}>
-      <h3 className={styles.server}>{server.name}</h3>
       <div className={styles.serverEdit}>
         <div className={styles.delete}>
           {server && user.id === server.owner_id && (
@@ -78,14 +77,6 @@ function ChannelsList() {
             }
           })}
       </div>
-      {server.owner_id === user.id && (
-        <div className={styles.create}>
-          <OpenModalButton
-            buttonText={"Create Channel"}
-            modalComponent={<CreateChannelModal serverId={server.id} />}
-          />
-        </div>
-      )}
     </main>
   );
 }

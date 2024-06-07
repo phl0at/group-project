@@ -8,7 +8,6 @@ import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
 import OpenModalButton from "../OpenModalButton/";
-import { CiEdit } from "react-icons/ci";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
@@ -56,16 +55,6 @@ function MessagesList() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.channelHead}>
-        <h1>{channel.name}</h1>
-        {server?.owner_id === user.id && (
-          <OpenModalButton
-            className={styles.channel}
-            buttonText="Create Channel"
-            modalComponent={<CreateChannelModal serverId={server.id} />}
-          />
-        )}
-      </div>
       <div className={styles.list}>
         {messages.length > 0 &&
           messages.map((message) => {

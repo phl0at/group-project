@@ -1,13 +1,49 @@
+.directImg {
+  height: 100%;
+  width: 100%;
+  border-radius: 45%;
+}
+.direct {
+  width: 10%;
+  padding: .5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .profile {
   position: absolute;
 }
 
-.page {
-  display: flex;
-  height: 95vh;
-  padding: 1%
+.channel {
+  margin-left: 3%;
 }
 
-.channel {
-  margin-left: 2px;
+.server {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.header {
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  padding-right: 2%;
+  border: solid 1px rgb(53, 157, 253);
+}
+
+.nav{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  width: 50%;
+}
+
+.page {
+  display: flex;
+  height: 90vh;
 }

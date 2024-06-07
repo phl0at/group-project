@@ -1,0 +1,14 @@
+.profile_dropdown {
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    top: 9%;
+    left: 1%;
+    z-index: 7;
+    background-color: rgb(18, 18, 18);
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+    box-shadow: 3px 3px rgb(19, 21, 24), -3px -3px rgb(19, 21, 24);
+    border-radius: 5px;
+    border: solid 1px rgb(53, 157, 253);
+  }
