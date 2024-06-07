@@ -7,11 +7,12 @@ import {
 import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import OpenModalButton from "../OpenModalButton/";
 import { CiEdit } from "react-icons/ci";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
+import DeleteMessage from "./DeleteMessageModal/";
 
 function MessagesList() {
   const server = useSelector((state) => state.server.current);
@@ -60,11 +61,7 @@ function MessagesList() {
         {server?.owner_id === user.id && (
           <OpenModalButton
             className={styles.channel}
-            buttonText={
-              <>
-                Create Channel: <CiEdit />
-              </>
-            }
+            buttonText="Create Channel"
             modalComponent={<CreateChannelModal serverId={server.id} />}
           />
         )}
@@ -77,16 +74,18 @@ function MessagesList() {
               ? author.image[0].img_url
               : default_user;
             return (
-              <main className={styles.messageBody}>
+              <main key={message.id} className={styles.messageBody}>
                 <img className={styles.userImage} src={src} />
                 <div>{author.username}</div>
-                <div className={styles.message} key={message.id}>
-                  {message.text}
-                </div>
+                <div className={styles.message}>{message.text}</div>
                 {user.id === message.user_id && (
-                  <button className={styles.delete}>delete</button>
+                  <OpenModalButton
+                    className={styles.delete}
+                    buttonText="Delete"
+                    modalComponent={<DeleteMessage message={message} />}
+                  />
                 )}
-                <div key={message.id} className="message">
+                <div className="message">
                   <MessageReactions message={message} />
                 </div>
               </main>
@@ -94,6 +93,7 @@ function MessagesList() {
           })}
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.error}>{errors.error && errors.error}</div>
           <input
             className={styles.input}
             type="text"
@@ -107,7 +107,6 @@ function MessagesList() {
           <button className={styles.submit} type="submit">
             Send Message
           </button>
-          <div className={styles.error}>{errors.error && errors.error}</div>
         </form>
       </div>
     </main>
