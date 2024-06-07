@@ -7,7 +7,8 @@ import { createSelector } from "reselect";
 const GET_ALL = "messages/getAll";
 const CLEAR = "messages/clearCurrent";
 const CREATE = "messages/create";
-
+const EDIT = "messages/edit";
+const DELETE = "messages/delete";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -28,6 +29,26 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(action(GET_ALL, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const editMessageThunk = (message) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/messages/${message.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: message.text }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(EDIT, data));
       return data;
     }
   } catch (error) {
@@ -68,6 +89,24 @@ export const createMessageThunk = (channel, message) => async (dispatch) => {
 };
 
 //! --------------------------------------------------------------------
+
+export const deleteMessageThunk = (message) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/messages/${message.id}`, {
+      method: "DELETE",
+      header: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      dispatch(action(DELETE, message));
+      return response;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
 //*                            Selectors
 //! --------------------------------------------------------------------
 
@@ -90,6 +129,14 @@ const messageReducer = (state = initialState, action) => {
     }
     case CREATE: {
       return { ...state, [action.payload.id]: action.payload };
+    }
+    case EDIT: {
+      return { ...state, [action.payload.id]: action.payload };
+    }
+    case DELETE: {
+      let newState = { ...state };
+      delete newState[action.payload.id];
+      return newState;
     }
     case CLEAR: {
       return {};

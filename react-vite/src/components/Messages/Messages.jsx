@@ -1,13 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import { createMessageThunk, getMessagesArray, getAllMessagesThunk } from "../../redux/messages";
+import {
+  createMessageThunk,
+  getMessagesArray,
+  getAllMessagesThunk,
+  editMessageThunk
+} from "../../redux/messages";
 import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import { CiEdit } from "react-icons/ci";
+import OpenModalButton from "../OpenModalButton/";
+// import { CiEdit } from "react-icons/ci";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
+import DeleteMessage from "./DeleteMessageModal/";
 
 function MessagesList() {
   const server = useSelector((state) => state.server.current);
@@ -17,6 +23,8 @@ function MessagesList() {
   const allUsers = useSelector((state) => state.session);
   const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
+  const [editText, setEditText] = useState("");
+  const [editMode, setEditMode] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,8 +37,6 @@ function MessagesList() {
       setInputText("");
     }
   }, [dispatch, channel, errors]);
-
-  
 
   if (!server || !channel) return "";
 
@@ -51,6 +57,18 @@ function MessagesList() {
     }
   };
 
+  const handleEditSubmit = async (message) => {
+    if (!editText.trim().length) {
+      setErrors({ error: "Message Text Required" });
+    } else if (editText.length > 250) {
+      setErrors({ error: "Max length: 250" });
+    } else {
+      await dispatch(editMessageThunk({ id: message.id, text: editText }));
+      setEditMode(null);
+      setEditText("");
+    }
+  };
+
   return (
     <main className={styles.main}>
       <div className={styles.channelHead}>
@@ -58,11 +76,7 @@ function MessagesList() {
         {server?.owner_id === user.id && (
           <OpenModalButton
             className={styles.channel}
-            buttonText={
-              <>
-                Create Channel: <CiEdit />
-              </>
-            }
+            buttonText="Create Channel"
             modalComponent={<CreateChannelModal serverId={server.id} />}
           />
         )}
@@ -75,18 +89,60 @@ function MessagesList() {
               ? author.image[0].img_url
               : default_user;
             return (
-              <>
+              <main key={message.id} className={styles.messageBody}>
                 <img className={styles.userImage} src={src} />
                 <div>{author.username}</div>
-                <div className={styles.message} key={message.id}>
-                  {message.text}
+                {editMode === message.id ? (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleEditSubmit(message);
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                    />
+                    <button type="submit">Save</button>
+                    <button
+                      type="button"
+                      onClick={() => setEditMode(null)}
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <div className={styles.message}>
+                    {message.text}
+                    {user.id === message.user_id && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setEditMode(message.id);
+                            setEditText(message.text);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <OpenModalButton
+                          className={styles.delete}
+                          buttonText="Delete"
+                          modalComponent={<DeleteMessage message={message} />}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+                <div className="message">
+                  <MessageReactions message={message} />
                 </div>
-                {user.id === message.user_id && <button className={styles.delete}>delete</button>}
-              </>
+              </main>
             );
           })}
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.error}>{errors.error && errors.error}</div>
           <input
             className={styles.input}
             type="text"
@@ -100,14 +156,7 @@ function MessagesList() {
           <button className={styles.submit} type="submit">
             Send Message
           </button>
-          <div className={styles.error}>{errors.error && errors.error}</div>
         </form>
-          {messages.map((message) => (
-            <div key={message.id} className="message">
-              <div>{message.text}</div>
-              <MessageReactions message={message} />
-            </div>
-          ))}
       </div>
     </main>
   );
