@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
   clearCurrentChannelThunk,
   deleteChannelThunk,
-  getChannelsArray,
+
   setCurrentChannelThunk,
 } from "../../../redux/channels";
 import {
@@ -12,29 +12,22 @@ import {
   getAllMessagesThunk,
 } from "../../../redux/messages";
 
-const DeleteChannelModal = ({ allChannels, channel, serverId }) => {
+const DeleteChannelModal = ({ channel, serverId }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  // const allChannels = useSelector(getChannelsArray);
 
   const handleDelete = async () => {
     setErrors({});
     try {
-      // current issue where the allChannels array from the custom selector
-      // is not removing the deleted channel from its array, even though
-      // the channel is removed from the db and the redux store
-
-      console.log("BEFORE!!!!!!!!!!", allChannels);
       const response = await dispatch(deleteChannelThunk(channel, serverId));
-      console.log("AFTER!!!!!!!!!!!", allChannels);
 
       if (response) {
         dispatch(clearCurrentChannelThunk());
         dispatch(clearCurrentMessagesThunk());
-        if (allChannels.length > 0) {
-          dispatch(setCurrentChannelThunk(allChannels[0]));
-          dispatch(getAllMessagesThunk(allChannels[0]));
+        if (response.length > 0) {
+          dispatch(setCurrentChannelThunk(response[0]));
+          dispatch(getAllMessagesThunk(response[0]));
         }
         closeModal();
       } else {

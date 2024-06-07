@@ -94,8 +94,9 @@ export const deleteChannelThunk = (channel, serverId) => async (dispatch) => {
     });
 
     if (response.ok) {
+      const data = await response.json()
       dispatch(action(DELETE, channel));
-      return response;
+      return data;
     }
   } catch (error) {
     console.log(error);
