@@ -1,21 +1,12 @@
 .main {
   display: flex;
   flex-direction: column;
-  width: 80%;
-}
-.channelHead {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10%;
-  padding: 2%;
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
+  width: 85vw;
 }
 
 .list {
-  padding-left: 2%;
-  height: 90%;
+  padding: 2%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -23,22 +14,33 @@
   border: solid 1px rgb(53, 157, 253);
 }
 
-.message{
-    padding-top: 2%;
+.message {
+  padding-top: 2%;
 }
 
 .form {
-    padding-right: 1%;
+  padding-right: 1%;
 }
-.input{
-    width: 75%;
-    height: 60%;
+.input {
+  width: 85%;
+  height: 60%;
 }
-.submit{
-    padding: 1%;
+.submit {
+  border-radius: 5px;
+  border: solid 1px rgb(53, 157, 253);
+  width: 15%;
+  padding: 1%;
 }
 .userImage {
-  height: 16%;
   width: 3%;
+  height: 25%;
   border-radius: 50%;
+}
+
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5%;
 }

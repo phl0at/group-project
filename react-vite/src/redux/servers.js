@@ -7,6 +7,7 @@ import { createSelector } from "reselect";
 const GET_ALL = "servers/getAll";
 const GET_CURRENT = "servers/getCurrent";
 const CLEAR_CURRENT = "servers/clearCurrent";
+const CLEAR_ALL = "servers/clearAll";
 const CREATE = "servers/create";
 const UPDATE = "servers/update";
 const DELETE = "servers/delete";
@@ -100,9 +101,9 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       dispatch(action(UPDATE, data));
-      dispatch(action(GET_CURRENT, data))
+      dispatch(action(GET_CURRENT, data));
       return data;
     }
   } catch (error) {
@@ -115,6 +116,16 @@ export const updateServerThunk = (server) => async (dispatch) => {
 export const clearCurrentServerThunk = () => async (dispatch) => {
   try {
     dispatch(action(CLEAR_CURRENT));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
+export const clearServersThunk = () => async (dispatch) => {
+  try {
+    dispatch(action(CLEAR_ALL));
   } catch (error) {
     console.log(error);
   }
@@ -145,7 +156,7 @@ const initialState = {};
 const serverReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = {};
+      const newState = { current: { ...state["current"] } };
       action.payload.forEach((server) => (newState[server.id] = server));
       return newState;
     }
@@ -167,6 +178,9 @@ const serverReducer = (state = initialState, action) => {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
+    }
+    case CLEAR_ALL: {
+      return {};
     }
     default:
       return state;
