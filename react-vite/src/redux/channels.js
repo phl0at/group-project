@@ -105,6 +105,7 @@ export const deleteChannelThunk = (channel, serverId) => async (dispatch) => {
 export const setCurrentChannelThunk = (channel) => async (dispatch) => {
   try {
     dispatch(action(SET_CURRENT, channel));
+    return channel
   } catch (error) {
     console.log(error);
   }

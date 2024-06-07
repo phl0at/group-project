@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createMessageThunk,
   getMessagesArray,
-  getAllMessagesThunk,
   editMessageThunk,
 } from "../../redux/messages";
 import styles from "./Messages.module.css";
@@ -12,7 +11,6 @@ import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
 import DeleteMessage from "./DeleteMessageModal/";
-import BeatLoader from "react-spinners/BeatLoader";
 
 function MessagesList() {
   const channel = useSelector((state) => state.channel.current);
@@ -36,7 +34,7 @@ function MessagesList() {
     }
   }, [dispatch, errors]);
 
-  if (!messages) return "";
+  if (!messages) return <h3>Sure is quiet in here...</h3>;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

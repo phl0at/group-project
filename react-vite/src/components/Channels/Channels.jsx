@@ -1,19 +1,28 @@
+import { CiEdit } from "react-icons/ci";
+import { HiBan } from "react-icons/hi";
 import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
 import EditChannelModal from "../EditChannelModal ";
 import DeleteChannelModal from "./DeleteChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
-import { CiEdit } from "react-icons/ci";
-import { HiBan } from "react-icons/hi";
 import styles from "./Channels.module.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
+import { useEffect } from "react";
+
 function ChannelsList() {
   const dispatch = useDispatch();
-  const channels = useSelector(getChannelsArray);
+  const allChannels = useSelector(getChannelsArray);
+  const channel = useSelector((state) => state.channel.current);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
+
+  useEffect(() => {
+    if (channel == {}) {
+      dispatch(setCurrentChannelThunk(allChannels[0]));
+    }
+  }, []);
 
   const handleChannelClick = async (channel) => {
     await dispatch(setCurrentChannelThunk(channel));
@@ -39,7 +48,7 @@ function ChannelsList() {
       </div>
       <div className={styles.list}>
         {server &&
-          channels.map((channel) => {
+          allChannels.map((channel) => {
             if (channel.server_id === server.id) {
               return (
                 <div className={styles.channel} key={channel.id}>
@@ -59,7 +68,10 @@ function ChannelsList() {
                         title="Delete Channel"
                         buttonText={<HiBan />}
                         modalComponent={
-                          <DeleteChannelModal channel={channel} serverId={server.id} />
+                          <DeleteChannelModal
+                            channel={channel}
+                            serverId={server.id}
+                          />
                         }
                       />
                       <OpenModalButton
