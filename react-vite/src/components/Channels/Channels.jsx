@@ -69,6 +69,7 @@ function ChannelsList() {
                         buttonText={<HiBan />}
                         modalComponent={
                           <DeleteChannelModal
+                            allChannels={allChannels}
                             channel={channel}
                             server={server}
                           />
