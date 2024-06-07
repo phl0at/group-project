@@ -9,7 +9,7 @@ import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
 import CreateChannelModal from "../Channels/CreateChannelModal";
 import OpenModalButton from "../OpenModalButton/";
-import { CiEdit } from "react-icons/ci";
+// import { CiEdit } from "react-icons/ci";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
