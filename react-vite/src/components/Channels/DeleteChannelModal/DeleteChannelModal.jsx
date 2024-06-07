@@ -4,9 +4,7 @@ import { useModal } from "../../../context/Modal";
 import {
   clearCurrentChannelThunk,
   deleteChannelThunk,
-
   getChannelsArray,
-
   setCurrentChannelThunk,
 } from "../../../redux/channels";
 import {
