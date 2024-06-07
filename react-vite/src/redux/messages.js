@@ -130,7 +130,7 @@ const messageReducer = (state = initialState, action) => {
     case CREATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case EDIT_MESSAGE: {
+    case EDIT: {
       return { ...state, [action.payload.id]: action.payload };
     }
     case DELETE: {

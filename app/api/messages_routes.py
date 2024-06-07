@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 messages_routes = Blueprint("messages", __name__)
 
 
-@messages_routes.route("/<int:id>", methods=["POST"])
+@messages_routes.route("/<int:id>", methods=["PUT"])
 @login_required
 def edit_message(id):
     data = request.get_json()
