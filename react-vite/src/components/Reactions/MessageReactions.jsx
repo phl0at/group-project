@@ -10,9 +10,10 @@ const MessagesReaction = ({ message }) => {
   const messageReactions = reactions.filter((reaction) => reaction.message_id === message.id);
   const userReactions = messageReactions.filter((reaction) => reaction.user_id === userId);
 
-  useEffect(() => {
-    dispatch(getAllReactionsThunk());
-  }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(getAllReactionsThunk());
+  // }, []);
 
 
   const handleToggleReaction = async (reactionType) => {
@@ -32,7 +33,7 @@ const MessagesReaction = ({ message }) => {
   return (
     <div>
       <div>
-        {userReactions.map((reaction) => (
+        {userReactions?.map((reaction) => (
           <div key={reaction.id}>
             <span>{reaction.type}</span>
             <button onClick={() => handleToggleReaction(reaction.type)}></button>

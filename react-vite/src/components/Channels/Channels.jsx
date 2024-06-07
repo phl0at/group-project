@@ -7,7 +7,6 @@ import EditServerModal from "../Servers/EditServerModal";
 import { CiEdit } from "react-icons/ci";
 import { HiBan } from "react-icons/hi";
 import styles from "./Channels.module.css";
-import CreateChannelModal from "../Channels/CreateChannelModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
 function ChannelsList() {
@@ -15,8 +14,6 @@ function ChannelsList() {
   const channels = useSelector(getChannelsArray);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
-
-  if (!server) return "";
 
   const handleChannelClick = async (channel) => {
     await dispatch(setCurrentChannelThunk(channel));

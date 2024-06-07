@@ -1,9 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import {
-  clearCurrentServerThunk,
-  getAllServersThunk,
-} from "../../redux/servers";
+import { getAllServersThunk, setCurrentServerThunk } from "../../redux/servers";
 import ServersList from "../Servers/Servers";
 import ProfileButton from "./ProfileButton";
 import ChannelsList from "../Channels/";
@@ -12,57 +9,79 @@ import styles from "./Main.module.css";
 import OpenModalButton from "../OpenModalButton";
 import CreateChannelModal from "../Channels/CreateChannelModal";
 import default_user from "../../../../images/default_user.jpg";
-import { clearCurrentChannelThunk } from "../../redux/channels";
-import { clearCurrentMessagesThunk } from "../../redux/messages";
+import {
+  getAllChannelsThunk,
+} from "../../redux/channels";
+import { getAllMessagesThunk } from "../../redux/messages";
+import { getAllReactionsThunk } from "../../redux/reactions";
+import BeatLoader from "react-spinners/BeatLoader";
+
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.current);
   const server = useSelector((state) => state.server.current);
-  const srcImg = user.image[0]?.img_url ? user.image[0]?.img_url : default_user;
+  const srcImg = user?.image[0]?.img_url ? user.image[0].img_url : default_user;
+
   useEffect(() => {
     if (user) {
       const getServers = async () => {
-        await dispatch(getAllServersThunk());
-        dispatch(clearCurrentServerThunk());
-        dispatch(clearCurrentChannelThunk());
-        dispatch(clearCurrentMessagesThunk());
+        const allServers = await dispatch(getAllServersThunk());
+        if (allServers.length) {
+          await dispatch(setCurrentServerThunk(allServers[0]));
+        }
+        const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
+        if (allChannels.length) {
+          // await dispatch(setCurrentChannelThunk(allChannels[0]));
+          await dispatch(getAllMessagesThunk(allChannels[0]));
+          await dispatch(getAllReactionsThunk());
+        }
       };
       getServers();
     }
-  }, [user, dispatch]);
+  }, []);
+
+  if (!server || !user) return <BeatLoader className={styles.loading} color="#3c84bb" />;
 
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.nav}>
-          <button className={styles.direct}>
-            <img src={srcImg} className={styles.directImg} />
-            <ProfileButton className={styles.profile} />
-          </button>
-          <h3 className={styles.server}>{server?.name}</h3>
-          <h1 className={styles.channel}>{channel?.name}</h1>
+      {user ? (
+        <>
+          <div className={styles.header}>
+            <div className={styles.nav}>
+              <div className={styles.direct}>
+                <img src={srcImg} className={styles.directImg} />
+                <ProfileButton className={styles.profile} />
+              </div>
+              <h3 className={styles.server}>{server?.name}</h3>
+              <h2 className={styles.channel}>{channel?.name}</h2>
+            </div>
+
+            {server.owner_id === user.id && (
+              <OpenModalButton
+                className={styles.channel}
+                buttonText="Create Channel"
+                modalComponent={<CreateChannelModal serverId={server.id} />}
+              />
+            )}
+          </div>
+          <main className={styles.page}>
+            <ServersList />
+            <ChannelsList />
+            <MessagesList />
+          </main>
+        </>
+      ) : (
+        <div className={styles.header}>
+          <div className={styles.nav}>
+            <div className={styles.direct}>
+              <img src={srcImg} className={styles.directImg} />
+              <ProfileButton className={styles.profile} />
+            </div>
+            <h3 className={styles.server}>{server?.name}</h3>
+            <h2 className={styles.channel}>{channel?.name}</h2>
+          </div>
         </div>
-
-        {server?.owner_id === user.id && (
-          <OpenModalButton
-            className={styles.channel}
-            buttonText="Create Channel"
-            modalComponent={<CreateChannelModal serverId={server.id} />}
-          />
-        )}
-      </div>
-
-      {user && (
-        <main className={styles.page}>
-          {/* <DirectButton /> */}
-
-          <ServersList />
-
-          <ChannelsList />
-
-          <MessagesList />
-        </main>
       )}
     </>
   );

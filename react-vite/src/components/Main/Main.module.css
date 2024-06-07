@@ -4,8 +4,8 @@
   border-radius: 45%;
 }
 .direct {
-  width: 10%;
-  padding: .5%;
+  width: 5vw;
+  padding: 1%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,13 +15,18 @@
   position: absolute;
 }
 
-.channel {
-  margin-left: 3%;
+.server {
+  padding-left: 3%;
+  display: flex;
+  width: 10vw;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.server {
-  margin-left: 1%;
-  margin-right: 1%;
+.channel {
+  margin-left: 5%;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .header {
@@ -34,7 +39,7 @@
   border: solid 1px rgb(53, 157, 253);
 }
 
-.nav{
+.nav {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -46,4 +51,10 @@
 .page {
   display: flex;
   height: 90vh;
+}
+
+.loading {
+  size: 100;
+  margin-left: 50%;
+  margin-top: 25%;
 }

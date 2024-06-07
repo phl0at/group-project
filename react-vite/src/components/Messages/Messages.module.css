@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  width: 85%;
+  width: 85vw;
 }
 
 .list {
@@ -35,4 +35,12 @@
   width: 3%;
   height: 25%;
   border-radius: 50%;
+}
+
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5%;
 }

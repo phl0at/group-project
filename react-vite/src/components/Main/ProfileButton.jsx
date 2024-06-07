@@ -7,6 +7,9 @@ import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
 import CreateServerModal from "../Servers/CreateServerModal";
 import styles from "./ProfileButton.module.css"
+import { clearChannelsThunk, clearCurrentChannelThunk } from "../../redux/channels";
+import { clearCurrentMessagesThunk } from "../../redux/messages";
+import { clearCurrentServerThunk } from "../../redux/servers";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -37,6 +40,9 @@ function ProfileButton() {
 
   const logout = (e) => {
     e.preventDefault();
+    dispatch(clearCurrentServerThunk())
+    dispatch(clearChannelsThunk())
+    dispatch(clearCurrentMessagesThunk())
     dispatch(thunkLogout());
     closeMenu();
   };

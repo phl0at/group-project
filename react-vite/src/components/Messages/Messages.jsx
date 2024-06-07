@@ -3,7 +3,7 @@ import {
   createMessageThunk,
   getMessagesArray,
   getAllMessagesThunk,
-  editMessageThunk
+  editMessageThunk,
 } from "../../redux/messages";
 import styles from "./Messages.module.css";
 import { useEffect, useState } from "react";
@@ -12,9 +12,9 @@ import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
 import DeleteMessage from "./DeleteMessageModal/";
+import BeatLoader from "react-spinners/BeatLoader";
 
 function MessagesList() {
-  const server = useSelector((state) => state.server.current);
   const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
   const user = useSelector((state) => state.session.user);
@@ -27,16 +27,16 @@ function MessagesList() {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-    if (channel) {
-      dispatch(getAllMessagesThunk(channel));
-    }
+  }, []);
+
+  useEffect(() => {
     if (errors.length) {
       setErrors(errors);
       setInputText("");
     }
-  }, [dispatch, channel, errors]);
+  }, [dispatch, errors]);
 
-  if (!server || !channel) return "";
+  if (!messages) return "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,6 +73,7 @@ function MessagesList() {
         {messages.length > 0 &&
           messages.map((message) => {
             const author = allUsers[message.user_id];
+            if (!author) return "";
             const src = author.image[0]?.img_url
               ? author.image[0].img_url
               : default_user;
@@ -93,10 +94,7 @@ function MessagesList() {
                       onChange={(e) => setEditText(e.target.value)}
                     />
                     <button type="submit">Save</button>
-                    <button
-                      type="button"
-                      onClick={() => setEditMode(null)}
-                    >
+                    <button type="button" onClick={() => setEditMode(null)}>
                       Cancel
                     </button>
                   </form>
