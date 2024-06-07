@@ -23,7 +23,7 @@ const DeleteChannelModal = ({ channel, serverId }) => {
   const handleDelete = async () => {
     setErrors({});
     try {
-      // currently, the backend DB routes are doing 3 queries:
+      // currently, the backend DB route in channels_routes.py is doing 3 queries:
       // 1) get the Channel to be deleted, 2) get the Server it belongs to
       // if the Server is owned by the current user, delete the channel
       // after successful delete, 3) get all remaining channels and return them in array
@@ -33,7 +33,7 @@ const DeleteChannelModal = ({ channel, serverId }) => {
       const response = await dispatch(deleteChannelThunk(channel, serverId));
       // console.log('BEFORE', allChannels)
 
-      if (response) {
+      if (!response.errors) {
         dispatch(clearCurrentChannelThunk());
         dispatch(clearCurrentMessagesThunk());
         if (response.length > 0) {
