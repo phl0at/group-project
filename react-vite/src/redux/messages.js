@@ -7,6 +7,7 @@ import { createSelector } from "reselect";
 const GET_ALL = "messages/getAll";
 const CLEAR = "messages/clearCurrent";
 const CREATE = "messages/create";
+const EDIT = "messages/edit";
 const DELETE = "messages/delete";
 
 //! --------------------------------------------------------------------
@@ -34,6 +35,27 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
     console.log(error);
   }
 };
+
+//! --------------------------------------------------------------------
+
+export const editMessageThunk = (message) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/messages/${message.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: message.text }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(EDIT, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 //! --------------------------------------------------------------------
 
@@ -106,6 +128,9 @@ const messageReducer = (state = initialState, action) => {
       return newState;
     }
     case CREATE: {
+      return { ...state, [action.payload.id]: action.payload };
+    }
+    case EDIT: {
       return { ...state, [action.payload.id]: action.payload };
     }
     case DELETE: {
