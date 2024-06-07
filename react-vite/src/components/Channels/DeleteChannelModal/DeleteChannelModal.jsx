@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
   clearCurrentChannelThunk,
   deleteChannelThunk,
+
+  getChannelsArray,
 
   setCurrentChannelThunk,
 } from "../../../redux/channels";
@@ -16,11 +18,22 @@ const DeleteChannelModal = ({ channel, serverId }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  // const allChannels = useSelector(getChannelsArray)
+  // cannot use this array to update currentChannel and allMessages on lines 39 & 40
+  // the store and database are updated after the deleteThunk, but this array is not
 
   const handleDelete = async () => {
     setErrors({});
     try {
+      // currently, the backend DB routes are doing 3 queries:
+      // 1) get the Channel to be deleted, 2) get the Server it belongs to
+      // if the Server is owned by the current user, delete the channel
+      // after successful delete, 3) get all remaining channels and return them in array
+      // if we can figure out the issue above then we can get rid of that last query
+
+      // console.log('AFTER', allChannels)
       const response = await dispatch(deleteChannelThunk(channel, serverId));
+      // console.log('BEFORE', allChannels)
 
       if (response) {
         dispatch(clearCurrentChannelThunk());
