@@ -8,7 +8,7 @@ import SignupFormModal from "../Auth/SignupFormModal";
 import styles from "./ProfileButton.module.css";
 import { clearChannelsThunk } from "../../redux/channels";
 import { clearCurrentMessagesThunk } from "../../redux/messages";
-import { clearCurrentServerThunk } from "../../redux/servers";
+import { clearCurrentServerThunk, clearServersThunk } from "../../redux/servers";
 import { Link } from "react-router-dom";
 import { HiCog6Tooth } from "react-icons/hi2";
 
@@ -41,7 +41,7 @@ function ProfileButton() {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(clearCurrentServerThunk());
+    dispatch(clearServersThunk());
     dispatch(clearChannelsThunk());
     dispatch(clearCurrentMessagesThunk());
     dispatch(thunkLogout());

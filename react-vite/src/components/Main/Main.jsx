@@ -9,15 +9,12 @@ import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import styles from "./Main.module.css";
-import OpenModalButton from "../OpenModalButton";
-import CreateChannelModal from "../Channels/CreateChannelModal";
 import UserBar from "./UserBar";
 import { getAllMessagesThunk } from "../../redux/messages";
 
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-  const server = useSelector((state) => state.server.current);
 
   const loadDefault = async () => {
     const allServers = await dispatch(getAllServersThunk());
@@ -30,27 +27,29 @@ function MainComponent() {
   };
 
   useEffect(() => {
-    loadDefault();
-  }, []);
+    if (user) {
+      loadDefault();
+    }
+  }, [user]);
 
   return (
     <>
-      {user ? (
-        <>
-          <div className={styles.header}>
-            <UserBar />
-          </div>
+      <>
+        <div className={styles.header}>
+          <UserBar />
+        </div>
+        {user ? (
           <main className={styles.page}>
             <ServersList />
             <ChannelsList />
             <MessagesList />
           </main>
-        </>
-      ) : (
-        <div className={styles.header}>
-          <UserBar />
-        </div>
-      )}
+        ) : (
+          // only here so there isn't blank whitespace below the UserBar when
+          // nobody is signed in. can change to a welcome page at some point
+          <main className={styles.page}></main>
+        )}
+      </>
     </>
   );
 }
