@@ -63,7 +63,7 @@ def edit_server(id):
     server = Server.query.get(id)
     data = request.get_json()
     name = data.get('name')
-    print('!!!!!!!!!!!', name)
+
     if name.isspace():
         return { "errors": 'server name required'}, 400
 

@@ -43,6 +43,7 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
+            'image': self.image_url,
             'servers': [server.to_dict() for server in self.servers],
             'messages': [message.to_dict() for message in self.messages],
             'image': [image.to_dict() for image in self.image]
@@ -74,7 +75,7 @@ class Server(db.Model):
             'name': self.name,
             'DM': self.DM,
             'owner_id': self.owner_id,
-            'image': [image.to_dict() for image in self.image],
+            'image': self.image_url,
             'channels': [channel.to_dict() for channel in self.channels]
         }
 
@@ -126,7 +127,7 @@ class Message(db.Model):
             'channel_id': self.channel_id,
             'user_id': self.user_id,
             'text': self.text,
-            'image': [image.to_dict() for image in self.image],
+            'image': self.image_url,
             'reactions': [reaction.to_dict() for reaction in self.reactions]
         }
 
@@ -170,10 +171,10 @@ class Reaction(db.Model):
         # "polymorphic_identity": "image"
     # }
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'type': self.type,
-            'type_id': self.type_id,
-            'img_url': self.img_url
-        }
+    # def to_dict(self):
+    #     return {
+    #         'id': self.id,
+    #         'type': self.type,
+    #         'type_id': self.type_id,
+    #         'img_url': self.img_url
+    #     }
