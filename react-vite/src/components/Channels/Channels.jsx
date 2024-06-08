@@ -1,5 +1,6 @@
 import { CiEdit } from "react-icons/ci";
 import { HiBan } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
@@ -30,6 +31,8 @@ function ChannelsList() {
   };
 
   return (
+    <div>
+
     <main className={styles.main}>
       <div className={styles.serverEdit}>
         <div className={styles.delete}>
@@ -89,6 +92,13 @@ function ChannelsList() {
           })}
       </div>
     </main>
+      <main className={styles.profileBar}>
+        <Link to="/profile" className={styles.profileLink}>Profile</Link> {/* Link to User Profile Page */}
+
+
+      </main>
+
+    </div>
   );
 }
 

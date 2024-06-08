@@ -97,7 +97,10 @@ function MessagesList() {
                     </form>
                   ) : (
                     <div className={styles.message}>
-                      {message.text}
+
+                      {message.text.length && message.text}
+                      {message.image[0] && <img className={styles.image} src={message.image[0].img_url} alt="messagePic" /> }
+                 
                       {user.id === message.user_id && (
                         <>
                           <button

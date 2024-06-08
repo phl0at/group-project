@@ -7,6 +7,8 @@ import { createSelector } from "reselect";
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 const GET_ALL = 'session/getAll'
+// const UPDATE_USER_IMAGE = 'user/UPDATE_USER_IMAGE';
+
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -128,6 +130,16 @@ function sessionReducer(state = initialState, action) {
       action.payload.forEach((user) => (newState[user.id] = user));
       return newState;
     }
+
+    // case UPDATE_USER_IMAGE:
+    //   return {
+    //     ...state,
+    //     user: {
+    //       ...state.user,
+    //       image: action.payload.image, // Ensure this updates correctly
+    //     },
+    //   };
+
     default:
       return state;
   }

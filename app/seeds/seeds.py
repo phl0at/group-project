@@ -1,4 +1,4 @@
-from app.models import db, User, Server, Channel, Message, Image, Reaction, environment, SCHEMA
+from app.models import db, User, Server, Channel, Message, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
 from werkzeug.security import generate_password_hash
 
@@ -7,16 +7,17 @@ def create_seeder():
 
     ## SEED USERS
     user_list = [
-        {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password")},
-        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password")},
-        {'username':'bobbie', 'email':'bobbie@aa.io', 'password':generate_password_hash("password")},
+        {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
+        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
+        {'username':'bobbie', 'email':'bobbie@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
     ]
 
     for user in user_list:
         user = User(
             username=user['username'],
             email=user['email'],
-            hashed_password=user['password']
+            hashed_password=user['password'],
+            image_url=user['image_url']
         )
         db.session.add(user)
 
@@ -24,16 +25,17 @@ def create_seeder():
 
     ## SEED SERVERS
     server_list = [
-        {'name':'test_server', 'DM':False, 'owner_id':1},
-        {'name':'AppAcademy', 'DM':False, 'owner_id':2},
-        {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1}
+        {'name':'test_server', 'DM':False, 'owner_id':1, 'image_url': ''},
+        {'name':'AppAcademy', 'DM':False, 'owner_id':2, 'image_url': ''},
+        {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1, 'image_url': ''}
     ]
 
     for server in server_list:
         server = Server(
             name=server['name'],
             DM=server['DM'],
-            owner_id=server['owner_id']
+            owner_id=server['owner_id'],
+            image_url=server['image_url']
         )
         db.session.add(server)
 
@@ -57,16 +59,17 @@ def create_seeder():
 
     ## SEED MESSAGES
     message_list = [
-        {'channel_id':1, 'user_id':1, 'text':'Hello World!'},
-        {'channel_id':3, 'user_id':2, 'text':'Hello World!'},
-        {'channel_id':5, 'user_id':3, 'text':'Hello World!'},
+        {'channel_id':1, 'user_id':1, 'text':'Hello World!', 'image_url': ''},
+        {'channel_id':3, 'user_id':2, 'text':'Hello World!', 'image_url': ''},
+        {'channel_id':5, 'user_id':3, 'text':'Hello World!', 'image_url': "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"},
     ]
 
     for message in message_list:
         message = Message(
             channel_id=message['channel_id'],
             user_id=message['user_id'],
-            text=message['text']
+            text=message['text'],
+            image_url=message['image_url']
         )
         db.session.add(message)
 
@@ -88,20 +91,20 @@ def create_seeder():
 
 
     ## SEED IMAGES
-    images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 2, 'img_url': ''},
-        {'type': 'message', 'type_id': 1, 'img_url': ''}
-    ]
+    # images_list = [
+    #     {'type': 'user', 'type_id': 1, 'img_url': ''},
+    #     {'type': 'server', 'type_id': 1, 'img_url': ''},
+    #     {'type': 'server', 'type_id': 2, 'img_url': ''},
+    #     {'type': 'message', 'type_id': 1, 'img_url': ''}
+    # ]
 
-    for image_data in images_list:
-        image = Image(
-            type=image_data['type'],
-            type_id=image_data['type_id'],
-            img_url=image_data['img_url']
-        )
-        db.session.add(image)
+    # for image_data in images_list:
+    #     image = Image(
+    #         type=image_data['type'],
+    #         type_id=image_data['type_id'],
+    #         img_url=image_data['img_url']
+    #     )
+    #     db.session.add(image)
 
     db.session.commit()
 
