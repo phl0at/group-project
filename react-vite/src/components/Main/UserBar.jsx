@@ -9,7 +9,7 @@ function UserBar() {
   const channel = useSelector((state) => state.channel.current);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
-  const srcImg = user?.image[0]?.img_url ? user.image[0].img_url : null
+  const srcImg = user?.image[0]?.img_url ? user.image[0].img_url : default_user
 
   
   return (
@@ -18,7 +18,6 @@ function UserBar() {
         <div className={styles.direct}>
           <img src={srcImg} className={styles.directImg} />
           <ProfileButton className={styles.profile} />
-          <Link to="/profile" className={styles.profileLink}>Profile</Link> {/* Link to User Profile Page */}
         </div>
         {server && <h3 className={styles.server}>{server.name}</h3>}
         {channel && <h2 className={styles.channel}>{channel.name}</h2>}

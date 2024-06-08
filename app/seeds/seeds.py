@@ -89,10 +89,10 @@ def create_seeder():
 
     # SEED IMAGES
     images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': 'https://example.com/user1.jpg'},
-        {'type': 'server', 'type_id': 1, 'img_url': 'https://example.com/server1.jpg'},
-        {'type': 'server', 'type_id': 2, 'img_url': 'https://example.com/server2.jpg'},
-        {'type': 'message', 'type_id': 1, 'img_url': 'https://example.com/message1.jpg'}
+        {'type': 'user', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 1, 'img_url': ''},
+        {'type': 'server', 'type_id': 2, 'img_url': ''},
+        {'type': 'message', 'type_id': 1, 'img_url': 'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'}
     ]
 
     for image_data in images_list:
