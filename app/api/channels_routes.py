@@ -89,7 +89,7 @@ def edit_channel(id):
 def delete_channel(id):
     channel = Channel.query.get(id)
     server = Server.query.get(channel.server_id)
-    
+
     if server.owner_id != current_user.id:
         return {"error": "Unauthorized"}, 403
 

@@ -10,8 +10,8 @@ import styles from "./Channels.module.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
 import { useEffect } from "react";
-import ProfileButton from "../Main/ProfileButton";
-
+import OptionsMenu from "./OptionsMenu";
+import { NavLink } from "react-router-dom";
 
 function ChannelsList() {
   const dispatch = useDispatch();
@@ -32,9 +32,9 @@ function ChannelsList() {
   };
 
   return (
-    <div>
-      <main className={styles.main}>
-        <div className={styles.serverEdit}>
+    <main className={styles.main}>
+      <div className={styles.list}>
+        {/* <div className={styles.serverEdit}>
           <div className={styles.delete}>
             {server && user.id === server.owner_id && (
               <OpenModalButton
@@ -49,59 +49,63 @@ function ChannelsList() {
             buttonText={<CiEdit />}
             modalComponent={<EditServerModal server={server} />}
           />
-        </div>
-        <div className={styles.list}>
-          {server &&
-            allChannels.map((channel) => {
-              if (channel.server_id === server.id) {
-                return (
-                  <div className={styles.channel} key={channel.id}>
-                    <button
-                      className={styles.name}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleChannelClick(channel);
-                      }}
-                    >
-                      {channel.name}
-                    </button>
+        </div> */}
 
-                    {server.owner_id === user.id && (
-                      <div className={styles.buttons}>
-                        <OpenModalButton
-                          title="Delete Channel"
-                          buttonText={<HiBan />}
-                          modalComponent={
-                            <DeleteChannelModal
-                              allChannels={allChannels}
-                              channel={channel}
-                              server={server}
-                            />
-                          }
-                        />
-                        <OpenModalButton
-                          title="Rename Channel"
-                          buttonText={<CiEdit />}
-                          modalComponent={
-                            <EditChannelModal
-                              channel={channel}
-                              serverId={channel.server_id}
-                            />
-                          }
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-            })}
+        {server &&
+          allChannels.map((channel) => {
+            if (channel.server_id === server.id) {
+              return (
+                <div className={styles.channel} key={channel.id}>
+                  <button
+                    className={styles.name}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleChannelClick(channel);
+                    }}
+                  >
+                    {channel.name}
+                  </button>
 
+                  {server.owner_id === user.id && (
+                    <div className={styles.buttons}>
+                      <OpenModalButton
+                        title="Delete Channel"
+                        buttonText={<HiBan />}
+                        modalComponent={
+                          <DeleteChannelModal
+                            allChannels={allChannels}
+                            channel={channel}
+                            server={server}
+                          />
+                        }
+                      />
+                      <OpenModalButton
+                        title="Rename Channel"
+                        buttonText={<CiEdit />}
+                        modalComponent={
+                          <EditChannelModal
+                            channel={channel}
+                            serverId={channel.server_id}
+                          />
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          })}
+      </div>
+      <div className={styles.profileBar}>
+        <div>
+          <NavLink to="/profile" className={styles.profileButton}>
+            <img className={styles.userImage} src={user.image_url} />
+            <div className={styles.userName}>{`${user.username}`}</div>
+          </NavLink>
         </div>
-      </main>
-      <main className={styles.profileBar}>
-        <ProfileButton className={styles.profile} />
-      </main>
-    </div>
+        <OptionsMenu className={styles.profile}/>
+      </div>
+    </main>
   );
 }
 

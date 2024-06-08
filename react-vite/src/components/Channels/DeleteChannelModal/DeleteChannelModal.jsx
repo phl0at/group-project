@@ -22,15 +22,15 @@ const DeleteChannelModal = ({ channel, serverId }) => {
     setErrors({});
     try {
 
-      const response = await dispatch(deleteChannelThunk(channel, serverId));
+      const remainingChannels = await dispatch(deleteChannelThunk(channel, serverId));
 
-      if (!response.errors) {
+      if (!remainingChannels.errors) {
         dispatch(clearCurrentChannelThunk());
         dispatch(clearCurrentMessagesThunk());
 
-        if (response.length > 0) {
-          dispatch(setCurrentChannelThunk(response[0]));
-          dispatch(getAllMessagesThunk(response[0]));
+        if (remainingChannels.length > 0) {
+          dispatch(setCurrentChannelThunk(remainingChannels[0]));
+          dispatch(getAllMessagesThunk(remainingChannels[0]));
         }
         closeModal();
       } else {

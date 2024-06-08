@@ -1,6 +1,24 @@
-.directImg {
- padding: 1%;
- margin-left: .5%;
+.hyper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  width: 5vw;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+h5 {
+  width: 100%;
+}
+
+.directImg{
+  width: 100%;
 }
 
 .profile {
@@ -21,32 +39,49 @@
   justify-content: flex-start;
 }
 
-.header {
-  height: 10vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 5px;
-  padding-right: 2%;
-  border: solid 1px rgb(53, 157, 253);
-}
-
 .nav {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  height: 100%;
-  width: 50%;
+  height: 15vh;
+  width: 100%;
+  border-radius: 5px;
+  border: solid 1px rgb(53, 157, 253);
 }
 
 .page {
   display: flex;
-  height: 90vh;
+  height: 85vh;
 }
 
 .loading {
   size: 100;
   margin-left: 50%;
   margin-top: 25%;
+}
+
+.login_signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.login {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 30px;
+  border-radius: 33%;
+}
+.signup {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 30px;
+  border-radius: 33%;
 }

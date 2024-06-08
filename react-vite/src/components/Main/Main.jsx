@@ -34,22 +34,18 @@ function MainComponent() {
 
   return (
     <>
-      <>
-        <div className={styles.header}>
-          <UserBar />
-        </div>
-        {user ? (
-          <main className={styles.page}>
-            <ServersList />
-            <ChannelsList />
-            <MessagesList />
-          </main>
-        ) : (
-          // only here so there isn't blank whitespace below the UserBar when
-          // nobody is signed in. can change to a welcome page at some point
-          <main className={styles.page}></main>
-        )}
-      </>
+      <UserBar />
+      {user ? (
+        <main className={styles.page}>
+          <ServersList />
+          <ChannelsList />
+          <MessagesList />
+        </main>
+      ) : (
+        // only here so there isn't blank whitespace below the UserBar when
+        // nobody is signed in. can change to a welcome page at some point
+        <main className={styles.page}></main>
+      )}
     </>
   );
 }

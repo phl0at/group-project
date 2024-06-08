@@ -1,21 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { HiArrowCircleDown } from "react-icons/hi";
+import styles from "./OptionsMenu.module.css";
+import { useDispatch } from "react-redux";
 import { thunkLogout } from "../../redux/session";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import LoginFormModal from "../Auth/LoginFormModal";
-import SignupFormModal from "../Auth/SignupFormModal";
-import styles from "./ProfileButton.module.css";
 import { clearChannelsThunk } from "../../redux/channels";
 import { clearCurrentMessagesThunk } from "../../redux/messages";
-import { clearCurrentServerThunk, clearServersThunk } from "../../redux/servers";
-import { Link } from "react-router-dom";
+import { clearServersThunk } from "../../redux/servers";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-function ProfileButton() {
+function OptionsMenu() {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
@@ -55,33 +49,23 @@ function ProfileButton() {
       </button>
       {showMenu && (
         <ul className={styles.profile_dropdown} ref={ulRef}>
-          {user ? (
-            <>
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
-              <Link to="/profile" className={styles.profileButton}>
-                profile
-              </Link>
-            </>
-          ) : (
-            <>
-              <OpenModalButton
-                buttonText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-              <OpenModalButton
-                buttonText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
-            </>
-          )}
+          
+          {/* {user.id === server.owner_id && <div>
+            <OpenModalButton
+            buttonText={"Create Channel"}
+            modalComponent={<CreateChannelModal/>}
+            />
+            </div>} */}
+
+          <>
+            <div>
+              <button onClick={logout}>Log Out</button>
+            </div>
+          </>
         </ul>
       )}
     </>
   );
 }
 
-export default ProfileButton;
+export default OptionsMenu;

@@ -16,28 +16,12 @@
 
 body {
   font-family: "Montserrat", Inter, Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  background-color: #fbfbfb;
-  margin: 0 auto;
-  font-size: 18px;
+
 }
 
-h1 {
-  color: #080849;
-}
-
-h2 {
-  color: #656d79;
-}
 
 a {
   text-decoration: none;
-  color: #4d4d4d;
-  margin-bottom: 1em;
-}
-
-ul {
-  list-style-type: none;
 }
 
 button,
@@ -50,15 +34,4 @@ input[type="reset"] {
   font: inherit;
   cursor: pointer;
   outline: inherit;
-}
-
-textarea {
-  font-family: inherit;
-}
-
-.montserrat-font {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
 }
