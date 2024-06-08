@@ -87,12 +87,12 @@ def create_seeder():
         db.session.add(reaction)
 
 
-    ## SEED IMAGES
+    # SEED IMAGES
     images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 2, 'img_url': ''},
-        {'type': 'message', 'type_id': 1, 'img_url': ''}
+        {'type': 'user', 'type_id': 1, 'img_url': 'https://example.com/user1.jpg'},
+        {'type': 'server', 'type_id': 1, 'img_url': 'https://example.com/server1.jpg'},
+        {'type': 'server', 'type_id': 2, 'img_url': 'https://example.com/server2.jpg'},
+        {'type': 'message', 'type_id': 1, 'img_url': 'https://example.com/message1.jpg'}
     ]
 
     for image_data in images_list:

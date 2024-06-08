@@ -39,6 +39,7 @@ function MainComponent() {
         <>
           <div className={styles.header}>
             <UserBar />
+            
             <div>
               {server?.owner_id === user.id && (
                 <OpenModalButton
