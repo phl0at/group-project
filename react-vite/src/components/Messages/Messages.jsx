@@ -41,7 +41,7 @@ function MessagesList() {
       channel_id: channel.id,
       text: inputText,
     };
-    
+
     if (!inputText.trim().length) {
       setErrors({ error: "Message Text Required" });
     } else if (inputText.length > 250) {
@@ -71,8 +71,8 @@ function MessagesList() {
           ? messages.map((message) => {
               const author = allUsers[message.user_id];
               if (!author) return "";
-              const src = author.image[0]?.img_url
-                ? author.image[0].img_url
+              const src = author.img_url
+                ? author.img_url
                 : default_user;
               return (
                 <main key={message.id} className={styles.messageBody}>
@@ -97,10 +97,8 @@ function MessagesList() {
                     </form>
                   ) : (
                     <div className={styles.message}>
-
                       {message.text.length && message.text}
-                      {message.image[0] && <img className={styles.image} src={message.image[0].img_url} alt="messagePic" /> }
-                 
+                      {message.image_url && <img className={styles.image} src={message.img_url} alt="messagePic" /> }
                       {user.id === message.user_id && (
                         <>
                           <button

@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
-import styles from "./Servers.module.css";
 import default_server from "../../../../images/default_server.jpg";
+import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./Servers.module.css";
 import {
   getAllChannelsThunk,
   setCurrentChannelThunk,
@@ -30,8 +30,8 @@ function ServersList() {
     <main className={styles.main}>
       <div className={styles.list}>
         {servers.map((server) => {
-          const src = server.image[0]?.img_url
-            ? server.image[0]?.img_url
+          const src = server.img_url
+            ? server.img_url
             : default_server;
 
           return (

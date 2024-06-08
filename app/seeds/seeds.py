@@ -25,7 +25,7 @@ def create_seeder():
 
     ## SEED SERVERS
     server_list = [
-        {'name':'test_server', 'DM':False, 'owner_id':1, 'image_url': ''},
+        {'name':'test_server', 'DM':False, 'owner_id':1, 'image_url': 'https://i.etsystatic.com/22360457/r/il/8256ab/2199607580/il_570xN.2199607580_g2jf.jpg'},
         {'name':'AppAcademy', 'DM':False, 'owner_id':2, 'image_url': ''},
         {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1, 'image_url': ''}
     ]
@@ -122,13 +122,11 @@ def undo_seeder():
         db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.messages RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.reactions RESTART IDENTITY CASCADE;")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.images RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
         db.session.execute(text("DELETE FROM servers"))
         db.session.execute(text("DELETE FROM channels"))
         db.session.execute(text("DELETE FROM messages"))
         db.session.execute(text("DELETE FROM reactions"))
-        db.session.execute(text("DELETE FROM images"))
 
     db.session.commit()
