@@ -41,6 +41,7 @@ function MessagesList() {
       channel_id: channel.id,
       text: inputText,
     };
+    
     if (!inputText.trim().length) {
       setErrors({ error: "Message Text Required" });
     } else if (inputText.length > 250) {

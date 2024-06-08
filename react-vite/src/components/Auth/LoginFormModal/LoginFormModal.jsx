@@ -3,6 +3,7 @@ import { thunkLogin } from "../../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import "./LoginForm.css";
+import { getAllServersThunk } from "../../../redux/servers";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -10,6 +11,16 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+
+  const loadDefault = async () => {
+    const allServers = await dispatch(getAllServersThunk());
+    const currServer = await dispatch(setCurrentServerThunk(allServers[0]));
+    const allChannels = await dispatch(getAllChannelsThunk(currServer));
+    const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
+    if (currChannel) {
+      await dispatch(getAllMessagesThunk(currChannel));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +35,7 @@ function LoginFormModal() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
+      loadDefault();
       closeModal();
     }
   };
