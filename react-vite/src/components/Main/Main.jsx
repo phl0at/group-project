@@ -39,16 +39,6 @@ function MainComponent() {
         <>
           <div className={styles.header}>
             <UserBar />
-            
-            <div>
-              {server?.owner_id === user.id && (
-                <OpenModalButton
-                  className={styles.channel}
-                  buttonText="Create Channel"
-                  modalComponent={<CreateChannelModal />}
-                />
-              )}
-            </div>
           </div>
           <main className={styles.page}>
             <ServersList />

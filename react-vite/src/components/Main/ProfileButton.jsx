@@ -5,11 +5,12 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
-import CreateServerModal from "../Servers/CreateServerModal";
-import styles from "./ProfileButton.module.css"
-import { clearChannelsThunk, clearCurrentChannelThunk } from "../../redux/channels";
+import styles from "./ProfileButton.module.css";
+import { clearChannelsThunk } from "../../redux/channels";
 import { clearCurrentMessagesThunk } from "../../redux/messages";
 import { clearCurrentServerThunk } from "../../redux/servers";
+import { Link } from "react-router-dom";
+import { HiCog6Tooth } from "react-icons/hi2";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -40,9 +41,9 @@ function ProfileButton() {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(clearCurrentServerThunk())
-    dispatch(clearChannelsThunk())
-    dispatch(clearCurrentMessagesThunk())
+    dispatch(clearCurrentServerThunk());
+    dispatch(clearChannelsThunk());
+    dispatch(clearCurrentMessagesThunk());
     dispatch(thunkLogout());
     closeMenu();
   };
@@ -50,22 +51,18 @@ function ProfileButton() {
   return (
     <>
       <button onClick={toggleMenu}>
-        <HiArrowCircleDown />
+        <HiCog6Tooth />
       </button>
       {showMenu && (
         <ul className={styles.profile_dropdown} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <OpenModalButton
-                buttonText="Create Server"
-                onItemClick={closeMenu}
-                modalComponent={<CreateServerModal />}
-              />
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
+              <Link to="/profile" className={styles.profileButton}>
+                profile
+              </Link>
             </>
           ) : (
             <>

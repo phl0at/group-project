@@ -10,6 +10,9 @@ import {
   clearCurrentMessagesThunk,
   getAllMessagesThunk,
 } from "../../redux/messages";
+import CreateServerModal from "../Servers/CreateServerModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import { HiMiniPlusCircle } from "react-icons/hi2";
 
 function ServersList() {
   const dispatch = useDispatch();
@@ -30,9 +33,7 @@ function ServersList() {
     <main className={styles.main}>
       <div className={styles.list}>
         {servers.map((server) => {
-          const src = server.img_url
-            ? server.img_url
-            : default_server;
+          const src = server.img_url ? server.img_url : default_server;
 
           return (
             <button
@@ -47,6 +48,12 @@ function ServersList() {
             </button>
           );
         })}
+        <div className={styles.create}>
+          <OpenModalButton
+            buttonText={<HiMiniPlusCircle size={"70%"} />}
+            modalComponent={<CreateServerModal />}
+          />
+        </div>
       </div>
     </main>
   );

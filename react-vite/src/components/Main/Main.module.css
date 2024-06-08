@@ -1,14 +1,6 @@
 .directImg {
-  height: 100%;
-  width: 100%;
-  border-radius: 45%;
-}
-.direct {
-  width: 5vw;
-  padding: 1%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+ padding: 1%;
+ margin-left: 1%;
 }
 
 .profile {
