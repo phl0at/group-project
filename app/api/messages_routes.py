@@ -1,24 +1,21 @@
 from flask import Blueprint, request
 from app.models import db, Message
 from flask_login import current_user, login_required
-
+from werkzeug.utils import secure_filename
+from app.aws_helper import get_unique_filename, upload_file_to_s3, remove_file_from_s3
 
 messages_routes = Blueprint("messages", __name__)
 
+ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
 
-@messages_routes.route("/<int:id>", methods=["PUT"])
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@messages_routes.route('/<int:message_id>', methods=['PUT'])
 @login_required
-def edit_message(id):
-    data = request.get_json()
-
-    if not data.get('text'):
-        return {"error": "Message text is required"}, 400
-
-    if len(data["text"]) < 1 or len(data["text"]) > 140:
-        return {"error": "Message must be between 1 and 140 characters"}, 400
-
-    message = Message.query.get(id)
-
+def update_message(message_id):
+    message = Message.query.get(message_id)
     if not message:
         return {"error": "Message not found"}, 404
 
@@ -26,12 +23,33 @@ def edit_message(id):
         return {"error": "Unauthorized"}, 403
 
     try:
-        message.text = data["text"]
+        data = request.form if request.form else request.json
+
+        if 'file' in request.files:
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                unique_filename = get_unique_filename(filename)
+                file.filename = unique_filename
+                upload_response = upload_file_to_s3(file)
+
+                if "errors" in upload_response:
+                    return upload_response, 400
+
+                if message.image_url:
+                    remove_file_from_s3(message.image_url)
+
+                message.image_url = upload_response["url"]
+
+        message.text = data.get('text', message.text)
+
         db.session.commit()
         return message.to_dict(), 200
+
     except Exception as e:
         db.session.rollback()
-        return {"error": "An error occurred while updating the message"}, 500
+        return {"error": str(e)}, 500
+    
 
 
 @messages_routes.route("<int:id>", methods=["DELETE"])
