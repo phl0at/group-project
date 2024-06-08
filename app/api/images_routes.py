@@ -15,6 +15,10 @@ def allowed_file(filename):
 @image_routes.route('/new', methods=['POST'])
 @login_required
 def upload_image():
+    ## Instead of a separate route for images and uploading/deleting them
+    ## in the users, servers, and messages upload/delete routes, add logic to
+    ## check if an image_url is sent in the body, update the image
+    
     try:
         if 'file' not in request.files:
             return {"error": "No file part"}, 400
@@ -56,7 +60,7 @@ def upload_image():
     except Exception as e:
         db.session.rollback()
         return {"error": str(e)}, 500
-    
+
 
 
 @image_routes.route('/<int:image_id>', methods=['DELETE'])

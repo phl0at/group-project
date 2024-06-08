@@ -42,6 +42,7 @@ def create_server():
     server = Server(
         name = form.data['serverName'],
         owner_id=form.data['ownerId'],
+        image_url=form.data['image_url']
         )
     if server.name.isspace():
         return { "errors": 'server name required'}, 400

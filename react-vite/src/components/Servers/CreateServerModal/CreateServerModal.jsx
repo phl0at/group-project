@@ -14,6 +14,7 @@ const CreateServerModal = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [serverName, setServerName] = useState("");
+  const [serverImage, setServerImage] = useState("")
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -35,6 +36,7 @@ const CreateServerModal = () => {
           createServerThunk({
             serverName,
             ownerId: sessionUser.id,
+            image_url: serverImage,
           })
         );
         await dispatch(setCurrentServerThunk(newServer));
@@ -58,6 +60,22 @@ const CreateServerModal = () => {
             type="text"
             value={serverName}
             onChange={(e) => setServerName(e.target.value)}
+            required
+          />
+        </label>
+        {/*
+          create ServerProfileImageUpload by copy/pasting UserProfileImageUpload component
+          import that component into this file and render it here
+
+          <ServerProfileImageUpload />
+
+        */}
+        <label>
+          Server Image
+          <input
+            type="text"
+            value={serverImage}
+            onChange={(e) => setServerImage(e.target.value)}
             required
           />
         </label>

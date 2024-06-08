@@ -8,23 +8,24 @@ const UserProfileImageUpload = () => {
     const user = useSelector((state) => state.session.user);
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
-  
+
     const handleFileChange = (e) => {
       setFile(e.target.files[0]);
     };
-  
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       if (!file) {
         setError("Please select a file.");
         return;
       }
-  
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("type", "user");
       formData.append("type_id", user.id);
-  
+
+      // instad of createImageThunk, this will call editUserThunk, sending the current user's info along with the new image
       const result = await dispatch(createImageThunk(formData));
       if (result.errors) {
         setError(result.errors);
@@ -33,7 +34,7 @@ const UserProfileImageUpload = () => {
         setFile(null);
       }
     };
-  
+
     return (
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
