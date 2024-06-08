@@ -33,7 +33,7 @@ function ServersList() {
     <main className={styles.main}>
       <div className={styles.list}>
         {servers.map((server) => {
-          const src = server.img_url ? server.img_url : default_server;
+          const src = server.image_url ? server.image_url : default_server;
 
           return (
             <button

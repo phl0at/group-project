@@ -1,7 +1,7 @@
 // UserProfileImage.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createImageThunk, getImageArray } from '../../redux/images';
+import { editUserThunk } from '../../redux/session';
 
 const UserProfileImageUpload = () => {
     const dispatch = useDispatch();
@@ -23,10 +23,9 @@ const UserProfileImageUpload = () => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("type", "user");
-      formData.append("type_id", user.id);
+      formData.append("id", user.id);
 
-      // instad of createImageThunk, this will call editUserThunk, sending the current user's info along with the new image
-      const result = await dispatch(createImageThunk(formData));
+      const result = await dispatch(editUserThunk(formData, user.id));
       if (result.errors) {
         setError(result.errors);
       } else {

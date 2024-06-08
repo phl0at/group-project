@@ -71,8 +71,8 @@ function MessagesList() {
           ? messages.map((message) => {
               const author = allUsers[message.user_id];
               if (!author) return "";
-              const src = author.img_url
-                ? author.img_url
+              const src = author.image_url
+                ? author.image_url
                 : default_user;
               return (
                 <main key={message.id} className={styles.messageBody}>
