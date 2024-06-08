@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle } from 'react-icons/fa';
+import { HiArrowCircleDown } from "react-icons/hi";
 import { thunkLogout } from "../../redux/session";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
-import CreateServerModal from "../Servers/CreateServerModal"
+import CreateServerModal from "../Servers/CreateServerModal";
+import styles from "./ProfileButton.module.css"
+import { clearChannelsThunk, clearCurrentChannelThunk } from "../../redux/channels";
+import { clearCurrentMessagesThunk } from "../../redux/messages";
+import { clearCurrentServerThunk } from "../../redux/servers";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -36,6 +40,9 @@ function ProfileButton() {
 
   const logout = (e) => {
     e.preventDefault();
+    dispatch(clearCurrentServerThunk())
+    dispatch(clearChannelsThunk())
+    dispatch(clearCurrentMessagesThunk())
     dispatch(thunkLogout());
     closeMenu();
   };
@@ -43,10 +50,10 @@ function ProfileButton() {
   return (
     <>
       <button onClick={toggleMenu}>
-        <FaUserCircle />
+        <HiArrowCircleDown />
       </button>
       {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
+        <ul className={styles.profile_dropdown} ref={ulRef}>
           {user ? (
             <>
               <li>{user.username}</li>
@@ -57,9 +64,6 @@ function ProfileButton() {
                 modalComponent={<CreateServerModal />}
               />
               <li>
-
-
-
                 <button onClick={logout}>Log Out</button>
               </li>
             </>

@@ -1,4 +1,4 @@
-// import styles from './CreateServerModal.module.css'
+import styles from "./CreateServerModal.module.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
@@ -48,7 +48,7 @@ const CreateServerModal = () => {
   };
 
   return (
-    <>
+    <main className={styles.main}>
       <h1>Create Server</h1>
       {errors.error && <p>{errors.error}</p>}
       <form onSubmit={handleSubmit}>
@@ -63,7 +63,7 @@ const CreateServerModal = () => {
         </label>
         <button type="submit">Create Server</button>
       </form>
-    </>
+    </main>
   );
 };
 
