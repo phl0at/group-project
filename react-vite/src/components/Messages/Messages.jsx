@@ -139,9 +139,6 @@ function MessagesList() {
                 setErrors({});
               }}
             />
-            <button className={styles.submit} type="submit">
-              {"Send Message"}
-            </button>
           </form>
         )}
       </div>

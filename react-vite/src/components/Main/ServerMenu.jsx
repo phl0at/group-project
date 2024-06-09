@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./ServerMenu.module.css";
-import { HiArrowDown } from "react-icons/hi2";
+import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 import OpenModalButton from "../OpenModalButton";
 import CreateChannelModal from "../Channels/CreateChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
@@ -31,9 +31,9 @@ function ServerMenu() {
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <>
+    <div className={styles.servermenu}>
       <button onClick={toggleMenu}>
-        <HiArrowDown />
+      <HiMiniAdjustmentsHorizontal />
       </button>
       {showMenu && (
         <ul className={styles.profile_dropdown} ref={ulRef}>
@@ -60,7 +60,7 @@ function ServerMenu() {
           </div>
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

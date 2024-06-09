@@ -30,13 +30,14 @@ const CreateServerModal = () => {
       if (!serverName.trim().length) {
         setErrors({ error: "Server Name is required" });
       } else {
-        // this will be changed when the
-        // image upload feature is integrated with AWS
+        // this will need to be changed when the
+        // image upload feature is
+        // integrated with AWS below
         const newServer = await dispatch(
           createServerThunk({
             serverName,
             ownerId: sessionUser.id,
-            image_url: 'nullable.com',
+            image_url: null,
 
           })
         );

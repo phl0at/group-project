@@ -1,12 +1,19 @@
 .profile_dropdown {
-    position: absolute;
-    flex-direction: column;
-    justify-content: center;
-    top: 85%;
-    left: 12%;
-    z-index: 7;
-    background-color: rgb(18, 18, 18);
-    padding: 10px 20px 10px 20px;
-    border-radius: 5px;
-    border: solid 1px rgb(53, 157, 253);
-  }
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  top: 16%;
+  left: 8.5%;
+  z-index: 7;
+  width: 11.5vw;
+  background-color: rgb(18, 18, 18);
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  border: solid 1px rgb(53, 157, 253);
+}
+
+.servermenu {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}

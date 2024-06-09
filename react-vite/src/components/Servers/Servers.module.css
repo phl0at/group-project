@@ -1,5 +1,5 @@
 .main {
-  width: 7vw;
+  width: 72px;
 }
 
 .list {
@@ -7,8 +7,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
+  background-color: #1e1f22;
 }
 
 .button {

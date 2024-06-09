@@ -1,0 +1,55 @@
+.main {
+  width: 480px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(35, 34, 34);
+}
+
+.title {
+  height: 440px;
+  display: flex;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.email {
+  background-color: #313338;
+  border: none;
+  height: 30px;
+  width: 300px;
+  padding-left: 10px;
+}
+.password {
+  padding-left: 10px;
+  background-color: #313338;
+  border: none;
+  height: 30px;
+  width: 300px;
+}
+
+.login {
+  width: 240px;
+  height: 40px;
+  background-color: black;
+}
+
+.cancel {
+  width: 240px;
+  height: 40px;
+  background-color: black;
+}
+
+.login:hover {
+  background-color: #313338;
+}
+
+.cancel:hover {
+  background-color: #313338;
+}

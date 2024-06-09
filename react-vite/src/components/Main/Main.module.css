@@ -2,15 +2,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 0.5%;
-  width: 7vw;
-  height: 100%;
+  width: 72px;
+
+  background-color: #1e1f22;
 }
 
 .home {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 }
 
 p {
@@ -31,22 +32,28 @@ p {
   height: 100%;
   display: flex;
   flex-direction: row;
-  width: 13vw;
-  align-items: flex-end;
-  justify-content: flex-start;
-  margin-left: 1%;
-  margin-bottom: 1%;
+  width: 240px;
+  align-items: center;
+  justify-content: center;
+  background-color: #2b2d31;
+}
+
+.servername {
+  display: flex;
+  justify-content: center;
+  width: 80%;
 }
 
 .channel {
   height: 100%;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  width: 80vw;
+  align-items: center;
+  width: 85vw;
   justify-content: flex-start;
-  margin-left: 1%;
-  margin-bottom: 1%;
+  padding-left: 5%;
+  background-color: #313338;
+  box-shadow: 10px 10px rgba(19, 21, 24, 0.8);
 }
 
 .nav {
@@ -54,15 +61,14 @@ p {
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  height: 15vh;
+  height: 5vh;
   width: 100%;
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
+  box-shadow: -10px 10px rgba(19, 21, 24, 0.8);
 }
 
 .page {
   display: flex;
-  height: 85vh;
+  height: 95vh;
 }
 
 .loading {
@@ -71,27 +77,46 @@ p {
   margin-top: 25%;
 }
 
-.login_signup {
+.greeting {
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
 }
+.login_signup {
+  width: 480px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(35, 34, 34);
+}
+
+.title{
+  height: 440px;
+  display: flex;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
 .login {
+  width: 240px;
+  height: 40px;
   background-color: black;
-  height: 100%;
-  width: 100%;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  margin-left: 30px;
-  border-radius: 33%;
 }
 .signup {
+  width: 240px;
+  height: 40px;
   background-color: black;
-  height: 100%;
-  width: 100%;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  margin-left: 30px;
-  border-radius: 33%;
+}
+.login:hover{
+  background-color: #313338;
+}
+.signup:hover{
+  background-color: #313338;
 }

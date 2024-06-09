@@ -36,6 +36,7 @@ function ServersList() {
           const src = server.image_url ? server.image_url : default_server;
           return (
             <button
+              title={server.name}
               className={styles.button}
               key={server.id}
               onClick={(e) => {
@@ -49,7 +50,8 @@ function ServersList() {
         })}
         <div className={styles.create}>
           <OpenModalButton
-            buttonText={<HiMiniPlusCircle size={"70%"} />}
+            title="Create a server!"
+            buttonText={<HiMiniPlusCircle size={"65%"} />}
             modalComponent={<CreateServerModal />}
           />
         </div>

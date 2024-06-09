@@ -6,17 +6,12 @@
 }
 
 #root {
-  display: flex;
-  flex-direction: column;
-  padding-left: 1%;
-  padding-right: 1%;
-  background-color: #1E1F22;
   color: #fff;
 }
 
 body {
   font-family: "Montserrat", Inter, Arial, Helvetica, sans-serif;
-
+  background-color: #38393b;
 }
 
 

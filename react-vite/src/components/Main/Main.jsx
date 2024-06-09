@@ -11,6 +11,9 @@ import MessagesList from "../Messages/";
 import styles from "./Main.module.css";
 import UserBar from "./UserBar";
 import { getAllMessagesThunk } from "../../redux/messages";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../Auth/LoginFormModal";
+import SignupFormModal from "../Auth/SignupFormModal";
 
 function MainComponent() {
   const dispatch = useDispatch();
@@ -34,17 +37,33 @@ function MainComponent() {
 
   return (
     <>
-      <UserBar />
       {user ? (
-        <main className={styles.page}>
-          <ServersList />
-          <ChannelsList />
-          <MessagesList />
-        </main>
+        <>
+          <UserBar />
+          <main className={styles.page}>
+            <ServersList />
+            <ChannelsList />
+            <MessagesList />
+          </main>
+        </>
       ) : (
-        // only here so there isn't blank whitespace below the UserBar when
-        // nobody is signed in. can change to a welcome page at some point
-        <main className={styles.page}></main>
+        <main className={styles.greeting}>
+          <div className={styles.login_signup}>
+            <div className={styles.title}>Welcome to HyperComm!</div>
+            <div className={styles.buttons}>
+              <OpenModalButton
+                buttonText="Log In"
+                className={styles.login}
+                modalComponent={<LoginFormModal />}
+              />
+              <OpenModalButton
+                buttonText="Sign Up"
+                className={styles.signup}
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+          </div>
+        </main>
       )}
     </>
   );

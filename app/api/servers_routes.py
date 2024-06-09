@@ -45,7 +45,6 @@ def one_server(id):
 @login_required
 def create_server():
     form = CreateServerForm()
-    print("!!!!!!!", form.data)
     server = Server(
         name = form.data['serverName'],
         owner_id=form.data['ownerId'],

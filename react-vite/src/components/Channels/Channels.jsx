@@ -10,18 +10,19 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useEffect } from "react";
 import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
+import default_user from "../../../../images/default_user.jpg"
 
 function ChannelsList() {
   const dispatch = useDispatch();
-  const allChannels = useSelector(getChannelsArray);
-  const channel = useSelector((state) => state.channel.current);
+  const allChannels = useSelector(getChannelsArray)
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
+  const src = user.image_url
+  ? user.image_url
+  : default_user;
 
   useEffect(() => {
-    // if (channel == {}) {
       dispatch(setCurrentChannelThunk(allChannels[0]));
-    // }
   }, []);
 
   const handleChannelClick = async (channel) => {
@@ -80,7 +81,7 @@ function ChannelsList() {
       <div className={styles.profileBar}>
         <div>
           <NavLink to="/profile" className={styles.profileButton}>
-            <img className={styles.userImage} src={user.image_url} />
+            <img className={styles.userImage} src={src} />
             <div className={styles.userName}>{`${user.username}`}</div>
           </NavLink>
         </div>
