@@ -5,28 +5,6 @@ from werkzeug.security import generate_password_hash
 # Adds a demo user, you can add other users here if you want
 def create_seeder():
 
-    ## SEED IMAGES
-    images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': ''},
-        {'type': 'user', 'type_id': 2, 'img_url': ''},
-        {'type': 'user', 'type_id': 3, 'img_url': ''},
-        {'type': 'server', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 2, 'img_url': ''},
-        {'type': 'server', 'type_id': 3, 'img_url': ''},
-        {'type': 'message', 'type_id': 1, 'img_url': ''},
-        {'type': 'message', 'type_id': 2, 'img_url': ''},
-        {'type': 'message', 'type_id': 3, 'img_url': ''}
-    ]
-
-    for image_data in images_list:
-        image = Image(
-            type=image_data['type'],
-            type_id=image_data['type_id'],
-            img_url=image_data['img_url']
-        )
-        db.session.add(image)
-    db.session.commit()
-
     ## SEED USERS
     user_list = [
         {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
@@ -36,10 +14,10 @@ def create_seeder():
 
     for user_data in user_list:
         user = User(
-            username=user['username'],
-            email=user['email'],
-            hashed_password=user['password'],
-            image_url=user['image_url']
+            username=user_data['username'],
+            email=user_data['email'],
+            hashed_password=user_data['password'],
+            image_url=user_data['image_url']
         )
         db.session.add(user)
     db.session.commit()
@@ -53,10 +31,10 @@ def create_seeder():
 
     for server_data in server_list:
         server = Server(
-            name=server['name'],
-            DM=server['DM'],
-            owner_id=server['owner_id'],
-            image_url=server['image_url']
+            name=server_data['name'],
+            DM=server_data['DM'],
+            owner_id=server_data['owner_id'],
+            image_url=server_data['image_url']
         )
         db.session.add(server)
     db.session.commit()
@@ -87,10 +65,10 @@ def create_seeder():
 
     for message_data in message_list:
         message = Message(
-            channel_id=message['channel_id'],
-            user_id=message['user_id'],
-            text=message['text'],
-            image_url=message['image_url']
+            channel_id=message_data['channel_id'],
+            user_id=message_data['user_id'],
+            text=message_data['text'],
+            image_url=message_data['image_url']
         )
         db.session.add(message)
     db.session.commit()

@@ -4,13 +4,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-class User(Image, UserMixin):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, db.ForeignKey('images.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
@@ -22,10 +22,10 @@ class User(Image, UserMixin):
 
     # image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", cascade='all, delete-orphan', lazy=True)
 
-    __mapper_args__ = {
-        "polymorphic_identity": "user",
-        "inherit_condition": id == Image.id
-    }
+    # __mapper_args__ = {
+    #     "polymorphic_identity": "user",
+    #     "inherit_condition": id == Image.id
+    # }
 
     @property
     def password(self):
@@ -49,13 +49,13 @@ class User(Image, UserMixin):
         }
 
 
-class Server(Image):
+class Server(db.Model):
     __tablename__ = "servers"
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, db.ForeignKey('images.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     DM = db.Column(db.Boolean, nullable=False, default=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
@@ -64,10 +64,10 @@ class Server(Image):
 
     # image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", cascade='all, delete-orphan', lazy=True)
 
-    __mapper_args__ = {
-        "polymorphic_identity": "server",
-        "inherit_condition": id == Image.id
-    }
+    # __mapper_args__ = {
+    #     "polymorphic_identity": "server",
+    #     "inherit_condition": id == Image.id
+    # }
 
     def to_dict(self):
         return {
@@ -101,13 +101,13 @@ class Channel(db.Model):
         }
 
 
-class Message(Image):
+class Message(db.Model):
     __tablename__ = "messages"
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, db.ForeignKey('images.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('channels.id')), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     image_url = db.Column(db.String(250), nullable=True)
@@ -116,10 +116,10 @@ class Message(Image):
 
     # image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True, cascade='all, delete-orphan')
 
-    __mapper_args__ = {
-        "polymorphic_identity": "message",
-        "inherit_condition": id == Image.id
-    }
+    # __mapper_args__ = {
+    #     "polymorphic_identity": "message",
+    #     "inherit_condition": id == Image.id
+    # }
 
     def to_dict(self):
         return {
