@@ -1,27 +1,36 @@
 .main {
-  width: 5vw;
+  width: 72px;
 }
-
 
 .list {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
+  overflow: hidden;
+  background-color: #1e1f22;
 }
 
 .button {
   height: 15fr;
   padding: 15%;
   display: flex;
-
 }
 
 .image {
+  width: 50px;
+  border-radius: 50px;
+}
+
+.create {
+  display: flex;
   align-items: center;
-  height: 100%;
-  width: 100%;
-  border-radius: 45%;
+  justify-content: center;
+}
+
+.hyper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 72px;
+  padding: 4px;
+  background-color: #1e1f22;
 }

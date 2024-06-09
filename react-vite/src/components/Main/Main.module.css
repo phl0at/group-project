@@ -1,60 +1,84 @@
-.directImg {
-  height: 100%;
-  width: 100%;
-  border-radius: 45%;
-}
-.direct {
-  width: 5vw;
-  padding: 1%;
+
+
+.home {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+p {
+  width: 100%;
+  font-size: 70%;
+  text-align: center;
 }
 
 .profile {
   position: absolute;
 }
 
-.server {
-  padding-left: 3%;
-  display: flex;
-  width: 10vw;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.channel {
-  margin-left: 5%;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.header {
-  height: 10vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 5px;
-  padding-right: 2%;
-  border: solid 1px rgb(53, 157, 253);
-}
 
 .nav {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  height: 100%;
-  width: 50%;
+  height: 5vh;
+  width: 100%;
+  box-shadow: -10px 10px rgba(19, 21, 24, 0.8);
 }
 
 .page {
   display: flex;
-  height: 90vh;
+  height: 100vh;
 }
 
 .loading {
   size: 100;
   margin-left: 50%;
   margin-top: 25%;
+}
+
+.greeting {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.login_signup {
+  width: 480px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(35, 34, 34);
+}
+
+.title{
+  height: 440px;
+  display: flex;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+.login {
+  width: 240px;
+  height: 40px;
+  background-color: black;
+}
+.signup {
+  width: 240px;
+  height: 40px;
+  background-color: black;
+}
+.login:hover{
+  background-color: #313338;
+}
+.signup:hover{
+  background-color: #313338;
 }

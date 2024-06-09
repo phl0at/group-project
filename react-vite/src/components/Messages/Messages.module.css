@@ -1,29 +1,156 @@
 .main {
   display: flex;
   flex-direction: column;
-  width: 85vw;
+  width: 100%;
+  background-color: #313338;
 }
 
-.list {
-  padding: 2%;
-  height: 100%;
+.channel {
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  justify-content: flex-start;
+  padding-left: 5%;
+  background-color: #313338;
+  box-shadow: 1px 1px 3px rgba(19, 21, 24, 0.8);
+}
+
+.left {
+  display: flex;
+  align-items: flex-start;
+}
+
+.right {
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
+  width: 100%;
+  height: 100%;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 120px;
+}
+
+.user_image {
+  width: 33px;
+  border-radius: 50px;
+}
+
+.user_name {
+  position: relative;
+  left: 10px;
+  color: #ffffff96;
+}
+
+.message_list {
+  padding: 2%;
+  height: 92%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.message_body {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  height: 16%;
 }
 
 .message {
-  padding-top: 2%;
+  word-wrap: break-word;
+  position: relative;
+  width: 95%;
+  height: 100%;
+  left: 10px;
+  top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.message_info {
+  width: 100%;
+  word-wrap: break-word;
+  overflow: visible;
+}
+
+.message_text {
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  padding: 4px;
+  color: rgba(251, 72, 72, 0.884);
 }
 
 .form {
-  padding-right: 1%;
+  display: flex;
+  flex-direction: column;
 }
-.input {
+
+.edit_form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.message_edit {
+  height: 45px;
   width: 85%;
-  height: 60%;
+  padding-left: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #383a40;
+  color: white;
+}
+
+.message_buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.save_edit {
+  background-color: rgb(57, 71, 36);
+  width: 60px;
+  height: 25px;
+  font-size: small;
+}
+
+.save_edit:hover {
+  background-color: rgb(83, 113, 38);
+}
+
+.stop_edit {
+  background-color: rgb(137, 33, 33);
+  width: 60px;
+  height: 25px;
+  font-size: small;
+}
+.stop_edit:hover {
+  background-color: rgb(187, 6, 6);
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+  border: none;
+  border-radius: 7px;
+  background-color: #383a40;
 }
 .submit {
   border-radius: 5px;
@@ -31,12 +158,6 @@
   width: 15%;
   padding: 1%;
 }
-.userImage {
-  width: 3%;
-  height: 25%;
-  border-radius: 50%;
-}
-
 
 .empty {
   display: flex;
