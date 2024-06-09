@@ -14,7 +14,6 @@ const CreateServerModal = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [serverName, setServerName] = useState("");
-  const [serverImage, setServerImage] = useState("")
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -30,13 +29,15 @@ const CreateServerModal = () => {
     try {
       if (!serverName.trim().length) {
         setErrors({ error: "Server Name is required" });
-        // return;
       } else {
+        // this will be changed when the
+        // image upload feature is integrated with AWS
         const newServer = await dispatch(
           createServerThunk({
             serverName,
             ownerId: sessionUser.id,
-            image_url: serverImage,
+            image_url: 'nullable.com',
+
           })
         );
         await dispatch(setCurrentServerThunk(newServer));
@@ -51,18 +52,16 @@ const CreateServerModal = () => {
 
   return (
     <main className={styles.main}>
-      <h1>Create Server</h1>
-      {errors.error && <p>{errors.error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Server Name
-          <input
-            type="text"
-            value={serverName}
-            onChange={(e) => setServerName(e.target.value)}
-            required
-          />
-        </label>
+      <div className={styles.title}>Make a new server!</div>
+      <div className={styles.error}>{errors.error && errors.error}</div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter a new server name"
+          value={serverName}
+          onChange={(e) => setServerName(e.target.value)}
+          required
+        />
         {/*
           create ServerProfileImageUpload by copy/pasting UserProfileImageUpload component
           import that component into this file and render it here
@@ -70,16 +69,7 @@ const CreateServerModal = () => {
           <ServerProfileImageUpload />
 
         */}
-        <label>
-          Server Image
-          <input
-            type="text"
-            value={serverImage}
-            onChange={(e) => setServerImage(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Create Server</button>
+        <button className={styles.create} type="submit">Create</button>
       </form>
     </main>
   );

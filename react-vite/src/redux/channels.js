@@ -45,12 +45,8 @@ export const updateChannelThunk = (channel) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const getAllChannelsThunk = (server, noDb) => async (dispatch) => {
+export const getAllChannelsThunk = (server) => async (dispatch) => {
   try {
-    if(noDb){
-      const newState = dispatch(action(GET_ALL, server.channels))
-      return newState.payload
-    }
     const response = await fetch(`/api/channels/${server.id}`);
     if (response.ok) {
       const data = await response.json();

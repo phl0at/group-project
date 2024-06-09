@@ -45,11 +45,13 @@ def one_server(id):
 @login_required
 def create_server():
     form = CreateServerForm()
+    print("!!!!!!!", form.data)
     server = Server(
         name = form.data['serverName'],
         owner_id=form.data['ownerId'],
         image_url=form.data['image_url']
         )
+
     if server.name.isspace():
         return { "errors": 'server name required'}, 400
 
@@ -97,7 +99,7 @@ def update_server(server_id):
     except Exception as e:
         db.session.rollback()
         return {"error": str(e)}, 500
-        
+
 
 
 

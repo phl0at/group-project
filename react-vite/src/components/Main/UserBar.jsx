@@ -4,6 +4,7 @@ import { HiMiniCpuChip } from "react-icons/hi2";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
+import ServerMenu from "./ServerMenu";
 
 function UserBar() {
   const channel = useSelector((state) => state.channel.current);
@@ -12,7 +13,7 @@ function UserBar() {
   return (
     <main className={styles.nav}>
       <div className={styles.hyper}>
-        <p>HyperComm</p>
+        <p>Hyper Comm</p>
         <button className={styles.directImg}>
           <HiMiniCpuChip size={"100%"} />
         </button>
@@ -32,7 +33,12 @@ function UserBar() {
           </div>
         )}
       </div>
-      {server && <div className={styles.server}>{server.name}</div>}
+      {server && (
+        <div className={styles.server}>
+          {server.name}
+          {server.owner_id === user.id && <ServerMenu className={styles.servermenu} />}
+        </div>
+      )}
       {channel && <div className={styles.channel}>{channel.name}</div>}
     </main>
   );

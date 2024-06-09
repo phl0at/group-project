@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { createChannelThunk, setCurrentChannelThunk } from "../../../redux/channels";
 import { getAllMessagesThunk } from "../../../redux/messages";
+import styles from "./CreateChannelModal.module.css"
 
 const CreateChannelModal = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const CreateChannelModal = () => {
   };
 
   return (
-    <>
+    <main className={styles.main}>
       <h1>Create Channel</h1>
       {errors.error && <p>{errors.error}</p>}
       <form onSubmit={handleSubmit}>
@@ -56,7 +57,7 @@ const CreateChannelModal = () => {
         </label>
         <button type="submit">Create Channel</button>
       </form>
-    </>
+    </main>
   );
 };
 

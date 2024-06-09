@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
 import EditChannelModal from "../EditChannelModal ";
 import DeleteChannelModal from "./DeleteChannelModal";
-import EditServerModal from "../Servers/EditServerModal";
 import styles from "./Channels.module.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
 import { useEffect } from "react";
 import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
@@ -21,9 +19,9 @@ function ChannelsList() {
   const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
-    if (channel == {}) {
+    // if (channel == {}) {
       dispatch(setCurrentChannelThunk(allChannels[0]));
-    }
+    // }
   }, []);
 
   const handleChannelClick = async (channel) => {
@@ -34,23 +32,6 @@ function ChannelsList() {
   return (
     <main className={styles.main}>
       <div className={styles.list}>
-        {/* <div className={styles.serverEdit}>
-          <div className={styles.delete}>
-            {server && user.id === server.owner_id && (
-              <OpenModalButton
-                title={"Delete Server"}
-                buttonText={<HiBan />}
-                modalComponent={<DeleteServer />}
-              />
-            )}
-          </div>
-          <OpenModalButton
-            title="Rename Server"
-            buttonText={<CiEdit />}
-            modalComponent={<EditServerModal server={server} />}
-          />
-        </div> */}
-
         {server &&
           allChannels.map((channel) => {
             if (channel.server_id === server.id) {

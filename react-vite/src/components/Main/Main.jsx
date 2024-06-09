@@ -18,8 +18,8 @@ function MainComponent() {
 
   const loadDefault = async () => {
     const allServers = await dispatch(getAllServersThunk());
-    const currServer = await dispatch(setCurrentServerThunk(allServers[0]));
-    const allChannels = await dispatch(getAllChannelsThunk(currServer));
+    await dispatch(setCurrentServerThunk(allServers[0]));
+    const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
     if (currChannel) {
       await dispatch(getAllMessagesThunk(currChannel));
