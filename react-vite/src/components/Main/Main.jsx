@@ -9,7 +9,6 @@ import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import styles from "./Main.module.css";
-import UserBar from "./UserBar";
 import { getAllMessagesThunk } from "../../redux/messages";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
@@ -39,7 +38,6 @@ function MainComponent() {
     <>
       {user ? (
         <>
-          <UserBar />
           <main className={styles.page}>
             <ServersList />
             <ChannelsList />

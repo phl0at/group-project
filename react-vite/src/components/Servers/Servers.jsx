@@ -13,7 +13,7 @@ import {
 import CreateServerModal from "../Servers/CreateServerModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
-
+import { HiMiniCpuChip } from "react-icons/hi2";
 function ServersList() {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
@@ -31,6 +31,11 @@ function ServersList() {
 
   return (
     <main className={styles.main}>
+      <div className={styles.hyper}>
+        <button className={styles.directImg}>
+          <HiMiniCpuChip size={"75%"} />
+        </button>
+      </div>
       <div className={styles.list}>
         {servers.map((server) => {
           const src = server.image_url ? server.image_url : default_server;

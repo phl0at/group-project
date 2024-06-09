@@ -5,8 +5,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
   background-color: #1e1f22;
 }
 
@@ -17,13 +16,21 @@
 }
 
 .image {
-  height: 100%;
-  width: 100%;
-  border-radius: 45%;
+  width: 50px;
+  border-radius: 50px;
 }
 
 .create {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hyper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 72px;
+  padding: 4px;
+  background-color: #1e1f22;
 }

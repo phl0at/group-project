@@ -1,12 +1,16 @@
 .profile_dropdown {
     position: absolute;
-    flex-direction: column;
-    justify-content: center;
-    top: 85%;
-    left: 12%;
+    bottom: 53px;
+    left: 215px;
     z-index: 7;
-    background-color: rgb(18, 18, 18);
+    background-color: rgb(137, 33, 33);
     padding: 10px 20px 10px 20px;
-    border-radius: 5px;
-    border: solid 1px rgb(53, 157, 253);
+  }
+  .profile {
+    height: 20px;
+    width: 55px;
+    font-size: small;
+  }
+  .profile_dropdown:hover {
+    background-color: rgb(187, 6, 6);
   }

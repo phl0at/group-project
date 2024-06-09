@@ -66,65 +66,72 @@ function MessagesList() {
 
   return (
     <main className={styles.main}>
+      {channel && <div className={styles.channel}>{channel.name}</div>}
       <div className={styles.list}>
-        {messages.length > 0
-          ? messages.map((message) => {
-              const author = allUsers[message.user_id];
-              if (!author) return "";
-              const src = author.image_url
-                ? author.image_url
-                : default_user;
-              return (
-                <main key={message.id} className={styles.messageBody}>
-                  <img className={styles.userImage} src={src} />
-                  <div>{author.username}</div>
-                  {editMode === message.id ? (
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handleEditSubmit(message);
-                      }}
-                    >
-                      <input
-                        type="text"
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
+        {messages.length > 0 ? (
+          messages.map((message) => {
+            const author = allUsers[message.user_id];
+            if (!author) return "";
+            const src = author.image_url ? author.image_url : default_user;
+            return (
+              <main key={message.id} className={styles.messageBody}>
+                <img className={styles.userImage} src={src} />
+                <div>{author.username}</div>
+                {editMode === message.id ? (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleEditSubmit(message);
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                    />
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={() => setEditMode(null)}>
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <div className={styles.message}>
+                    {message.text.length && message.text}
+                    {message.image_url && (
+                      <img
+                        className={styles.image}
+                        src={message.img_url}
+                        alt="messagePic"
                       />
-                      <button type="submit">Save</button>
-                      <button type="button" onClick={() => setEditMode(null)}>
-                        Cancel
-                      </button>
-                    </form>
-                  ) : (
-                    <div className={styles.message}>
-                      {message.text.length && message.text}
-                      {message.image_url && <img className={styles.image} src={message.img_url} alt="messagePic" /> }
-                      {user.id === message.user_id && (
-                        <>
-                          <button
-                            onClick={() => {
-                              setEditMode(message.id);
-                              setEditText(message.text);
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <OpenModalButton
-                            className={styles.delete}
-                            buttonText="Delete"
-                            modalComponent={<DeleteMessage message={message} />}
-                          />
-                        </>
-                      )}
-                    </div>
-                  )}
-                  <div className="message">
-                    <MessageReactions message={message} />
+                    )}
+                    {user.id === message.user_id && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setEditMode(message.id);
+                            setEditText(message.text);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <OpenModalButton
+                          className={styles.delete}
+                          buttonText="Delete"
+                          modalComponent={<DeleteMessage message={message} />}
+                        />
+                      </>
+                    )}
                   </div>
-                </main>
-              );
-            })
-          : <h3 className={styles.noMessages}>Sure is quiet in here...</h3>}
+                )}
+                <div className="message">
+                  <MessageReactions message={message} />
+                </div>
+              </main>
+            );
+          })
+        ) : (
+          <h3 className={styles.noMessages}>Sure is quiet in here...</h3>
+        )}
 
         {channel && (
           <form className={styles.form} onSubmit={handleSubmit}>

@@ -10,19 +10,18 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useEffect } from "react";
 import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
-import default_user from "../../../../images/default_user.jpg"
+import default_user from "../../../../images/default_user.jpg";
+import ServerMenu from "./ServerMenu";
 
 function ChannelsList() {
   const dispatch = useDispatch();
-  const allChannels = useSelector(getChannelsArray)
+  const allChannels = useSelector(getChannelsArray);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
-  const src = user.image_url
-  ? user.image_url
-  : default_user;
+  const src = user.image_url ? user.image_url : default_user;
 
   useEffect(() => {
-      dispatch(setCurrentChannelThunk(allChannels[0]));
+    dispatch(setCurrentChannelThunk(allChannels[0]));
   }, []);
 
   const handleChannelClick = async (channel) => {
@@ -33,6 +32,12 @@ function ChannelsList() {
   return (
     <main className={styles.main}>
       <div className={styles.list}>
+        {server && (
+          <div className={styles.server}>
+            <div className={styles.server_name}>{server.name}</div>
+            {server.owner_id === user.id && <ServerMenu />}
+          </div>
+        )}
         {server &&
           allChannels.map((channel) => {
             if (channel.server_id === server.id) {
@@ -49,7 +54,7 @@ function ChannelsList() {
                   </button>
 
                   {server.owner_id === user.id && (
-                    <div className={styles.buttons}>
+                    <div className={styles.channel_buttons}>
                       <OpenModalButton
                         title="Delete Channel"
                         buttonText={<HiBan />}
@@ -71,7 +76,7 @@ function ChannelsList() {
                           />
                         }
                       />
-                    </div>
+                    </div >
                   )}
                 </div>
               );
@@ -85,7 +90,7 @@ function ChannelsList() {
             <div className={styles.userName}>{`${user.username}`}</div>
           </NavLink>
         </div>
-        <OptionsMenu className={styles.profile}/>
+        <OptionsMenu />
       </div>
     </main>
   );

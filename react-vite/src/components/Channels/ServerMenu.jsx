@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./ServerMenu.module.css";
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 import OpenModalButton from "../OpenModalButton";
-import CreateChannelModal from "../Channels/CreateChannelModal";
+import CreateChannelModal from "./CreateChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
 import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
 function ServerMenu() {
@@ -31,12 +31,12 @@ function ServerMenu() {
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <div className={styles.servermenu}>
-      <button onClick={toggleMenu}>
-      <HiMiniAdjustmentsHorizontal />
+    <div>
+      <button className={styles.menu_button} onClick={toggleMenu}>
+        <HiMiniAdjustmentsHorizontal />
       </button>
       {showMenu && (
-        <ul className={styles.profile_dropdown} ref={ulRef}>
+        <ul className={styles.server_dropdown} ref={ulRef}>
           <div>
             <OpenModalButton
               onButtonClick={closeMenu}

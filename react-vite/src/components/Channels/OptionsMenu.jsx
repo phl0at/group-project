@@ -43,28 +43,20 @@ function OptionsMenu() {
   };
 
   return (
-    <>
+    <main >
       <button onClick={toggleMenu}>
         <HiCog6Tooth />
       </button>
       {showMenu && (
-        <ul className={styles.profile_dropdown} ref={ulRef}>
-          
-          {/* {user.id === server.owner_id && <div>
-            <OpenModalButton
-            buttonText={"Create Channel"}
-            modalComponent={<CreateChannelModal/>}
-            />
-            </div>} */}
-
-          <>
-            <div>
-              <button onClick={logout}>Log Out</button>
-            </div>
-          </>
+        <ul ref={ulRef}>
+          <div>
+            <button className={styles.profile_dropdown} onClick={logout}>
+              Log Out
+            </button>
+          </div>
         </ul>
       )}
-    </>
+    </main>
   );
 }
 
