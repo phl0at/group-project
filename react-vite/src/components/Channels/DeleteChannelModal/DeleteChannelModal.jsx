@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
   clearCurrentChannelThunk,
   deleteChannelThunk,
-  getChannelsArray,
   setCurrentChannelThunk,
 } from "../../../redux/channels";
 import {
@@ -17,12 +16,12 @@ const DeleteChannelModal = ({ channel, serverId }) => {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-
   const handleDelete = async () => {
     setErrors({});
     try {
-
-      const remainingChannels = await dispatch(deleteChannelThunk(channel, serverId));
+      const remainingChannels = await dispatch(
+        deleteChannelThunk(channel, serverId)
+      );
 
       if (!remainingChannels.errors) {
         dispatch(clearCurrentChannelThunk());

@@ -1,5 +1,5 @@
-import { CiEdit } from "react-icons/ci";
-import { HiBan } from "react-icons/hi";
+import { HiOutlineDocumentText } from "react-icons/hi2";
+import { HiOutlineTrash } from "react-icons/hi2";
 import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
@@ -38,50 +38,52 @@ function ChannelsList() {
             {server.owner_id === user.id && <ServerMenu />}
           </div>
         )}
-        {server &&
-          allChannels.map((channel) => {
-            if (channel.server_id === server.id) {
-              return (
-                <div className={styles.channel} key={channel.id}>
-                  <button
-                    className={styles.name}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleChannelClick(channel);
-                    }}
-                  >
-                    {channel.name}
-                  </button>
+        <div className={styles.channel_list}>
+          {server &&
+            allChannels.map((channel) => {
+              if (channel.server_id === server.id) {
+                return (
+                  <div className={styles.channel} key={channel.id}>
+                    <button
+                      className={styles.name}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleChannelClick(channel);
+                      }}
+                    >
+                      {channel.name}
+                    </button>
 
-                  {server.owner_id === user.id && (
-                    <div className={styles.channel_buttons}>
-                      <OpenModalButton
-                        title="Delete Channel"
-                        buttonText={<HiBan />}
-                        modalComponent={
-                          <DeleteChannelModal
-                            allChannels={allChannels}
-                            channel={channel}
-                            server={server}
-                          />
-                        }
-                      />
-                      <OpenModalButton
-                        title="Rename Channel"
-                        buttonText={<CiEdit />}
-                        modalComponent={
-                          <EditChannelModal
-                            channel={channel}
-                            serverId={channel.server_id}
-                          />
-                        }
-                      />
-                    </div >
-                  )}
-                </div>
-              );
-            }
-          })}
+                    {server.owner_id === user.id && (
+                      <div className={styles.channel_buttons}>
+                        <OpenModalButton
+                          title="Delete Channel"
+                          buttonText={<HiOutlineTrash />}
+                          modalComponent={
+                            <DeleteChannelModal
+                              allChannels={allChannels}
+                              channel={channel}
+                              server={server}
+                            />
+                          }
+                        />
+                        <OpenModalButton
+                          title="Rename Channel"
+                          buttonText={<HiOutlineDocumentText />}
+                          modalComponent={
+                            <EditChannelModal
+                              channel={channel}
+                              serverId={channel.server_id}
+                            />
+                          }
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+            })}
+        </div>
       </div>
       <div className={styles.profileBar}>
         <div>

@@ -20,31 +20,39 @@
   left: 10px;
 }
 
+.menu_button {
+}
+
 .list {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.channel {
+.channel_list {
   position: relative;
-  width: 200px;
-  padding-top: 20px;
-  left: 20px;
-  height: 40px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  left: 20px;
+  padding-top: 20px;
+  width: 225px;
+  cursor: pointer;
   color: #ffffff96;
   font-size: 11pt;
-  cursor: pointer;
 }
 
+.channel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
 .channel:hover {
   color: #fff;
 }
 
-.channel_buttons{
+.channel_buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

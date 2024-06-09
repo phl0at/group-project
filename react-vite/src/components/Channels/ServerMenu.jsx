@@ -5,6 +5,7 @@ import OpenModalButton from "../OpenModalButton";
 import CreateChannelModal from "./CreateChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
 import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
+
 function ServerMenu() {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -32,7 +33,7 @@ function ServerMenu() {
 
   return (
     <div>
-      <button className={styles.menu_button} onClick={toggleMenu}>
+      <button title="Server Settings" className={styles.menu_button} onClick={toggleMenu}>
         <HiMiniAdjustmentsHorizontal />
       </button>
       {showMenu && (
