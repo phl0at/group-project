@@ -10,6 +10,7 @@ import {
   clearCurrentMessagesThunk,
   getAllMessagesThunk,
 } from "../../../redux/messages";
+import styles from "./DeleteChannelModal.module.css";
 
 const DeleteChannelModal = ({ channel, serverId }) => {
   const dispatch = useDispatch();
@@ -41,14 +42,20 @@ const DeleteChannelModal = ({ channel, serverId }) => {
   };
 
   return (
-    <>
-      <h1>Are you sure you want to delete {channel.name} channel?</h1>
-      {errors.error && <p style={{ color: "red" }}>{errors.error}</p>}
-      <div>
-        <button onClick={handleDelete}>Yes</button>
-        <button onClick={closeModal}>No</button>
+    <main className={styles.main}>
+      <div className={styles.title}>You are about to delete channel:</div>
+      <div className={styles.channel_name}>{channel.name}</div>
+      <div className={styles.confirm}>Are you sure?</div>
+      <div className={styles.error}>{errors.error && errors.error}</div>
+      <div className={styles.buttons}>
+        <button className={styles.yes} onClick={handleDelete}>
+          Yes
+        </button>
+        <button className={styles.no} onClick={closeModal}>
+          No
+        </button>
       </div>
-    </>
+    </main>
   );
 };
 

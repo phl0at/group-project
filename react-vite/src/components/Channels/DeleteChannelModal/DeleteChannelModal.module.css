@@ -1,0 +1,57 @@
+.main {
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(35, 34, 34);
+}
+
+.title {
+  padding-top: 20px;
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.channel_name{
+    padding-top: 20px;
+}
+
+.error {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 350px;
+  height: 20px;
+  color: rgba(251, 72, 72, 0.884);
+}
+
+.buttons {
+  width: 380px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  height: 30px;
+  bottom: 10px;
+}
+
+.yes {
+  background-color: rgb(57, 71, 36);
+  width: 180px;
+}
+.yes:hover {
+  background-color: rgb(83, 113, 38);
+}
+
+.no {
+  background-color: rgb(137, 33, 33);
+  width: 180px;
+}
+
+.no:hover {
+  background-color: rgb(187, 6, 6);
+}

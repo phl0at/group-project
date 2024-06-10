@@ -81,7 +81,7 @@ function MessagesList() {
       <div className={styles.channel}>{channel && channel.name}</div>
       <div className={styles.body}>
         <div ref={scroll} className={styles.scroll}>
-          <div className={styles.message_list}>
+          <div  className={styles.message_list}>
             {messages.length > 0 ? (
               messages.map((message) => {
                 const author = allUsers[message.user_id];
@@ -179,7 +179,7 @@ function MessagesList() {
                 );
               })
             ) : (
-              <h3 className={styles.noMessages}>Sure is quiet in here...</h3>
+              <h3 className={styles.no_messages}>Sure is quiet in here...</h3>
             )}
           </div>
         </div>
