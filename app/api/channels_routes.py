@@ -89,6 +89,7 @@ def edit_channel(id):
 def delete_channel(id):
     channel = Channel.query.get(id)
     server = Server.query.get(channel.server_id)
+
     if server.owner_id != current_user.id:
         return {"error": "Unauthorized"}, 403
 
@@ -98,7 +99,8 @@ def delete_channel(id):
     else:
         db.session.delete(channel)
         db.session.commit()
-        return { "message": "Successfully deleted"}, 200
+        remaining_channels = Channel.query.filter(Channel.server_id == server.id)
+        return [channel.to_dict() for channel in remaining_channels]
 
 
 @channels_routes.route("/<int:channel_id>/messages")

@@ -1,4 +1,4 @@
-// import styles from './CreateServerModal.module.css'
+import styles from "./CreateServerModal.module.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
@@ -29,12 +29,16 @@ const CreateServerModal = () => {
     try {
       if (!serverName.trim().length) {
         setErrors({ error: "Server Name is required" });
-        // return;
       } else {
+        // this will need to be changed when the
+        // image upload feature is
+        // integrated with AWS below
         const newServer = await dispatch(
           createServerThunk({
             serverName,
             ownerId: sessionUser.id,
+            image_url: null,
+
           })
         );
         await dispatch(setCurrentServerThunk(newServer));
@@ -48,22 +52,27 @@ const CreateServerModal = () => {
   };
 
   return (
-    <>
-      <h1>Create Server</h1>
-      {errors.error && <p>{errors.error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Server Name
-          <input
-            type="text"
-            value={serverName}
-            onChange={(e) => setServerName(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Create Server</button>
+    <main className={styles.main}>
+      <div className={styles.title}>Make a new server!</div>
+      <div className={styles.error}>{errors.error && errors.error}</div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input
+          placeholder="Enter a name..."
+          type="text"
+          value={serverName}
+          onChange={(e) => setServerName(e.target.value)}
+          required
+        />
+        {/*
+          create ServerProfileImageUpload by copy/pasting UserProfileImageUpload component
+          import that component into this file and render it here
+
+          <ServerProfileImageUpload />
+
+        */}
+        <button className={styles.submit} type="submit">Create</button>
       </form>
-    </>
+    </main>
   );
 };
 

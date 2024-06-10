@@ -4,6 +4,8 @@ import SignupFormPage from '../components/Auth/SignupFormPage';
 import Layout from './Layout';
 import MainComponent from '../components/Main/Main';
 
+import UserProfile from '../components/UserProfileImage';
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -21,8 +23,8 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "test",
-        element: {},
+        path: "profile",
+        element: <UserProfile/>,
       },
 
     ],

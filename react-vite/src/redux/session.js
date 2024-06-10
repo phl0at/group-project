@@ -7,6 +7,8 @@ import { createSelector } from "reselect";
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 const GET_ALL = 'session/getAll'
+const UPDATE = 'session/update';
+
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -16,6 +18,25 @@ const action = (type, payload) => ({
   type,
   payload,
 });
+
+//! --------------------------------------------------------------------
+
+export const editUserThunk = (formData, userId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(UPDATE, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //! --------------------------------------------------------------------
 //*                             Thunks
@@ -127,6 +148,9 @@ function sessionReducer(state = initialState, action) {
       const newState = { ...state };
       action.payload.forEach((user) => (newState[user.id] = user));
       return newState;
+    }
+    case UPDATE: {
+      return { ...state, user: action.payload };
     }
     default:
       return state;

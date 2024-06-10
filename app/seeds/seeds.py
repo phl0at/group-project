@@ -1,4 +1,4 @@
-from app.models import db, User, Server, Channel, Message, Image, Reaction, environment, SCHEMA
+from app.models import db, User, Server, Channel, Message, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
 from werkzeug.security import generate_password_hash
 
@@ -7,36 +7,37 @@ def create_seeder():
 
     ## SEED USERS
     user_list = [
-        {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password")},
-        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password")},
-        {'username':'bobbie', 'email':'bobbie@aa.io', 'password':generate_password_hash("password")},
+        {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
+        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
+        {'username':'bobbie', 'email':'bobbie@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
     ]
 
-    for user in user_list:
+    for user_data in user_list:
         user = User(
-            username=user['username'],
-            email=user['email'],
-            hashed_password=user['password']
+            username=user_data['username'],
+            email=user_data['email'],
+            hashed_password=user_data['password'],
+            image_url=user_data['image_url']
         )
         db.session.add(user)
-
-
+    db.session.commit()
 
     ## SEED SERVERS
     server_list = [
-        {'name':'test_server', 'DM':False, 'owner_id':1},
-        {'name':'AppAcademy', 'DM':False, 'owner_id':2},
-        {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1}
+        {'name':'test_server', 'DM':False, 'owner_id':1, 'image_url': 'https://i.etsystatic.com/22360457/r/il/8256ab/2199607580/il_570xN.2199607580_g2jf.jpg'},
+        {'name':'AppAcademy', 'DM':False, 'owner_id':2, 'image_url': ''},
+        {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1, 'image_url': ''}
     ]
 
-    for server in server_list:
+    for server_data in server_list:
         server = Server(
-            name=server['name'],
-            DM=server['DM'],
-            owner_id=server['owner_id']
+            name=server_data['name'],
+            DM=server_data['DM'],
+            owner_id=server_data['owner_id'],
+            image_url=server_data['image_url']
         )
         db.session.add(server)
-
+    db.session.commit()
 
     ## SEED CHANNELS
     channel_list = [
@@ -47,29 +48,30 @@ def create_seeder():
         {'server_id': 3, 'name': 'direct_message'},
     ]
 
-    for channel in channel_list:
+    for channel_data in channel_list:
         channel = Channel(
-            server_id=channel['server_id'],
-            name=channel['name']
+            server_id=channel_data['server_id'],
+            name=channel_data['name']
         )
         db.session.add(channel)
-
+    db.session.commit()
 
     ## SEED MESSAGES
     message_list = [
-        {'channel_id':1, 'user_id':1, 'text':'Hello World!'},
-        {'channel_id':3, 'user_id':2, 'text':'Hello World!'},
-        {'channel_id':5, 'user_id':3, 'text':'Hello World!'},
+        {'channel_id':1, 'user_id':1, 'text':'Hello World!', 'image_url': ''},
+        {'channel_id':3, 'user_id':2, 'text':'Hello World!', 'image_url': ''},
+        {'channel_id':5, 'user_id':3, 'text':'Hello World!', 'image_url': "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"},
     ]
 
-    for message in message_list:
+    for message_data in message_list:
         message = Message(
-            channel_id=message['channel_id'],
-            user_id=message['user_id'],
-            text=message['text']
+            channel_id=message_data['channel_id'],
+            user_id=message_data['user_id'],
+            text=message_data['text'],
+            image_url=message_data['image_url']
         )
         db.session.add(message)
-
+    db.session.commit()
 
     ## SEED REACTIONS
     reaction_list = [
@@ -78,30 +80,30 @@ def create_seeder():
         {'message_id':3, 'user_id':1, 'type':'👍'},
     ]
 
-    for reaction in reaction_list:
+    for reaction_data in reaction_list:
         reaction = Reaction(
-            message_id=reaction['message_id'],
-            user_id=reaction['user_id'],
-            type=reaction['type']
+            message_id=reaction_data['message_id'],
+            user_id=reaction_data['user_id'],
+            type=reaction_data['type']
         )
         db.session.add(reaction)
 
 
     ## SEED IMAGES
-    images_list = [
-        {'type': 'user', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 1, 'img_url': ''},
-        {'type': 'server', 'type_id': 2, 'img_url': ''},
-        {'type': 'message', 'type_id': 1, 'img_url': ''}
-    ]
+    # images_list = [
+    #     {'type': 'user', 'type_id': 1, 'img_url': ''},
+    #     {'type': 'server', 'type_id': 1, 'img_url': ''},
+    #     {'type': 'server', 'type_id': 2, 'img_url': ''},
+    #     {'type': 'message', 'type_id': 1, 'img_url': ''}
+    # ]
 
-    for image_data in images_list:
-        image = Image(
-            type=image_data['type'],
-            type_id=image_data['type_id'],
-            img_url=image_data['img_url']
-        )
-        db.session.add(image)
+    # for image_data in images_list:
+    #     image = Image(
+    #         type=image_data['type'],
+    #         type_id=image_data['type_id'],
+    #         img_url=image_data['img_url']
+    #     )
+    #     db.session.add(image)
 
     db.session.commit()
 
@@ -119,13 +121,11 @@ def undo_seeder():
         db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.messages RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.reactions RESTART IDENTITY CASCADE;")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.images RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
         db.session.execute(text("DELETE FROM servers"))
         db.session.execute(text("DELETE FROM channels"))
         db.session.execute(text("DELETE FROM messages"))
         db.session.execute(text("DELETE FROM reactions"))
-        db.session.execute(text("DELETE FROM images"))
 
     db.session.commit()

@@ -6,3 +6,4 @@ from wtforms import StringField, IntegerField
 class CreateServerForm(FlaskForm):
     serverName = StringField('serverName')
     ownerId = IntegerField('ownerId')
+    image_url = StringField('image_url')
