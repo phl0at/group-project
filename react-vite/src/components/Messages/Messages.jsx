@@ -13,6 +13,7 @@ import MessageReactions from "../Reactions";
 import DeleteMessage from "./DeleteMessageModal/";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
+import { VscReactions } from "react-icons/vsc";
 
 function MessagesList() {
   const channel = useSelector((state) => state.channel.current);
@@ -23,6 +24,7 @@ function MessagesList() {
   const [errors, setErrors] = useState({});
   const [editText, setEditText] = useState("");
   const [editMode, setEditMode] = useState(null);
+  const [showReactions, setShowReactions] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,6 +66,10 @@ function MessagesList() {
       setEditMode(null);
       setEditText("");
     }
+  };
+
+  const toggleReactions = (messageId) => {
+    setShowReactions((prev) => (prev === messageId ? null : messageId));
   };
 
   return (
@@ -124,7 +130,7 @@ function MessagesList() {
                             />
                           )}
                         </div>
-                        <div>
+                        <div className={styles.message_actions}>
                           {user.id === message.user_id && (
                             <>
                               <OpenModalButton
@@ -145,9 +151,15 @@ function MessagesList() {
                               </button>
                             </>
                           )}
-                          <div className={styles.reactions}>
+                          <button
+                            className={styles.reactions}
+                            onClick={() => toggleReactions(message.id)}
+                          >
+                            <VscReactions />
+                          </button>
+                          {showReactions === message.id && (
                             <MessageReactions message={message} />
-                          </div>
+                          )}
                         </div>
                       </>
                     )}
