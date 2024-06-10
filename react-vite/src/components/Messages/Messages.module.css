@@ -68,12 +68,28 @@
   color: #ffffff96;
 }
 
+
+
 .message_body {
   display: flex;
   flex-direction: row;
   padding: 15px;
   max-height: 100px;
 }
+
+.message_body:hover {
+  background-color: #383a40;
+}
+
+
+.message_actions {
+  display: none;
+}
+
+.message_body:hover .message_actions {
+  display: flex;
+}
+
 
 .message {
   word-wrap: break-word;
@@ -93,8 +109,7 @@
   overflow: visible;
 }
 
-.message_text {
-}
+.message_text {}
 
 .error {
   padding-left: 10px;
@@ -152,6 +167,7 @@
   height: 25px;
   font-size: small;
 }
+
 .stop_edit:hover {
   background-color: rgb(187, 6, 6);
 }
@@ -167,6 +183,7 @@
   left: 10px;
   bottom: 10px;
 }
+
 .submit {
   border-radius: 5px;
   border: solid 1px rgb(53, 157, 253);

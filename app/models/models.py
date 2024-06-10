@@ -2,7 +2,6 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from sqlalchemy.orm import validates
 
 
 class User(db.Model, UserMixin):
@@ -24,7 +23,8 @@ class User(db.Model, UserMixin):
     # image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", cascade='all, delete-orphan', lazy=True)
 
     # __mapper_args__ = {
-    #     "polymorphic_identity": "user"
+    #     "polymorphic_identity": "user",
+    #     "inherit_condition": id == Image.id
     # }
 
     @property
@@ -65,7 +65,8 @@ class Server(db.Model):
     # image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", cascade='all, delete-orphan', lazy=True)
 
     # __mapper_args__ = {
-    #     "polymorphic_identity": "server"
+    #     "polymorphic_identity": "server",
+    #     "inherit_condition": id == Image.id
     # }
 
     def to_dict(self):
@@ -84,7 +85,6 @@ class Channel(db.Model):
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-
 
     id = db.Column(db.Integer, primary_key=True)
     server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('servers.id')), nullable=False)
@@ -117,7 +117,8 @@ class Message(db.Model):
     # image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True, cascade='all, delete-orphan')
 
     # __mapper_args__ = {
-    #     "polymorphic_identity": "message"
+    #     "polymorphic_identity": "message",
+    #     "inherit_condition": id == Image.id
     # }
 
     def to_dict(self):
@@ -136,7 +137,6 @@ class Reaction(db.Model):
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-
 
     id = db.Column(db.Integer, primary_key=True)
     message_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('messages.id')), nullable=False)

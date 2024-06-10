@@ -12,16 +12,15 @@ def create_seeder():
         {'username':'bobbie', 'email':'bobbie@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
     ]
 
-    for user in user_list:
+    for user_data in user_list:
         user = User(
-            username=user['username'],
-            email=user['email'],
-            hashed_password=user['password'],
-            image_url=user['image_url']
+            username=user_data['username'],
+            email=user_data['email'],
+            hashed_password=user_data['password'],
+            image_url=user_data['image_url']
         )
         db.session.add(user)
-
-
+    db.session.commit()
 
     ## SEED SERVERS
     server_list = [
@@ -30,15 +29,15 @@ def create_seeder():
         {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1, 'image_url': ''}
     ]
 
-    for server in server_list:
+    for server_data in server_list:
         server = Server(
-            name=server['name'],
-            DM=server['DM'],
-            owner_id=server['owner_id'],
-            image_url=server['image_url']
+            name=server_data['name'],
+            DM=server_data['DM'],
+            owner_id=server_data['owner_id'],
+            image_url=server_data['image_url']
         )
         db.session.add(server)
-
+    db.session.commit()
 
     ## SEED CHANNELS
     channel_list = [
@@ -49,13 +48,13 @@ def create_seeder():
         {'server_id': 3, 'name': 'direct_message'},
     ]
 
-    for channel in channel_list:
+    for channel_data in channel_list:
         channel = Channel(
-            server_id=channel['server_id'],
-            name=channel['name']
+            server_id=channel_data['server_id'],
+            name=channel_data['name']
         )
         db.session.add(channel)
-
+    db.session.commit()
 
     ## SEED MESSAGES
     message_list = [
@@ -64,15 +63,15 @@ def create_seeder():
         {'channel_id':5, 'user_id':3, 'text':'Hello World!', 'image_url': "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"},
     ]
 
-    for message in message_list:
+    for message_data in message_list:
         message = Message(
-            channel_id=message['channel_id'],
-            user_id=message['user_id'],
-            text=message['text'],
-            image_url=message['image_url']
+            channel_id=message_data['channel_id'],
+            user_id=message_data['user_id'],
+            text=message_data['text'],
+            image_url=message_data['image_url']
         )
         db.session.add(message)
-
+    db.session.commit()
 
     ## SEED REACTIONS
     reaction_list = [
@@ -81,11 +80,11 @@ def create_seeder():
         {'message_id':3, 'user_id':1, 'type':'👍'},
     ]
 
-    for reaction in reaction_list:
+    for reaction_data in reaction_list:
         reaction = Reaction(
-            message_id=reaction['message_id'],
-            user_id=reaction['user_id'],
-            type=reaction['type']
+            message_id=reaction_data['message_id'],
+            user_id=reaction_data['user_id'],
+            type=reaction_data['type']
         )
         db.session.add(reaction)
 
