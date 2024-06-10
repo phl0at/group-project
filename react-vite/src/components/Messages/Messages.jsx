@@ -56,8 +56,7 @@ function MessagesList() {
     }
   };
 
-  const handleEditSubmit = async (message, e) => {
-    e.preventDefault();
+  const handleEditSubmit = async (message) => {
     if (!editText.trim().length) {
       setErrors({ error: "Message Text Required" });
     } else if (editText.length > 250) {
@@ -158,12 +157,12 @@ function MessagesList() {
                                 </>
                               )}
                               <button
-                            className={styles.reactions}
-                            onClick={() => toggleReactions(message.id)}
-                          >
-                            <VscReactions />
-                          </button>
-                          {showReactions === message.id && (
+                                className={styles.reactions}
+                                onClick={() => toggleReactions(message.id)}
+                              >
+                                <VscReactions />
+                              </button>
+                              {showReactions === message.id && (
                                 <MessageReactions message={message} />
                               )}
                             </div>

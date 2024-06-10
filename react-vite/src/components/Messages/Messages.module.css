@@ -134,12 +134,12 @@
 }
 
 .message_edit {
-  height: 45px;
+  height: 35px;
   width: 85%;
   padding-left: 10px;
   border: none;
   border-radius: 4px;
-  background-color: #383a40;
+  background-color: #1e1f22;
   color: white;
 }
 
