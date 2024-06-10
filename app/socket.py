@@ -5,8 +5,8 @@ socketio = SocketIO()
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
-        "http://",
-        "https://"
+        "http://hypercomm.onrender.com",
+        "https://hypercomm.onrender.com"
     ]
 else:
     origins = "*"
@@ -14,6 +14,6 @@ else:
 socketio = SocketIO(cors_allowed_origins=origins)
 
 
-socketio.on('message')
+@socketio.on('message')
 def new_chat(message):
     print("NEW MESSAGE:", message)
