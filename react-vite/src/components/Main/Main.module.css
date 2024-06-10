@@ -53,7 +53,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(35, 34, 34);
+  background-color: #1e1f22;
 }
 
 .title{
@@ -63,16 +63,19 @@ p {
 }
 
 .buttons {
+  width: 480px;
   display: flex;
   flex-direction: row;
+  align-items: space-between;
+  justify-content: space-between;
 }
 .login {
-  width: 240px;
+  width: 235px;
   height: 40px;
   background-color: black;
 }
 .signup {
-  width: 240px;
+  width: 235px;
   height: 40px;
   background-color: black;
 }

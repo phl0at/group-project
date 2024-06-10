@@ -24,6 +24,7 @@ function LoginFormModal() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
+      console.log(serverResponse);
       closeModal();
     }
   };
@@ -51,9 +52,11 @@ function LoginFormModal() {
           required
         />
 
-        {errors.password && <p>{errors.password}</p>}
+        <div className={styles.errors}>
+          {errors.password && errors.password}
+        </div>
         <div className={styles.buttons}>
-          <button className={styles.cancel} type="submit">
+          <button className={styles.cancel} onClick={closeModal}>
             Cancel
           </button>
           <button className={styles.login} type="submit">

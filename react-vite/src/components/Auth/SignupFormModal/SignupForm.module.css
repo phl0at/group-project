@@ -12,7 +12,8 @@
   height: 160px;
   display: flex;
   align-items: center;
-  font-size: larger;
+  justify-content: center;
+  font-size: large;
 }
 
 .form {
@@ -25,7 +26,15 @@
 .email {
   background-color: #313338;
   border: none;
-  height: 50px;
+  height: 35px;
+  width: 370px;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+.user_name {
+  background-color: #313338;
+  border: none;
+  height: 35px;
   width: 370px;
   border-radius: 5px;
   padding-left: 10px;
@@ -34,7 +43,15 @@
   padding-left: 10px;
   background-color: #313338;
   border: none;
-  height: 50px;
+  height: 35px;
+  width: 370px;
+  border-radius: 5px;
+}
+.confirm_password {
+  padding-left: 10px;
+  background-color: #313338;
+  border: none;
+  height: 35px;
   width: 370px;
   border-radius: 5px;
 }
@@ -42,8 +59,8 @@
 .errors {
   padding-top: 10px;
   width: 350px;
-  height: 70px;
-  color: rgba(251, 72, 72, 0.884)
+  height: 40px;
+  color: rgba(251, 72, 72, 0.884);
 }
 
 .buttons {
@@ -54,25 +71,25 @@
   justify-content: space-between;
 }
 
-.login {
-  width: 210px;
-  height: 40px;
-  background-color: rgb(57, 71, 36);
-}
-.login:hover {
-  background-color: rgb(55, 113, 38);
-}
-
 .cancel {
   width: 210px;
   height: 40px;
   background-color: rgb(137, 33, 33);
 }
 
-
 .cancel:hover {
   background-color: rgb(187, 6, 6);
 }
+
+.submit {
+  width: 210px;
+  height: 40px;
+  background-color: rgb(57, 71, 36);
+}
+
+.submit:hover {
+    background-color: rgb(55, 113, 38);
+  }
 
 input {
   color: #fff;

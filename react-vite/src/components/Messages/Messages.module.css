@@ -13,8 +13,29 @@
   margin: 0;
   justify-content: flex-start;
   padding-left: 5%;
-  background-color: #313338;
   box-shadow: 1px 1px 3px rgba(19, 21, 24, 0.8);
+}
+
+.body {
+  height: 90%;
+}
+
+.scroll {
+  max-height: 95%;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: scroll;
+  scrollbar-color: #1e1f22 #313338;
+  scrollbar-width: thin;
+}
+
+.message_list {
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .left {
@@ -26,7 +47,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
 }
 
 .user {
@@ -47,29 +68,18 @@
   color: #ffffff96;
 }
 
-.message_list {
-  padding: 2%;
-  height: 92%;
-  min-width: 0;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
-}
-
 .message_body {
   display: flex;
   flex-direction: row;
-  padding: 5px;
-  height: 16%;
+  padding: 15px;
+  max-height: 100px;
 }
 
 .message {
   word-wrap: break-word;
   position: relative;
   width: 95%;
-  height: 100%;
+  max-height: 100%;
   left: 10px;
   top: 5px;
   display: flex;
@@ -78,7 +88,7 @@
 }
 
 .message_info {
-  width: 100%;
+  max-width: 100%;
   word-wrap: break-word;
   overflow: visible;
 }
@@ -87,14 +97,16 @@
 }
 
 .error {
+  padding-left: 10px;
   display: flex;
   align-items: center;
-  height: 35px;
-  padding: 4px;
+  height: 10px;
   color: rgba(251, 72, 72, 0.884);
 }
 
 .form {
+  height: 53px;
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -131,7 +143,7 @@
 }
 
 .save_edit:hover {
-  background-color: rgb(83, 113, 38);
+  background-color: rgb(55, 113, 38);
 }
 
 .stop_edit {
@@ -145,12 +157,15 @@
 }
 
 .input {
-  width: 100%;
-  height: 40px;
+  width: 95%;
+  height: 37px;
   padding-left: 10px;
   border: none;
   border-radius: 7px;
   background-color: #383a40;
+  position: relative;
+  left: 10px;
+  bottom: 10px;
 }
 .submit {
   border-radius: 5px;
