@@ -2,7 +2,6 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from sqlalchemy.orm import validates
 
 
 class User(db.Model, UserMixin):
@@ -15,15 +14,17 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    image_url = db.Column(db.String(250), nullable=True)
 
     servers = db.relationship("Server", backref="user", cascade='all, delete-orphan')
     messages = db.relationship("Message", backref="user", cascade='all, delete-orphan')
     reactions = db.relationship("Reaction", backref="user", cascade='all, delete-orphan')
 
-    image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", cascade='all, delete-orphan', lazy=True)
+    # image = db.relationship('Image', backref='user', primaryjoin="and_(Image.type=='user', foreign(Image.type_id)==User.id)", cascade='all, delete-orphan', lazy=True)
 
     # __mapper_args__ = {
-    #     "polymorphic_identity": "user"
+    #     "polymorphic_identity": "user",
+    #     "inherit_condition": id == Image.id
     # }
 
     @property
@@ -42,9 +43,9 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
+            'image_url': self.image_url,
             'servers': [server.to_dict() for server in self.servers],
             'messages': [message.to_dict() for message in self.messages],
-            'image': [image.to_dict() for image in self.image]
         }
 
 
@@ -58,12 +59,14 @@ class Server(db.Model):
     name = db.Column(db.String(50), nullable=False, unique=True)
     DM = db.Column(db.Boolean, nullable=False, default=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-
-    image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", cascade='all, delete-orphan', lazy=True)
     channels = db.relationship('Channel', backref='server', cascade='all, delete-orphan')
+    image_url = db.Column(db.String(250), nullable=True)
+
+    # image = db.relationship('Image', backref='server', primaryjoin="and_(Image.type=='server', foreign(Image.type_id)==Server.id)", cascade='all, delete-orphan', lazy=True)
 
     # __mapper_args__ = {
-    #     "polymorphic_identity": "server"
+    #     "polymorphic_identity": "server",
+    #     "inherit_condition": id == Image.id
     # }
 
     def to_dict(self):
@@ -72,7 +75,7 @@ class Server(db.Model):
             'name': self.name,
             'DM': self.DM,
             'owner_id': self.owner_id,
-            'image': [image.to_dict() for image in self.image],
+            'image_url': self.image_url,
             'channels': [channel.to_dict() for channel in self.channels]
         }
 
@@ -83,12 +86,11 @@ class Channel(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-
     id = db.Column(db.Integer, primary_key=True)
     server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('servers.id')), nullable=False)
     name = db.Column(db.String(50), nullable=False, unique=True)
-
     messages = db.relationship("Message", backref='channel', cascade='all, delete-orphan')
+
 
     def to_dict(self):
         return {
@@ -108,13 +110,15 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('channels.id')), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    image_url = db.Column(db.String(250), nullable=True)
     text = db.Column(db.String(250), nullable=False)
-
-    image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True, cascade='all, delete-orphan')
     reactions = db.relationship("Reaction", backref='message', cascade='all, delete-orphan')
 
+    # image = db.relationship('Image', backref='message', primaryjoin="and_(Image.type=='message', foreign(Image.type_id)==Message.id)", lazy=True, cascade='all, delete-orphan')
+
     # __mapper_args__ = {
-    #     "polymorphic_identity": "message"
+    #     "polymorphic_identity": "message",
+    #     "inherit_condition": id == Image.id
     # }
 
     def to_dict(self):
@@ -123,7 +127,7 @@ class Message(db.Model):
             'channel_id': self.channel_id,
             'user_id': self.user_id,
             'text': self.text,
-            'image': [image.to_dict() for image in self.image],
+            'image_url': self.image_url,
             'reactions': [reaction.to_dict() for reaction in self.reactions]
         }
 
@@ -133,7 +137,6 @@ class Reaction(db.Model):
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-
 
     id = db.Column(db.Integer, primary_key=True)
     message_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('messages.id')), nullable=False)
@@ -149,28 +152,28 @@ class Reaction(db.Model):
         }
 
 
-class Image(db.Model):
-    __tablename__ = 'images'
+# class Image(db.Model):
+#     __tablename__ = 'images'
 
-    if environment == "production":
-        __table_args__ = {'schema': SCHEMA}
+#     if environment == "production":
+#         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), nullable=False)
-    type_id = db.Column(db.Integer, nullable=False)
-    img_url = db.Column(db.String(250), nullable=False)
+#     id = db.Column(db.Integer, primary_key=True)
+#     type = db.Column(db.String(50), nullable=False)
+#     type_id = db.Column(db.Integer, nullable=False)
+#     img_url = db.Column(db.String(250), nullable=False)
 
 
 
-    __mapper_args__ = {
-        "polymorphic_on": type,
+    # __mapper_args__ = {
+    #     "polymorphic_on": type,
         # "polymorphic_identity": "image"
-    }
+    # }
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'type': self.type,
-            'type_id': self.type_id,
-            'img_url': self.img_url
-        }
+    # def to_dict(self):
+    #     return {
+    #         'id': self.id,
+    #         'type': self.type,
+    #         'type_id': self.type_id,
+    #         'img_url': self.img_url
+    #     }

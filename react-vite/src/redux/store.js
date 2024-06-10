@@ -10,13 +10,15 @@ import serverReducer from "./servers";
 import channelReducer from "./channels";
 import messageReducer from "./messages";
 import reactionReducer from "./reactions";
+import imageReducer from "./images";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   server: serverReducer,
   channel: channelReducer,
   message: messageReducer,
-  reaction: reactionReducer
+  reaction: reactionReducer,
+  image: imageReducer
 });
 
 let enhancer;

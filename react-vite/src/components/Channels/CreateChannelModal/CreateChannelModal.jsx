@@ -1,59 +1,65 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
-import { createChannelThunk } from "../../../redux/channels";
+import {
+  createChannelThunk,
+  setCurrentChannelThunk,
+} from "../../../redux/channels";
+import { getAllMessagesThunk } from "../../../redux/messages";
+import styles from "./CreateChannelModal.module.css";
 
-const CreateChannelModal = ({ serverId }) => {
-    const dispatch = useDispatch();
-    const [name, setName] = useState("");
-    const [errors, setErrors] = useState({});
-    const { closeModal } = useModal();
+const CreateChannelModal = () => {
+  const dispatch = useDispatch();
+  const server = useSelector((state) => state.server.current);
+  const [name, setName] = useState("");
+  const [errors, setErrors] = useState({});
+  const { closeModal } = useModal();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrors({});
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors({});
 
-        if (!name.trim().length) {
-            setErrors({ error: 'Channel name is required' });
-            return;
-        }
+    if (!name.trim().length) {
+      setErrors({ error: "Channel name is required" });
+      return;
+    }
 
-        try {
-            const response = await dispatch(
-                createChannelThunk({
-                    server_id: serverId,
-                    name,
-                })
-            );
+    try {
+      const response = await dispatch(
+        createChannelThunk({
+          server_id: server.id,
+          name,
+        })
+      );
 
-            if (response.errors) {
-                setErrors(response.errors);
-            } else {
-                closeModal();
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+      if (response.errors) {
+        setErrors(response.errors);
+      } else {
+        dispatch(setCurrentChannelThunk(response));
+        dispatch(getAllMessagesThunk(response));
+        closeModal();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    return (
-        <>
-            <h1>Create Channel</h1>
-            {errors.error && <p>{errors.error}</p>}
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Channel Name
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </label>
-                <button type="submit">Create Channel</button>
-            </form>
-        </>
-    );
+  return (
+    <main className={styles.main}>
+      <div className={styles.title}>Make a new channel!</div>
+      <div className={styles.error}>{errors.error && errors.error}</div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            placeholder="Enter a name..."
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        <button className={styles.submit} type="submit">Create Channel</button>
+      </form>
+    </main>
+  );
 };
 
 export default CreateChannelModal;

@@ -1,65 +1,104 @@
+#selected {
+  background-color: red;
+}
+
 .main {
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
-  width: 10%;
-  height: 100%;
+  background-color: #2b2d31;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.server {
+  display: flex;
+  flex-direction: row;
+  min-width: 240px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 1px 1px 3px rgba(19, 21, 24, 0.8);
+}
+.server_name {
+  position: relative;
+  left: 10px;
+}
+
+.menu_button {
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  padding: 5%;
-  width: 100%;
+  overflow: hidden;
 }
 
-.server {
+.channel_list {
+  position: relative;
   display: flex;
-  justify-content: center;
-  padding: 10%;
-  height: 8%;
-  border-bottom: solid 1px white;
-}
-
-.serverEdit {
-  display: flex;
-  justify-content: space-between;
-  padding: 5%;
+  flex-direction: column;
+  left: 10px;
+  padding-top: 20px;
+  width: 225px;
+  cursor: pointer;
+  color: #ffffff96;
+  font-size: 11pt;
 }
 
 .channel {
   display: flex;
-  flex-direction: column;
-  padding-top: 2%;
-  padding-bottom: 2%;
-}
-
-.name {
-  display: flex;
-  font-size: 11pt;
-  padding: 8%;
-  border-bottom: solid 1px white;
-  width: 100%;
-  align-items: flex-start;
-}
-
-.buttons {
-  padding: 3%;
-  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 }
 
-.create {
-  display: flex;
-  justify-content: center;
-  border-radius: 5px;
-  border: solid 1px rgb(53, 157, 253);
-  font-size: 12pt;
-  padding: 4%;
-
+.channel:hover {
+  color: #fff;
 }
 
-.delete {
+.channel_name {
+  padding: 10px;
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  padding: 5%;
+}
+
+.channel_buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 45px;
+}
+
+.channel_buttons > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+}
+
+.profileBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 53px;
+  width: 240px;
+  background-color: #232528;
+  padding: 15px;
+}
+
+.profileButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userImage {
+  width: 33px;
+  border-radius: 50%;
+}
+
+.userName {
+  color: white;
+  padding: 6%;
 }
