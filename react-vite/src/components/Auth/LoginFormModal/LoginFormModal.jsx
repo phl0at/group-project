@@ -32,8 +32,9 @@ function LoginFormModal() {
   return (
     <main className={styles.main}>
       <div className={styles.title}>Please Login</div>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form name="login" className={styles.form} onSubmit={handleSubmit}>
         <input
+
           className={styles.email}
           type="text"
           placeholder="Enter your email address"

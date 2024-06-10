@@ -29,14 +29,6 @@
   scrollbar-width: thin;
 }
 
-.message_list {
-  min-width: 0;
-  min-height: 0;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
 
 .left {
   display: flex;

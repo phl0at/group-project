@@ -27,6 +27,9 @@ function MessagesList() {
   const [showReactions, setShowReactions] = useState(null);
   const dispatch = useDispatch();
 
+  const messageBox = document.getElementById("scroll");
+  if (messageBox) messageBox.scrollTop = messageBox.scrollHeight;
+
   useEffect(() => {
     dispatch(thunkGetAll());
   }, []);
@@ -76,7 +79,7 @@ function MessagesList() {
     <main className={styles.main}>
       <div className={styles.channel}>{channel && channel.name}</div>
       <div className={styles.body}>
-        <div className={styles.scroll}>
+        <div id="scroll" className={styles.scroll}>
           <div className={styles.message_list}>
             {messages.length > 0 ? (
               messages.map((message) => {
