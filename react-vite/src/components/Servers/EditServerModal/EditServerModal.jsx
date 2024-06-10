@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { updateServerThunk } from "../../../redux/servers";
+import styles from "./EditServerModal.module.css";
 
 const EditServerModal = () => {
   const server = useSelector((state) => state.server.current);
@@ -39,22 +40,21 @@ const EditServerModal = () => {
   };
 
   return (
-    <>
-      <h1>Edit Server</h1>
-      {errors.error && <p>{errors.error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Server Name
-          <input
-            type="text"
-            value={serverName}
-            onChange={(e) => setServerName(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Update Server</button>
+    <main className={styles.main}>
+      <div className={styles.title}>Rename Server</div>
+      <div className={styles.error}>{errors.error && errors.error}</div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={serverName}
+          onChange={(e) => setServerName(e.target.value)}
+          required
+        />
+        <button className={styles.submit} type="submit">
+          Update Server
+        </button>
       </form>
-    </>
+    </main>
   );
 };
 

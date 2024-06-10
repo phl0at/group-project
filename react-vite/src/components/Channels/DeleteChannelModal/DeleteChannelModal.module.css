@@ -17,8 +17,9 @@
   justify-content: center;
 }
 
-.channel_name{
-    padding-top: 20px;
+.channel_name {
+  padding-top: 7px;
+  font-size: 16pt;
 }
 
 .error {

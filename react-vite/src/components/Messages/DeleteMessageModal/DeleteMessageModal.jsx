@@ -23,31 +23,29 @@ const DeleteMessage = ({ message }) => {
   };
 
   return (
-    <>
-      <main className={styles.main}>
-        <h1 className={styles.head}>Confirm Delete</h1>
-        <h5
-          className={styles.head}
-        >{`Are you sure you want to delete this message?`}</h5>
-
+    <main className={styles.main}>
+      <div className={styles.title}>
+        Are you sure you want to delete your message?
+      </div>
+      <div className={styles.buttons}>
         <button
+          className={styles.yes}
           onClick={() => {
             onClick();
           }}
-          className={styles.shadow}
         >
-          Yes (Delete Message)
+          Yes
         </button>
         <button
-          className={styles.shadow}
+          className={styles.no}
           onClick={() => {
             closeModal();
           }}
         >
-          No (Keep Message)
+          No
         </button>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
 

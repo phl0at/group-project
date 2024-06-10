@@ -57,8 +57,8 @@ const CreateServerModal = () => {
       <div className={styles.error}>{errors.error && errors.error}</div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
+          placeholder="Enter a name..."
           type="text"
-          placeholder="Enter a new server name"
           value={serverName}
           onChange={(e) => setServerName(e.target.value)}
           required
@@ -70,7 +70,7 @@ const CreateServerModal = () => {
           <ServerProfileImageUpload />
 
         */}
-        <button className={styles.create} type="submit">Create</button>
+        <button className={styles.submit} type="submit">Create</button>
       </form>
     </main>
   );

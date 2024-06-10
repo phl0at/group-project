@@ -46,7 +46,7 @@ const CreateChannelModal = () => {
 
   return (
     <main className={styles.main}>
-      <div className={styles.title}>Create Channel</div>
+      <div className={styles.title}>Make a new channel!</div>
       <div className={styles.error}>{errors.error && errors.error}</div>
       <form className={styles.form} onSubmit={handleSubmit}>
           <input

@@ -23,7 +23,6 @@ const DeleteChannelModal = ({ channel, serverId }) => {
       const remainingChannels = await dispatch(
         deleteChannelThunk(channel, serverId)
       );
-
       if (!remainingChannels.errors) {
         dispatch(clearCurrentChannelThunk());
         dispatch(clearCurrentMessagesThunk());
@@ -33,10 +32,8 @@ const DeleteChannelModal = ({ channel, serverId }) => {
           dispatch(getAllMessagesThunk(remainingChannels[0]));
         }
         closeModal();
-      } else {
-        setErrors({ error: "Failed to delete the channel" });
       }
-    } catch (error) {
+    } catch (e) {
       setErrors({ error: "An unexpected error occurred" });
     }
   };

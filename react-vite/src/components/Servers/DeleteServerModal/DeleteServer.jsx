@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useModal } from "../../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DeleteServer.module.css";
@@ -14,6 +15,7 @@ import { getAllMessagesThunk } from "../../../redux/messages";
 
 const DeleteServer = () => {
   const server = useSelector((state) => state.server.current);
+  const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
@@ -33,35 +35,35 @@ const DeleteServer = () => {
       loadDefault();
       closeModal();
     } catch (e) {
-      closeModal();
-      return e;
+      setErrors({ error: "An unexpected error occurred" });
     }
   };
 
   return (
     <>
       <main className={styles.main}>
-        <h1 className={styles.head}>Confirm Delete</h1>
-        <h5
-          className={styles.head}
-        >{`Are you sure you want to delete server: ${server?.name}?`}</h5>
-
-        <button
-          onClick={() => {
-            onClick();
-          }}
-          className="shadow"
-        >
-          Yes (Delete Server)
-        </button>
-        <button
-          className="shadow"
-          onClick={() => {
-            closeModal();
-          }}
-        >
-          No (Keep Server)
-        </button>
+        <div className={styles.title}>You are about to delete server:</div>
+        <div className={styles.server_name}>{server.name}</div>
+        <div className={styles.confirm}>Are you sure?</div>
+        <div className={styles.error}>{errors.error && errors.error}</div>
+        <div className={styles.buttons}>
+          <button
+            onClick={() => {
+              onClick();
+            }}
+            className={styles.yes}
+          >
+            Yes
+          </button>
+          <button
+            className={styles.no}
+            onClick={() => {
+              closeModal();
+            }}
+          >
+            No
+          </button>
+        </div>
       </main>
     </>
   );

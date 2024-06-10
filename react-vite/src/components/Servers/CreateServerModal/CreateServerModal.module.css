@@ -1,14 +1,16 @@
 .main {
-  background-color: black;
-  height: 30vh;
-  width: 40vw;
+  width: 400px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  background-color: rgb(35, 34, 34);
 }
 
 .title {
-  height: 25%;
+  padding-top: 20px;
+  height: 15%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -16,24 +18,34 @@
 }
 
 .error {
-  height: 10%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 350px;
+  height: 20px;
+  color: rgba(251, 72, 72, 0.884);
 }
 
 .form {
-  width: 100%;
-  height: 70%;
+  width: 380px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  position: relative;
+  height: 30px;
+  bottom: 10px;
 }
 
-.create {
+input {
+  padding-left: 15px;
+  border: none;
+  background-color: #383a40;
+  position: relative;
+}
+
+.submit {
   background-color: rgb(57, 71, 36);
-  height: 20%;
-  width: 20%;
+  width: 180px;
 }
-
-.create:hover {
+.submit:hover {
   background-color: rgb(83, 113, 38);
 }
