@@ -81,7 +81,7 @@ function MessagesList() {
       <div className={styles.channel}>{channel && channel.name}</div>
       <div className={styles.body}>
         <div ref={scroll} className={styles.scroll}>
-          <div  className={styles.message_list}>
+          <div className={styles.message_list}>
             {messages.length > 0 ? (
               messages.map((message) => {
                 const author = allUsers[message.user_id];
@@ -94,83 +94,87 @@ function MessagesList() {
                       />
                     </div>
                     <div className={styles.right}>
-                      <div className={styles.user_name}>{author.username}</div>
-                      <div className={styles.message}>
-                        {editMode === message.id ? (
-                          <form
-                            className={styles.edit_form}
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              handleEditSubmit(message);
-                            }}
-                          >
-                            <input
-                              className={styles.message_edit}
-                              type="text"
-                              value={editText}
-                              onChange={(e) => setEditText(e.target.value)}
-                            />
-                            <div className={styles.message_buttons}>
-                              <button
-                                className={styles.save_edit}
-                                type="submit"
-                              >
-                                Save
-                              </button>
-                              <button
-                                className={styles.stop_edit}
-                                onClick={() => setEditMode(null)}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </form>
-                        ) : (
-                          <>
-                            <div className={styles.message_info}>
-                              {message.text.length && (
-                                <div className={styles.message_text}>
-                                  {message.text}
-                                </div>
-                              )}
-                              {message.image_url && (
-                                <img
-                                  className={styles.image}
-                                  src={message.img_url}
-                                />
-                              )}
-                            </div>
-                            <div className={styles.message_actions}>
-                              {user.id === message.user_id && (
-                                <>
-                                  <OpenModalButton
-                                    className={styles.delete_button}
-                                    buttonText={<HiOutlineTrash />}
-                                    modalComponent={
-                                      <DeleteMessage message={message} />
-                                    }
+                      <div className={styles.user_info}>
+                        <div className={styles.user_name}>
+                          {author.username}
+                        </div>
+                        <div className={styles.message}>
+                          {editMode === message.id ? (
+                            <form
+                              className={styles.edit_form}
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                handleEditSubmit(message);
+                              }}
+                            >
+                              <input
+                                className={styles.message_edit}
+                                type="text"
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                              />
+                              <div className={styles.message_buttons}>
+                                <button
+                                  className={styles.save_edit}
+                                  type="submit"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  className={styles.stop_edit}
+                                  onClick={() => setEditMode(null)}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
+                          ) : (
+                            <>
+                              <div className={styles.message_info}>
+                                {message.text.length && (
+                                  <div className={styles.message_text}>
+                                    {message.text}
+                                  </div>
+                                )}
+                                {message.image_url && (
+                                  <img
+                                    className={styles.image}
+                                    src={message.img_url}
                                   />
-                                  <button
-                                    className={styles.edit_button}
-                                    onClick={() => {
-                                      setEditMode(message.id);
-                                      setEditText(message.text);
-                                    }}
-                                  >
-                                    <HiOutlineDocumentText />
-                                  </button>
-                                </>
-                              )}
-                              <button
-                                className={styles.reactions}
-                                onClick={() => toggleReactions(message.id)}
-                              >
-                                <VscReactions />
-                              </button>
-                              {showReactions === message.id && (
-                                <MessageReactions message={message} />
-                              )}
-                            </div>
+                                )}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      <div className={styles.message_actions}>
+                        <button
+                          className={styles.reactions}
+                          onClick={() => toggleReactions(message.id)}
+                        >
+                          <VscReactions />
+                        </button>
+                        {showReactions === message.id && (
+                          <MessageReactions message={message} />
+                        )}
+                        {user.id === message.user_id && (
+                          <>
+                            <button
+                              className={styles.edit_button}
+                              onClick={() => {
+                                setEditMode(message.id);
+                                setEditText(message.text);
+                              }}
+                            >
+                              <HiOutlineDocumentText />
+                            </button>
+                            <OpenModalButton
+                              className={styles.delete_button}
+                              buttonText={<HiOutlineTrash />}
+                              modalComponent={
+                                <DeleteMessage message={message} />
+                              }
+                            />
                           </>
                         )}
                       </div>

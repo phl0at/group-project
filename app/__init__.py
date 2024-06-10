@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -11,9 +12,10 @@ from .api.servers_routes import servers_routes
 from .api.channels_routes import channels_routes
 from .api.messages_routes import messages_routes
 from .api.reactions_routes import reactions_routes
-# from .api.images_routes import image_routes
+
 from .seeds import seed_commands
 from .config import Config
+from .socket import socketio
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -37,9 +39,10 @@ app.register_blueprint(servers_routes, url_prefix='/api/servers')
 app.register_blueprint(channels_routes, url_prefix='/api/channels')
 app.register_blueprint(messages_routes, url_prefix='/api/messages')
 app.register_blueprint(reactions_routes, url_prefix='/api/reactions')
-# app.register_blueprint(image_routes, url_prefix='/api/images')
+
 db.init_app(app)
 Migrate(app, db)
+socketio.init_app(app)
 
 # Application Security
 CORS(app)

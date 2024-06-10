@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+import { useModal } from "../../../context/Modal";
 import {
   setCurrentChannelThunk,
   updateChannelThunk,
-} from "../../redux/channels";
+} from "../../../redux/channels";
 import styles from "./EditChannelModal.module.css";
 
 const EditChannelModel = ({ channel }) => {
