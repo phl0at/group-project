@@ -5,7 +5,7 @@ import {
   editMessageThunk,
 } from "../../redux/messages";
 import styles from "./Messages.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
@@ -26,20 +26,21 @@ function MessagesList() {
   const [editMode, setEditMode] = useState(null);
   const [showReactions, setShowReactions] = useState(null);
   const dispatch = useDispatch();
-
-  const messageBox = document.getElementById("scroll");
-  if (messageBox) messageBox.scrollTop = messageBox.scrollHeight;
+  const scroll = useRef(null);
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
       setInputText("");
     }
-  }, [dispatch, errors]);
+    if (messages.length) {
+      scroll.current.scrollTop = scroll.current.scrollHeight;
+    }
+  }, [dispatch, errors, messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,17 +80,18 @@ function MessagesList() {
     <main className={styles.main}>
       <div className={styles.channel}>{channel && channel.name}</div>
       <div className={styles.body}>
-        <div id="scroll" className={styles.scroll}>
+        <div ref={scroll} className={styles.scroll}>
           <div className={styles.message_list}>
             {messages.length > 0 ? (
               messages.map((message) => {
                 const author = allUsers[message.user_id];
-                if (!author) return "";
-                const src = author.image_url ? author.image_url : default_user;
                 return (
                   <main key={message.id} className={styles.message_body}>
                     <div className={styles.left}>
-                      <img className={styles.user_image} src={src} />
+                      <img
+                        className={styles.user_image}
+                        src={author.image_url ? author.image_url : default_user}
+                      />
                     </div>
                     <div className={styles.right}>
                       <div className={styles.user_name}>{author.username}</div>
