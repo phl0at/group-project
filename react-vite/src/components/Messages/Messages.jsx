@@ -70,6 +70,10 @@ function MessagesList() {
       setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(createMessageThunk(channel, message));
+
+    /*
+    const response = socket.emit(message)
+    */
       setInputText("");
     }
   };

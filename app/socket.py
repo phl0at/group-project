@@ -16,4 +16,4 @@ socketio = SocketIO(cors_allowed_origins=origins)
 
 @socketio.on('message')
 def new_chat(message):
-    print("NEW MESSAGE:", message)
+    emit('message', message)
