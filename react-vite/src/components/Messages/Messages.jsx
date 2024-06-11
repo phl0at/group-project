@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import styles from "./Messages.module.css";
@@ -6,13 +5,17 @@ import {
   createMessageThunk,
   getMessagesArray,
   editMessageThunk,
+  getAllMessagesThunk,
 } from "../../redux/messages";
+import styles from "./Messages.module.css";
+import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
 import DeleteMessage from "./DeleteMessageModal/";
-import { HiOutlineDocumentText, HiOutlineTrash } from "react-icons/hi2";
+import { HiOutlineDocumentText } from "react-icons/hi2";
+import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 
 function MessagesList() {
@@ -31,53 +34,21 @@ function MessagesList() {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  
-    socket.current = io('http://127.0.0.1:8000', {
-      transports: ['websocket'],
-      reconnection: true,
-      reconnectionAttempts: 5,
-      timeout: 20000,
-      autoConnect: true,
-      forceNew: true,
-      perMessageDeflate: false,
-    });
-  
-    socket.current.on('connect', () => {
-      console.log('Connected to WebSocket server');
-      if (channel && channel.id) {
-        socket.current.emit('join', { room: channel.id });
-      }
-    });
-  
-    socket.current.on('chat', (data) => {
-      dispatch(thunkGetAll());
-    });
-  
-    socket.current.on('disconnect', (reason) => {
-      console.log('Disconnected from WebSocket server:', reason);
-    });
-  
-    socket.current.on('connect_error', (error) => {
-      console.error('Connection Error:', error);
-    });
-  
-    return () => {
-      if (channel && channel.id) {
-        socket.current.emit('leave', { room: channel.id });
-      }
-      // socket.current.disconnect();
-    };
-  }, [dispatch, channel]);
-  
+  }, [dispatch]);
+
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
       setInputText('');
     }
+  }, [dispatch, errors]);
+
+  useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-  }, [dispatch, errors, messages]);
+
+  }, [messages])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,8 +64,7 @@ function MessagesList() {
       setErrors({ error: 'Max length: 250' });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      setInputText('');
-      socket.current.emit('chat', { room: channel.id, message });
+      setInputText("");
     }
   };
 

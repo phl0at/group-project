@@ -29,5 +29,9 @@ def handle_test_message(data):
     print('Received test message:', data)
     emit('response', {'data': 'Message received'})
 
-if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0', port=8000)
+@socketio.on('join')
+def handle_join(data):
+    join_room(data['room'])
+@socketio.on('message')
+def new_chat(message):
+    print("NEW MESSAGE:", message)
