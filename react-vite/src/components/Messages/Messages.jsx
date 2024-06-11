@@ -1,19 +1,22 @@
+import { VscReactions } from "react-icons/vsc";
+import { HiOutlineTrash } from "react-icons/hi2";
+import { HiOutlineDocumentText } from "react-icons/hi2";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createMessageThunk,
   getMessagesArray,
   editMessageThunk,
+  getAllMessagesThunk,
 } from "../../redux/messages";
 import styles from "./Messages.module.css";
-import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
 import DeleteMessage from "./DeleteMessageModal/";
-import { HiOutlineDocumentText } from "react-icons/hi2";
-import { HiOutlineTrash } from "react-icons/hi2";
-import { VscReactions } from "react-icons/vsc";
+import { io } from "socket.io-client";
+let socket;
 
 function MessagesList() {
   const channel = useSelector((state) => state.channel.current);
@@ -30,17 +33,28 @@ function MessagesList() {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, [dispatch]);
+    socket = io();
+    socket.on("chat", (chat) => {
+        console.log('HELLOOOO')
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
       setInputText("");
     }
+  }, [dispatch, errors]);
+
+  useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-  }, [dispatch, errors, messages]);
+
+  }, [messages])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -19,7 +19,6 @@ function ChannelsList() {
   const currChannel = useSelector((state) => state.channel.current);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
-  const src = user.image_url ? user.image_url : default_user;
 
   useEffect(() => {
     dispatch(setCurrentChannelThunk(allChannels[0]));
@@ -96,7 +95,10 @@ function ChannelsList() {
       <div className={styles.profileBar}>
         <div>
           <NavLink to="/profile" className={styles.profileButton}>
-            <img className={styles.userImage} src={src} />
+            <img
+              className={styles.userImage}
+              src={user.image_url ? user.image_url : default_user}
+            />
             <div className={styles.userName}>{`${user.username}`}</div>
           </NavLink>
         </div>
