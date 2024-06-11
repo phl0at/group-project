@@ -1,18 +1,18 @@
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
+import styles from "./Messages.module.css";
 import {
   createMessageThunk,
   getMessagesArray,
   editMessageThunk,
 } from "../../redux/messages";
-import styles from "./Messages.module.css";
-import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { thunkGetAll } from "../../redux/session";
 import default_user from "../../../../images/default_user.jpg";
 import MessageReactions from "../Reactions";
 import DeleteMessage from "./DeleteMessageModal/";
-import { HiOutlineDocumentText } from "react-icons/hi2";
-import { HiOutlineTrash } from "react-icons/hi2";
+import { HiOutlineDocumentText, HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 
 function MessagesList() {
@@ -20,22 +20,59 @@ function MessagesList() {
   const messages = useSelector(getMessagesArray);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
   const [errors, setErrors] = useState({});
-  const [editText, setEditText] = useState("");
+  const [editText, setEditText] = useState('');
   const [editMode, setEditMode] = useState(null);
   const [showReactions, setShowReactions] = useState(null);
   const dispatch = useDispatch();
   const scroll = useRef(null);
+  const socket = useRef(null);
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, [dispatch]);
-
+  
+    socket.current = io('http://127.0.0.1:8000', {
+      transports: ['websocket'],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      timeout: 20000,
+      autoConnect: true,
+      forceNew: true,
+      perMessageDeflate: false,
+    });
+  
+    socket.current.on('connect', () => {
+      console.log('Connected to WebSocket server');
+      if (channel && channel.id) {
+        socket.current.emit('join', { room: channel.id });
+      }
+    });
+  
+    socket.current.on('chat', (data) => {
+      dispatch(thunkGetAll());
+    });
+  
+    socket.current.on('disconnect', (reason) => {
+      console.log('Disconnected from WebSocket server:', reason);
+    });
+  
+    socket.current.on('connect_error', (error) => {
+      console.error('Connection Error:', error);
+    });
+  
+    return () => {
+      if (channel && channel.id) {
+        socket.current.emit('leave', { room: channel.id });
+      }
+      // socket.current.disconnect();
+    };
+  }, [dispatch, channel]);
+  
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
-      setInputText("");
+      setInputText('');
     }
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
@@ -51,30 +88,38 @@ function MessagesList() {
     };
 
     if (!inputText.trim().length) {
-      setErrors({ error: "Message Text Required" });
+      setErrors({ error: 'Message Text Required' });
     } else if (inputText.length > 250) {
-      setErrors({ error: "Max length: 250" });
+      setErrors({ error: 'Max length: 250' });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      setInputText("");
+      setInputText('');
+      socket.current.emit('chat', { room: channel.id, message });
     }
   };
 
   const handleEditSubmit = async (message) => {
     if (!editText.trim().length) {
-      setErrors({ error: "Message Text Required" });
+      setErrors({ error: 'Message Text Required' });
     } else if (editText.length > 250) {
-      setErrors({ error: "Max length: 250" });
+      setErrors({ error: 'Max length: 250' });
     } else {
       await dispatch(editMessageThunk({ id: message.id, text: editText }));
       setEditMode(null);
-      setEditText("");
+      setEditText('');
+      socket.current.emit('chat', { room: channel.id, message });
     }
   };
 
   const toggleReactions = (messageId) => {
     setShowReactions((prev) => (prev === messageId ? null : messageId));
   };
+
+  if (!channel) {
+    console.log('Channel is undefined');
+    return null; // Or handle the case when channel is not available
+  }
+
 
   return (
     <main className={styles.main}>
