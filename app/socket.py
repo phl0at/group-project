@@ -5,8 +5,8 @@ socketio = SocketIO()
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
-        "http://",
-        "https://"
+        "http://hypercomm.onrender.com",
+        "https://hypercomm.onrender.com"
     ]
 else:
     origins = "*"
@@ -25,3 +25,6 @@ def handle_leave(data):
 @socketio.on('join')
 def handle_join(data):
     join_room(data['room'])
+@socketio.on('message')
+def new_chat(message):
+    print("NEW MESSAGE:", message)
