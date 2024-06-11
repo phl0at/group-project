@@ -7,7 +7,6 @@ import {
   editMessageThunk,
   getAllMessagesThunk,
 } from "../../redux/messages";
-import styles from "./Messages.module.css";
 import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { thunkGetAll } from "../../redux/session";
