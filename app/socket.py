@@ -3,7 +3,6 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [

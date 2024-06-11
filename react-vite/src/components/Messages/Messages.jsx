@@ -33,21 +33,44 @@ function MessagesList() {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, [dispatch]);
+
+    socket.current = io('http://127.0.0.1:8000', {  // Ensure correct port
+      transports: ['websocket'],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      timeout: 20000,
+      autoConnect: true,
+      forceNew: true,
+    });
+
+    socket.current.on('connect', () => {
+      console.log('Connected to WebSocket server');
+      if (channel && channel.id) {
+        socket.current.emit('join', { room: channel.id });
+      }
+    });
+
+    socket.current.on('chat', (data) => {
+      dispatch(thunkGetAll());
+    });
+
+    return () => {
+      if (channel && channel.id) {
+        socket.current.emit('leave', { room: channel.id });
+      }
+      // socket.current.disconnect();
+    };
+  }, [dispatch, channel]);
 
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
       setInputText('');
     }
-  }, [dispatch, errors]);
-
-  useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-
-  }, [messages])
+  }, [dispatch, errors, messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +86,8 @@ function MessagesList() {
       setErrors({ error: 'Max length: 250' });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      setInputText("");
+      setInputText('');
+      socket.current.emit('chat', { room: channel.id, message });
     }
   };
 
