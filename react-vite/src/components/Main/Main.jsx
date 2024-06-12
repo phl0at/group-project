@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { getAllServersThunk, setCurrentServerThunk } from "../../redux/servers";
+import { useEffect } from "react";
+import { clearCurrentServerThunk, getAllServersThunk, setCurrentServerThunk } from "../../redux/servers";
 import {
+  clearChannelsThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
   setLastChannelThunk,
@@ -10,7 +11,7 @@ import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import styles from "./Main.module.css";
-import { getAllMessagesThunk, getMessagesArray } from "../../redux/messages";
+import { clearCurrentMessagesThunk, getAllMessagesThunk } from "../../redux/messages";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
@@ -24,6 +25,10 @@ function MainComponent() {
   useEffect(() => {
     if (user) {
       loadDefault();
+    } else {
+      clearCurrentServerThunk()
+      clearChannelsThunk()
+      clearCurrentMessagesThunk()
     }
   }, [user]);
 

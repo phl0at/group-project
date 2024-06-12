@@ -35,24 +35,22 @@ function MessagesList() {
 
   useEffect(() => {
     async () => await dispatch(thunkGetAll());
-
     socket = io("http://127.0.0.1:8000");
     socket.on("message", (message) => {
-      console.log(message);
       dispatch(getAllMessagesThunk(message.message["channel_id"]));
     });
   }, []);
 
   useEffect(() => {
+    socket.emit("leave", { room: lastChannel?.id });
+    socket.emit("join", { room: currChannel?.id });
+  }, [lastChannel, currChannel]);
+  
+  useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
   }, [messages]);
-
-  useEffect(() => {
-    socket.emit("leave", { room: lastChannel?.id });
-    socket.emit("join", { room: currChannel?.id });
-  }, [lastChannel, currChannel]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
