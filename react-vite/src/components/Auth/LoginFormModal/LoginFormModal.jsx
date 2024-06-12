@@ -31,7 +31,12 @@ function LoginFormModal() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.title}>Please Login</div>
+      <div className={styles.top}>
+        <div className={styles.title}>Please Login</div>
+        <button className={styles.close} onClick={closeModal}>
+          X
+        </button>
+      </div>
       <form name="login" className={styles.form} onSubmit={handleSubmit}>
         <input
           className={styles.email}
@@ -53,14 +58,9 @@ function LoginFormModal() {
         <div className={styles.errors}>
           {errors.password && errors.password}
         </div>
-        <div className={styles.buttons}>
-          <button className={styles.cancel} onClick={closeModal}>
-            Cancel
-          </button>
-          <button className={styles.login} type="submit">
-            Log In
-          </button>
-        </div>
+        <button className={styles.login} type="submit">
+          Log In
+        </button>
       </form>
     </main>
   );

@@ -18,7 +18,8 @@ import { VscReactions } from "react-icons/vsc";
 import { io } from "socket.io-client";
 
 let socket;
-const SOCKET_URL = process.env.NODE_ENV === 'production' ? null : 'http://127.0.0.1:8000'
+const SOCKET_URL =
+  process.env.NODE_ENV === "production" ? null : "http://127.0.0.1:8000";
 
 function MessagesList() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function MessagesList() {
     socket.on("message", (message) => {
       dispatch(getAllMessagesThunk(message.message["channel_id"]));
     });
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     socket.emit("leave", { room: lastChannel?.id });
@@ -53,7 +54,7 @@ function MessagesList() {
     }
   }, [messages]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
     const message = {
@@ -66,7 +67,7 @@ function MessagesList() {
     } else if (inputText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
-      await dispatch(createMessageThunk(currChannel.id, message));
+      dispatch(createMessageThunk(currChannel.id, message));
       socket.emit("message", { room: currChannel.id, message });
       setInputText("");
     }
@@ -79,9 +80,9 @@ function MessagesList() {
       setErrors({ error: "Max length: 250" });
     } else {
       dispatch(editMessageThunk({ id: message.id, text: editText }));
+      socket.emit("message", { room: currChannel.id, message });
       setEditMode(null);
       setEditText("");
-      socket.emit("message", { room: currChannel.id, message });
     }
   };
 
