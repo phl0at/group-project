@@ -46,13 +46,13 @@ function MessagesList() {
   useEffect(() => {
     socket.emit("leave", { room: lastChannel?.id });
     socket.emit("join", { room: currChannel?.id });
+    setInputText("");
   }, [currChannel]);
 
   useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-    setInputText("")
   }, [messages]);
 
   const handleSubmit = (e) => {

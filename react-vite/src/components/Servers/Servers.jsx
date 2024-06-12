@@ -21,7 +21,6 @@ function ServersList() {
   const servers = useSelector(getServersArray);
 
   const handleServerClick = async (server) => {
-    await dispatch(clearCurrentChannelThunk());
     await dispatch(clearCurrentMessagesThunk());
     await dispatch(setCurrentServerThunk(server));
     await dispatch(getAllChannelsThunk(server));
