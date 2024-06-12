@@ -7,7 +7,7 @@ import { clearCurrentMessagesThunk } from "../../redux/messages";
 import { clearServersThunk } from "../../redux/servers";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-function OptionsMenu() {
+function OptionsMenu({ socket }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -39,11 +39,17 @@ function OptionsMenu() {
     dispatch(clearChannelsThunk());
     dispatch(clearCurrentMessagesThunk());
     dispatch(thunkLogout());
+    if (socket) {
+      socket.disconnect();
+      socket.on("disconnect", () => {
+        console.log("*****SOCKET DISCONNECTED*****");
+      });
+    }
     closeMenu();
   };
 
   return (
-    <main >
+    <main>
       <button onClick={toggleMenu}>
         <HiCog6Tooth />
       </button>

@@ -23,8 +23,8 @@ function LoginFormModal() {
 
     if (serverResponse) {
       setErrors(serverResponse);
-    } else {
       console.log(serverResponse);
+    } else {
       closeModal();
     }
   };

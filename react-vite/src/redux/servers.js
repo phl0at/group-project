@@ -27,12 +27,8 @@ const action = (type, payload) => ({
 
 export const setCurrentServerThunk = (server) => async (dispatch) => {
   try {
-    // const response = await fetch(`/api/servers/${server.id}`);
-    // if (response.ok) {
-    //   const data = await response.json();
-      dispatch(action(GET_CURRENT, server));
-    //   return data;
-    // }
+    dispatch(action(GET_CURRENT, server));
+    return server;
   } catch (error) {
     console.log(error);
   }
@@ -63,7 +59,7 @@ export const createServerThunk = (server) => async (dispatch) => {
       body: JSON.stringify(server),
     });
 
-    console.log("!!!!", JSON.stringify(server))
+    console.log("!!!!", JSON.stringify(server));
     if (response.ok) {
       const data = await response.json();
       dispatch(action(CREATE, data));
