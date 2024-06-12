@@ -21,21 +21,21 @@ function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
-  // const loadDefault = async () => {
-  //   const allServers = await dispatch(getAllServersThunk());
-  //   await dispatch(setCurrentServerThunk(allServers[0]));
-  //   const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
-  //   const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
-  //   if (currChannel) {
-  //     await dispatch(getAllMessagesThunk(currChannel));
-  //   }
-  // };
+  const loadDefault = async () => {
+    const allServers = await dispatch(getAllServersThunk());
+    await dispatch(setCurrentServerThunk(allServers[0]));
+    const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
+    const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
+    if (currChannel) {
+      await dispatch(getAllMessagesThunk(currChannel));
+    }
+  };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     loadDefault();
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      loadDefault();
+    }
+  }, [user]);
 
   return (
     <>
