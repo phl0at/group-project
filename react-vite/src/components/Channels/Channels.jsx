@@ -3,6 +3,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import {
   getChannelsArray,
   setCurrentChannelThunk,
+  setLastChannelThunk,
 } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
@@ -15,20 +16,17 @@ import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
 
-function ChannelsList({ socket }) {
+function ChannelsList() {
   const dispatch = useDispatch();
   const allChannels = useSelector(getChannelsArray);
   const currChannel = useSelector((state) => state.channel.current);
-  const lastChannel = useSelector((state) => state.channel.last);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
 
   const handleChannelClick = async (channel) => {
-    socket.emit("leave", { room: lastChannel?.id });
+    await dispatch(setLastChannelThunk(currChannel));
     await dispatch(setCurrentChannelThunk(channel));
-
-    socket.emit("join", { room: channel.id });
-    await dispatch(getAllMessagesThunk(channel));
+    await dispatch(getAllMessagesThunk(channel.id));
   };
 
   return (
@@ -104,7 +102,7 @@ function ChannelsList({ socket }) {
             <div className={styles.userName}>{`${user.username}`}</div>
           </NavLink>
         </div>
-        <OptionsMenu socket={socket} />
+        <OptionsMenu />
       </div>
     </main>
   );

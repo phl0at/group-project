@@ -6,7 +6,6 @@ import {
   clearCurrentChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
-  setLastChannelThunk,
 } from "../../redux/channels";
 import {
   clearCurrentMessagesThunk,
@@ -17,27 +16,23 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import { HiMiniCpuChip } from "react-icons/hi2";
 
-function ServersList({ socket }) {
+function ServersList() {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
-  // const lastChannel = useSelector((state) => state.channel.last);
 
   const handleServerClick = async (server) => {
     await dispatch(setCurrentServerThunk(server));
     await dispatch(getAllChannelsThunk(server));
     await dispatch(clearCurrentChannelThunk())
     await dispatch(clearCurrentMessagesThunk())
-    // const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
+    const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
 
-    // if (lastChannel) socket.emit("leave", { room: lastChannel.id });
 
-    // if (channel) {
-    //   socket.emit("join", { room: channel.id });
-    //   await dispatch(setLastChannelThunk(channel));
-    //   await dispatch(getAllMessagesThunk(channel));
-    // } else {
-    //   dispatch(clearCurrentMessagesThunk());
-    // }
+    if (channel) {
+      await dispatch(getAllMessagesThunk(channel.id));
+    } else {
+      await dispatch(clearCurrentMessagesThunk());
+    }
   };
 
   return (

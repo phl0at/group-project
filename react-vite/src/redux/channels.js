@@ -6,7 +6,7 @@ import { createSelector } from "reselect";
 
 const GET_ALL = "channels/getAll";
 const SET_CURRENT = "channels/setCurrent";
-const SET_LAST = "channels/setLast"
+const SET_LAST = "channels/setLast";
 const CLEAR_CURRENT = "channels/clearCurrent";
 const CLEAR_ALL = "channels/clearAll";
 const CREATE = "channels/create";
@@ -91,7 +91,7 @@ export const deleteChannelThunk = (channel, serverId) => async (dispatch) => {
     });
 
     if (response.ok) {
-      const data = await response.json()
+      const data = await response.json();
       dispatch(action(DELETE, channel));
       return data;
     }
@@ -167,7 +167,10 @@ const initialState = {};
 const channelReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = {};
+      const newState = {
+        current: { ...state["current"] },
+        last: { ...state["last"] },
+      };
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
     }
@@ -185,8 +188,8 @@ const channelReducer = (state = initialState, action) => {
     case SET_CURRENT: {
       return { ...state, current: action.payload };
     }
-    case SET_LAST:{
-      return { ...state, last: action.payload}
+    case SET_LAST: {
+      return { ...state, last: action.payload };
     }
     case CLEAR_CURRENT: {
       let newState = { ...state };

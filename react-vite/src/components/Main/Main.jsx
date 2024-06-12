@@ -14,17 +14,16 @@ import { getAllMessagesThunk, getMessagesArray } from "../../redux/messages";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
-import { io } from "socket.io-client";
+
 
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-  const socket = io("http://127.0.0.1:8000");
+
 
   useEffect(() => {
     if (user) {
       loadDefault();
-      socket.connect();
     }
   }, [user]);
 
@@ -34,9 +33,8 @@ function MainComponent() {
     const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
     if (currChannel) {
-      socket.emit("join", { room: currChannel.id });
       await dispatch(setLastChannelThunk(currChannel));
-      await dispatch(getAllMessagesThunk(currChannel));
+      await dispatch(getAllMessagesThunk(currChannel.id));
     }
   };
 
@@ -45,9 +43,9 @@ function MainComponent() {
       {user ? (
         <>
           <main className={styles.page}>
-            <ServersList socket={socket} />
-            <ChannelsList socket={socket} />
-            <MessagesList socket={socket} />
+            <ServersList />
+            <ChannelsList />
+            <MessagesList />
           </main>
         </>
       ) : (
