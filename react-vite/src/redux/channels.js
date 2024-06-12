@@ -167,7 +167,7 @@ const initialState = {};
 const channelReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = { current: { ...state["current"] } };
+      const newState = {};
       action.payload.forEach((channel) => (newState[channel.id] = channel));
       return newState;
     }

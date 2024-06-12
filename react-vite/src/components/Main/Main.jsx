@@ -10,7 +10,7 @@ import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import styles from "./Main.module.css";
-import { getAllMessagesThunk } from "../../redux/messages";
+import { getAllMessagesThunk, getMessagesArray } from "../../redux/messages";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
@@ -20,15 +20,11 @@ function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const socket = io("http://127.0.0.1:8000");
-  const channel = useSelector(state => state.channel.current)
 
   useEffect(() => {
-    if (user && !channel) {
+    if (user) {
       loadDefault();
       socket.connect();
-      socket.on("connect", () => {
-        console.log("*****SOCKET CONNECTED*****");
-      });
     }
   }, [user]);
 
@@ -38,6 +34,7 @@ function MainComponent() {
     const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
     if (currChannel) {
+      socket.emit("join", { room: currChannel.id });
       await dispatch(setLastChannelThunk(currChannel));
       await dispatch(getAllMessagesThunk(currChannel));
     }

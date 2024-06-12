@@ -107,7 +107,6 @@ def delete_channel(id):
 @login_required
 def get_all_messages(channel_id):
     messages = Message.query.filter(Message.channel_id == channel_id)
-    print('\n========================================', [message.to_dict() for message in messages])
     return [message.to_dict() for message in messages]
 
 @channels_routes.route("/<int:id>/messages", methods=["POST"])

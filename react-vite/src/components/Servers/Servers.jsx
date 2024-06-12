@@ -3,6 +3,7 @@ import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Servers.module.css";
 import {
+  clearCurrentChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
   setLastChannelThunk,
@@ -19,22 +20,24 @@ import { HiMiniCpuChip } from "react-icons/hi2";
 function ServersList({ socket }) {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
-  const lastChannel = useSelector((state) => state.channel.last);
+  // const lastChannel = useSelector((state) => state.channel.last);
 
   const handleServerClick = async (server) => {
     await dispatch(setCurrentServerThunk(server));
     await dispatch(getAllChannelsThunk(server));
-    const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
+    await dispatch(clearCurrentChannelThunk())
+    await dispatch(clearCurrentMessagesThunk())
+    // const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
 
-    socket.emit("leave", { room: lastChannel.id });
+    // if (lastChannel) socket.emit("leave", { room: lastChannel.id });
 
-    if (channel) {
-      socket.emit("join", { room: channel.id });
-      await dispatch(setLastChannelThunk(channel));
-      await dispatch(getAllMessagesThunk(channel));
-    } else {
-      dispatch(clearCurrentMessagesThunk());
-    }
+    // if (channel) {
+    //   socket.emit("join", { room: channel.id });
+    //   await dispatch(setLastChannelThunk(channel));
+    //   await dispatch(getAllMessagesThunk(channel));
+    // } else {
+    //   dispatch(clearCurrentMessagesThunk());
+    // }
   };
 
   return (

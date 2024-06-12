@@ -3,16 +3,13 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import {
   getChannelsArray,
   setCurrentChannelThunk,
-  setLastChannelThunk,
 } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
-
 import EditChannelModal from "./EditChannelModal ";
 import DeleteChannelModal from "./DeleteChannelModal";
 import styles from "./Channels.module.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import { useEffect, useRef } from "react";
 import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";

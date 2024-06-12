@@ -143,7 +143,6 @@ const messageReducer = (state = initialState, action) => {
     case CLEAR: {
       return {};
     }
-
     default:
       return state;
   }

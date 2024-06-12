@@ -17,8 +17,8 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 
 function MessagesList({ socket }) {
-  const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
+  const channel = useSelector((state) => state.channel.current);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
   const [inputText, setInputText] = useState("");
@@ -30,26 +30,19 @@ function MessagesList({ socket }) {
   const scroll = useRef(null);
 
   useEffect(() => {
+    dispatch(thunkGetAll());
+  }, []);
+
+  useEffect(() => {
+    if (messages.length) {
+      scroll.current.scrollTop = scroll.current.scrollHeight;
+    }
     socket.on("message", () => {
       if (channel) {
         dispatch(getAllMessagesThunk(channel));
       }
     });
   }, [messages]);
-
-  useEffect(() => {
-    dispatch(thunkGetAll());
-  }, [dispatch, channel]);
-
-  useEffect(() => {
-    if (errors.length) {
-      setErrors(errors);
-      setInputText("");
-    }
-    if (messages.length) {
-      scroll.current.scrollTop = scroll.current.scrollHeight;
-    }
-  }, [dispatch, errors, messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,7 +86,7 @@ function MessagesList({ socket }) {
       <div className={styles.body}>
         <div ref={scroll} className={styles.scroll}>
           <div className={styles.message_list}>
-            {messages?.length > 0 ? (
+            {messages.length > 0 ? (
               messages.map((message) => {
                 const author = allUsers[message.user_id];
                 return (
@@ -101,13 +94,15 @@ function MessagesList({ socket }) {
                     <div className={styles.left}>
                       <img
                         className={styles.user_image}
-                        src={author?.image_url ? author.image_url : default_user}
+                        src={
+                          author?.image_url ? author.image_url : default_user
+                        }
                       />
                     </div>
                     <div className={styles.right}>
                       <div className={styles.user_info}>
                         <div className={styles.user_name}>
-                          {author?.username}
+                          {author.username}
                         </div>
                         <div className={styles.message}>
                           {editMode === message.id ? (
@@ -200,7 +195,11 @@ function MessagesList({ socket }) {
         </div>
 
         {channel && (
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form
+            name="new_message"
+            className={styles.form}
+            onSubmit={handleSubmit}
+          >
             <input
               className={styles.input}
               type="text"
