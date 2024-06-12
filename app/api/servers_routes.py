@@ -45,11 +45,26 @@ def one_server(id):
 @login_required
 def create_server():
     form = CreateServerForm()
+    if 'file' in request.files:
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            unique_filename = get_unique_filename(filename)
+            file.filename = unique_filename
+            upload_response = upload_file_to_s3(file)
+
+            if "errors" in upload_response:
+                return upload_response, 400
+
+            image_url = upload_response["url"]
+        else:
+            image_url = None
+
     server = Server(
-        name = form.data['serverName'],
+        name=form.data['serverName'],
         owner_id=form.data['ownerId'],
-        image_url=form.data['image_url']
-        )
+        image_url=image_url
+    )
 
     if server.name.isspace():
         return { "errors": 'server name required'}, 400
@@ -61,6 +76,7 @@ def create_server():
         db.session.add(server)
         db.session.commit()
         return server.to_dict(), 200
+
 
 
 
@@ -98,7 +114,6 @@ def update_server(server_id):
     except Exception as e:
         db.session.rollback()
         return {"error": str(e)}, 500
-
 
 
 

@@ -51,15 +51,15 @@ export const getAllServersThunk = () => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const createServerThunk = (server) => async (dispatch) => {
+export const createServerThunk = (formData) => async (dispatch) => {
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(server),
+      body: formData,
     });
 
-    console.log("!!!!", JSON.stringify(server));
+
     if (response.ok) {
       const data = await response.json();
       dispatch(action(CREATE, data));
@@ -88,17 +88,16 @@ export const deleteServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const updateServerThunk = (server) => async (dispatch) => {
+export const updateServerThunk = ({ id, formData }) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/servers/${server.id}`, {
+    const response = await fetch(`/api/servers/${seid}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: server.name }),
+      body: formData,
     });
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       dispatch(action(UPDATE, data));
       dispatch(action(GET_CURRENT, data));
       return data;

@@ -9,12 +9,14 @@ import {
 import { useEffect } from "react";
 import { clearCurrentMessagesThunk } from "../../../redux/messages";
 import { clearCurrentChannelThunk } from "../../../redux/channels";
+import ServerImageUpload from "../ServerImageUpload";
 
 const CreateServerModal = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [serverName, setServerName] = useState("");
   const [errors, setErrors] = useState({});
+  const [image, setImage] = useState(null);
   const { closeModal } = useModal();
 
   useEffect(() => {
@@ -26,28 +28,23 @@ const CreateServerModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+    const formData = new FormData();
+    formData.append("serverName", serverName);
+    formData.append("ownerId", sessionUser.id);
+    if (image) formData.append("file", image);
+
     try {
       if (!serverName.trim().length) {
         setErrors({ error: "Server Name is required" });
       } else {
-        // this will need to be changed when the
-        // image upload feature is
-        // integrated with AWS below
-        const newServer = await dispatch(
-          createServerThunk({
-            serverName,
-            ownerId: sessionUser.id,
-            image_url: null,
-
-          })
-        );
+        const newServer = await dispatch(createServerThunk(formData));
         await dispatch(setCurrentServerThunk(newServer));
         dispatch(clearCurrentMessagesThunk());
         dispatch(clearCurrentChannelThunk());
         closeModal();
       }
     } catch (e) {
-      console.log;
+      console.log(e);
     }
   };
 
@@ -63,13 +60,7 @@ const CreateServerModal = () => {
           onChange={(e) => setServerName(e.target.value)}
           required
         />
-        {/*
-          create ServerProfileImageUpload by copy/pasting UserProfileImageUpload component
-          import that component into this file and render it here
-
-          <ServerProfileImageUpload />
-
-        */}
+        <ServerImageUpload setImage={setImage} />
         <button className={styles.submit} type="submit">Create</button>
       </form>
     </main>
