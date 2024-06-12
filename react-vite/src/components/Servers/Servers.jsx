@@ -5,6 +5,7 @@ import styles from "./Servers.module.css";
 import {
   getAllChannelsThunk,
   setCurrentChannelThunk,
+  setLastChannelThunk,
 } from "../../redux/channels";
 import {
   clearCurrentMessagesThunk,
@@ -14,15 +15,22 @@ import CreateServerModal from "../Servers/CreateServerModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import { HiMiniCpuChip } from "react-icons/hi2";
-function ServersList() {
+
+function ServersList({ socket }) {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
+  const lastChannel = useSelector((state) => state.channel.last);
 
   const handleServerClick = async (server) => {
     await dispatch(setCurrentServerThunk(server));
-    const allChannels = await dispatch(getAllChannelsThunk(server));
-    const channel = await dispatch(setCurrentChannelThunk(allChannels[0]));
+    await dispatch(getAllChannelsThunk(server));
+    const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
+
+    socket.emit("leave", { room: lastChannel.id });
+
     if (channel) {
+      socket.emit("join", { room: channel.id });
+      await dispatch(setLastChannelThunk(channel));
       await dispatch(getAllMessagesThunk(channel));
     } else {
       dispatch(clearCurrentMessagesThunk());

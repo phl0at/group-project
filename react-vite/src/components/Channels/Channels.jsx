@@ -1,31 +1,36 @@
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
-import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
+import {
+  getChannelsArray,
+  setCurrentChannelThunk,
+  setLastChannelThunk,
+} from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
+
 import EditChannelModal from "./EditChannelModal ";
 import DeleteChannelModal from "./DeleteChannelModal";
 import styles from "./Channels.module.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
 
-function ChannelsList() {
+function ChannelsList({ socket }) {
   const dispatch = useDispatch();
   const allChannels = useSelector(getChannelsArray);
   const currChannel = useSelector((state) => state.channel.current);
+  const lastChannel = useSelector((state) => state.channel.last);
   const server = useSelector((state) => state.server.current);
   const user = useSelector((state) => state.session.user);
 
-  useEffect(() => {
-    dispatch(setCurrentChannelThunk(allChannels[0]));
-  }, []);
-
   const handleChannelClick = async (channel) => {
+    socket.emit("leave", { room: lastChannel.id });
     await dispatch(setCurrentChannelThunk(channel));
+
+    socket.emit("join", { room: channel.id });
     await dispatch(getAllMessagesThunk(channel));
   };
 
@@ -102,7 +107,7 @@ function ChannelsList() {
             <div className={styles.userName}>{`${user.username}`}</div>
           </NavLink>
         </div>
-        <OptionsMenu />
+        <OptionsMenu socket={socket} />
       </div>
     </main>
   );

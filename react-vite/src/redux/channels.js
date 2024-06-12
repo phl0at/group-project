@@ -6,6 +6,7 @@ import { createSelector } from "reselect";
 
 const GET_ALL = "channels/getAll";
 const SET_CURRENT = "channels/setCurrent";
+const SET_LAST = "channels/setLast"
 const CLEAR_CURRENT = "channels/clearCurrent";
 const CLEAR_ALL = "channels/clearAll";
 const CREATE = "channels/create";
@@ -112,6 +113,17 @@ export const setCurrentChannelThunk = (channel) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
+export const setLastChannelThunk = (channel) => async (dispatch) => {
+  try {
+    dispatch(action(SET_LAST, channel));
+    return channel;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
+
 export const clearCurrentChannelThunk = () => async (dispatch) => {
   try {
     dispatch(action(CLEAR_CURRENT));
@@ -140,7 +152,6 @@ export const getChannelsArray = createSelector(
     let arr = [];
     for (const key in channel) {
       if (Number.isInteger(Number(key))) {
-        // console.log("TRUE")
         arr.push(channel[key]);
       }
     }
@@ -173,6 +184,9 @@ const channelReducer = (state = initialState, action) => {
     }
     case SET_CURRENT: {
       return { ...state, current: action.payload };
+    }
+    case SET_LAST:{
+      return { ...state, last: action.payload}
     }
     case CLEAR_CURRENT: {
       let newState = { ...state };

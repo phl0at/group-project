@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { io } from "socket.io-client";
 import styles from "./Messages.module.css";
 import {
   createMessageThunk,
@@ -17,55 +16,35 @@ import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 
-function MessagesList() {
+function MessagesList({ socket }) {
   const channel = useSelector((state) => state.channel.current);
   const messages = useSelector(getMessagesArray);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [errors, setErrors] = useState({});
-  const [editText, setEditText] = useState('');
+  const [editText, setEditText] = useState("");
   const [editMode, setEditMode] = useState(null);
   const [showReactions, setShowReactions] = useState(null);
   const dispatch = useDispatch();
   const scroll = useRef(null);
-  const socket = useRef(null);
+
+  useEffect(() => {
+    socket.on("message", () => {
+      if (channel) {
+        dispatch(getAllMessagesThunk(channel));
+      }
+    });
+  }, [messages]);
 
   useEffect(() => {
     dispatch(thunkGetAll());
-
-    socket.current = io('http://127.0.0.1:8000', {  // Ensure correct port
-      transports: ['websocket'],
-      reconnection: true,
-      reconnectionAttempts: 5,
-      timeout: 20000,
-      autoConnect: true,
-      forceNew: true,
-    });
-
-    socket.current.on('connect', () => {
-      console.log('Connected to WebSocket server');
-      if (channel && channel.id) {
-        socket.current.emit('join', { room: channel.id });
-      }
-    });
-
-    socket.current.on('chat', (data) => {
-      dispatch(thunkGetAll());
-    });
-
-    return () => {
-      if (channel && channel.id) {
-        socket.current.emit('leave', { room: channel.id });
-      }
-      // socket.current.disconnect();
-    };
   }, [dispatch, channel]);
 
   useEffect(() => {
     if (errors.length) {
       setErrors(errors);
-      setInputText('');
+      setInputText("");
     }
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
@@ -81,26 +60,26 @@ function MessagesList() {
     };
 
     if (!inputText.trim().length) {
-      setErrors({ error: 'Message Text Required' });
+      setErrors({ error: "Message Text Required" });
     } else if (inputText.length > 250) {
-      setErrors({ error: 'Max length: 250' });
+      setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(createMessageThunk(channel, message));
-      setInputText('');
-      socket.current.emit('chat', { room: channel.id, message });
+      socket.emit("message", { room: channel.id, message });
+      setInputText("");
     }
   };
 
   const handleEditSubmit = async (message) => {
     if (!editText.trim().length) {
-      setErrors({ error: 'Message Text Required' });
+      setErrors({ error: "Message Text Required" });
     } else if (editText.length > 250) {
-      setErrors({ error: 'Max length: 250' });
+      setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(editMessageThunk({ id: message.id, text: editText }));
       setEditMode(null);
-      setEditText('');
-      socket.current.emit('chat', { room: channel.id, message });
+      setEditText("");
+      socket.emit("message", { room: channel.id, message });
     }
   };
 
@@ -108,19 +87,13 @@ function MessagesList() {
     setShowReactions((prev) => (prev === messageId ? null : messageId));
   };
 
-  if (!channel) {
-    console.log('Channel is undefined');
-    return null; // Or handle the case when channel is not available
-  }
-
-
   return (
     <main className={styles.main}>
       <div className={styles.channel}>{channel && channel.name}</div>
       <div className={styles.body}>
         <div ref={scroll} className={styles.scroll}>
           <div className={styles.message_list}>
-            {messages.length > 0 ? (
+            {messages?.length > 0 ? (
               messages.map((message) => {
                 const author = allUsers[message.user_id];
                 return (
@@ -128,13 +101,13 @@ function MessagesList() {
                     <div className={styles.left}>
                       <img
                         className={styles.user_image}
-                        src={author.image_url ? author.image_url : default_user}
+                        src={author?.image_url ? author.image_url : default_user}
                       />
                     </div>
                     <div className={styles.right}>
                       <div className={styles.user_info}>
                         <div className={styles.user_name}>
-                          {author.username}
+                          {author?.username}
                         </div>
                         <div className={styles.message}>
                           {editMode === message.id ? (

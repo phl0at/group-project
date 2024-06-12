@@ -1,36 +1,28 @@
-from flask import Flask
 from flask_socketio import SocketIO, emit, join_room, leave_room
-import os 
+import os
 
-app = Flask(__name__)
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
-        "http://actual-app-url.herokuapp.com",
-        "https://actual-app-url.herokuapp.com"
+        "http://hypercomm.onrender.com",
+        "https://hypercomm.onrender.com"
     ]
 else:
     origins = "*"
 
-socketio = SocketIO(cors_allowed_origins="*")
+socketio = SocketIO(cors_allowed_origins=origins)
 
-@socketio.on('connect')
-def test_connect():
-    print('Client connected')
-    emit('response', {'data': 'Connected'})
-
-@socketio.on('disconnect')
-def test_disconnect():
-    print('Client disconnected')
-
-@socketio.on('test_message')
-def handle_test_message(data):
-    print('Received test message:', data)
-    emit('response', {'data': 'Message received'})
 
 @socketio.on('join')
-def handle_join(data):
+def join(data):
+    print(f"\n!!!!!!!!!!!!!!!!!!!!!JOINING ROOM:${data['room']}")
     join_room(data['room'])
+
+@socketio.on('leave')
+def leave(data):
+    leave_room(data['room'])
+
 @socketio.on('message')
-def new_chat(message):
-    print("NEW MESSAGE:", message)
+def message(data):
+    emit('message', data, broadcast=True, to=data['room'], include_self=False)
+    print(f'\n\n!!!!!!!!!!!!!!!!MESSAGE DATA: ${data}')

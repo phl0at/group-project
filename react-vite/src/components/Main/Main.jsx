@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllServersThunk, setCurrentServerThunk } from "../../redux/servers";
 import {
   getAllChannelsThunk,
   setCurrentChannelThunk,
+  setLastChannelThunk,
 } from "../../redux/channels";
 import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
@@ -13,10 +14,23 @@ import { getAllMessagesThunk } from "../../redux/messages";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
+import { io } from "socket.io-client";
 
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
+  const socket = io("http://127.0.0.1:8000");
+  const channel = useSelector(state => state.channel.current)
+
+  useEffect(() => {
+    if (user && !channel) {
+      // loadDefault();
+      socket.connect();
+      socket.on("connect", () => {
+        console.log("*****SOCKET CONNECTED*****");
+      });
+    }
+  }, [user]);
 
   const loadDefault = async () => {
     const allServers = await dispatch(getAllServersThunk());
@@ -24,24 +38,19 @@ function MainComponent() {
     const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
     if (currChannel) {
+      await dispatch(setLastChannelThunk(currChannel));
       await dispatch(getAllMessagesThunk(currChannel));
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      loadDefault();
-    }
-  }, [user]);
 
   return (
     <>
       {user ? (
         <>
           <main className={styles.page}>
-            <ServersList />
-            <ChannelsList />
-            <MessagesList />
+            <ServersList socket={socket} />
+            <ChannelsList socket={socket} />
+            <MessagesList socket={socket} />
           </main>
         </>
       ) : (
