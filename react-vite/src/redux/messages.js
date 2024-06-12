@@ -23,11 +23,12 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const getAllMessagesThunk = (channel) => async (dispatch) => {
+export const getAllMessagesThunk = (channelId) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/channels/${channel.id}/messages`);
+    const response = await fetch(`/api/channels/${channelId}/messages`);
     if (response.ok) {
       const data = await response.json();
+      console.log(data)
       dispatch(action(GET_ALL, data));
       return data;
     }
@@ -35,6 +36,7 @@ export const getAllMessagesThunk = (channel) => async (dispatch) => {
     console.log(error);
   }
 };
+
 
 //! --------------------------------------------------------------------
 
@@ -69,9 +71,9 @@ export const clearCurrentMessagesThunk = () => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const createMessageThunk = (channel, message) => async (dispatch) => {
+export const createMessageThunk = (channelId, message) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/channels/${channel.id}/messages`, {
+    const response = await fetch(`/api/channels/${channelId}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +143,6 @@ const messageReducer = (state = initialState, action) => {
     case CLEAR: {
       return {};
     }
-
     default:
       return state;
   }

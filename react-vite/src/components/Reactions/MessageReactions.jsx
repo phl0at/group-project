@@ -1,6 +1,5 @@
-import {useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllReactionsThunk, addReactionThunk, deleteReactionThunk, getReactionsArray } from '../../redux/reactions';
+import { addReactionThunk, deleteReactionThunk, getReactionsArray } from '../../redux/reactions';
 
 
 const MessagesReaction = ({ message }) => {
@@ -9,11 +8,6 @@ const MessagesReaction = ({ message }) => {
   const reactions = useSelector(getReactionsArray);
   const messageReactions = reactions.filter((reaction) => reaction.message_id === message.id);
   const userReactions = messageReactions.filter((reaction) => reaction.user_id === userId);
-
-
-  // useEffect(() => {
-  //   dispatch(getAllReactionsThunk());
-  // }, []);
 
 
   const handleToggleReaction = async (reactionType) => {
