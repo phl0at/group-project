@@ -35,7 +35,8 @@ function MessagesList() {
   const scroll = useRef(null);
 
   useEffect(() => {
-    async () => await dispatch(thunkGetAll());
+    // async () => await
+    dispatch(thunkGetAll());
     socket = io(SOCKET_URL);
     socket.on("message", (message) => {
       dispatch(getAllMessagesThunk(message.message["channel_id"]));
