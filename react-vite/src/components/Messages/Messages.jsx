@@ -18,6 +18,7 @@ import { VscReactions } from "react-icons/vsc";
 import { io } from "socket.io-client";
 
 let socket;
+const SOCKET_URL = process.env.NODE_ENV === 'production' ? null : 'http://127.0.0.1:8000'
 
 function MessagesList() {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function MessagesList() {
 
   useEffect(() => {
     async () => await dispatch(thunkGetAll());
-    socket = io("http://127.0.0.1:8000");
+    socket = io(SOCKET_URL);
     socket.on("message", (message) => {
       dispatch(getAllMessagesThunk(message.message["channel_id"]));
     });
@@ -45,7 +46,7 @@ function MessagesList() {
     socket.emit("leave", { room: lastChannel?.id });
     socket.emit("join", { room: currChannel?.id });
   }, [lastChannel, currChannel]);
-  
+
   useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
