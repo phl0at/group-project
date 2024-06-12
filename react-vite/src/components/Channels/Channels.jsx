@@ -27,7 +27,7 @@ function ChannelsList({ socket }) {
   const user = useSelector((state) => state.session.user);
 
   const handleChannelClick = async (channel) => {
-    socket.emit("leave", { room: lastChannel.id });
+    socket.emit("leave", { room: lastChannel?.id });
     await dispatch(setCurrentChannelThunk(channel));
 
     socket.emit("join", { room: channel.id });

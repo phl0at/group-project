@@ -24,7 +24,7 @@ function MainComponent() {
 
   useEffect(() => {
     if (user && !channel) {
-      // loadDefault();
+      loadDefault();
       socket.connect();
       socket.on("connect", () => {
         console.log("*****SOCKET CONNECTED*****");
