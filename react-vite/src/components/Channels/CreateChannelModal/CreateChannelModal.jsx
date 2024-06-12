@@ -2,10 +2,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
+  clearCurrentChannelThunk,
   createChannelThunk,
   setCurrentChannelThunk,
 } from "../../../redux/channels";
-import { getAllMessagesThunk } from "../../../redux/messages";
+import {
+  clearCurrentMessagesThunk,
+  getAllMessagesThunk,
+} from "../../../redux/messages";
 import styles from "./CreateChannelModal.module.css";
 
 const CreateChannelModal = () => {
@@ -35,8 +39,9 @@ const CreateChannelModal = () => {
       if (response.errors) {
         setErrors(response.errors);
       } else {
-        dispatch(setCurrentChannelThunk(response));
-        dispatch(getAllMessagesThunk(response));
+        await dispatch(clearCurrentChannelThunk());
+        await dispatch(clearCurrentMessagesThunk());
+        await dispatch(setCurrentChannelThunk(response));
         closeModal();
       }
     } catch (e) {
@@ -49,14 +54,16 @@ const CreateChannelModal = () => {
       <div className={styles.title}>Make a new channel!</div>
       <div className={styles.error}>{errors.error && errors.error}</div>
       <form className={styles.form} onSubmit={handleSubmit}>
-          <input
-            placeholder="Enter a name..."
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        <button className={styles.submit} type="submit">Create Channel</button>
+        <input
+          placeholder="Enter a name..."
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <button className={styles.submit} type="submit">
+          Create Channel
+        </button>
       </form>
     </main>
   );
