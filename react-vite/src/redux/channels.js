@@ -8,7 +8,6 @@ const GET_ALL = "channels/getAll";
 const SET_CURRENT = "channels/setCurrent";
 const SET_LAST = "channels/setLast";
 const CLEAR_CURRENT = "channels/clearCurrent";
-const CLEAR_ALL = "channels/clearAll";
 const CREATE = "channels/create";
 const UPDATE = "channels/update";
 const DELETE = "channels/delete";
@@ -132,15 +131,6 @@ export const clearCurrentChannelThunk = () => async (dispatch) => {
   }
 };
 
-//! --------------------------------------------------------------------
-
-export const clearChannelsThunk = () => async (dispatch) => {
-  try {
-    dispatch(action(CLEAR_ALL));
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 //! --------------------------------------------------------------------
 //*                            Selectors
@@ -168,6 +158,7 @@ const channelReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
       const newState = {
+        ...state,
         current: { ...state["current"] },
         last: { ...state["last"] },
       };
@@ -195,9 +186,6 @@ const channelReducer = (state = initialState, action) => {
       let newState = { ...state };
       delete newState["current"];
       return newState;
-    }
-    case CLEAR_ALL: {
-      return {};
     }
     default:
       return state;

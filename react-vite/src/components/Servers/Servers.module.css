@@ -9,6 +9,10 @@
   background-color: #1e1f22;
 }
 
+.selected{
+  box-shadow:inset 2px 0 .5px 0 #4F4F4F;
+}
+
 .button {
   height: 15fr;
   padding: 15%;
@@ -29,8 +33,10 @@
 .hyper {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
   width: 72px;
-  padding: 4px;
+  padding-top: 4px;
+  margin-right: 3px;
   background-color: #1e1f22;
 }

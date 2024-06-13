@@ -4,12 +4,7 @@ import { useModal } from "../../../context/Modal";
 import {
   clearCurrentChannelThunk,
   deleteChannelThunk,
-  setCurrentChannelThunk,
 } from "../../../redux/channels";
-import {
-  clearCurrentMessagesThunk,
-  getAllMessagesThunk,
-} from "../../../redux/messages";
 import styles from "./DeleteChannelModal.module.css";
 
 const DeleteChannelModal = ({ channel, serverId }) => {
@@ -17,22 +12,12 @@ const DeleteChannelModal = ({ channel, serverId }) => {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setErrors({});
     try {
-      const remainingChannels = await dispatch(
-        deleteChannelThunk(channel, serverId)
-      );
-      if (!remainingChannels.errors) {
-        dispatch(clearCurrentChannelThunk());
-        dispatch(clearCurrentMessagesThunk());
-
-        if (remainingChannels.length > 0) {
-          dispatch(setCurrentChannelThunk(remainingChannels[0]));
-          dispatch(getAllMessagesThunk(remainingChannels[0]));
-        }
-        closeModal();
-      }
+      dispatch(clearCurrentChannelThunk());
+      dispatch(deleteChannelThunk(channel, serverId));
+      closeModal();
     } catch (e) {
       setErrors({ error: "An unexpected error occurred" });
     }

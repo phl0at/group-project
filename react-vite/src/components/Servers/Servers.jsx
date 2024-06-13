@@ -3,36 +3,28 @@ import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Servers.module.css";
 import {
-  clearCurrentChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
+  // setLastChannelThunk,
 } from "../../redux/channels";
-import {
-  clearCurrentMessagesThunk,
-  getAllMessagesThunk,
-} from "../../redux/messages";
+import { getAllMessagesThunk } from "../../redux/messages";
 import CreateServerModal from "../Servers/CreateServerModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import { HiMiniCpuChip } from "react-icons/hi2";
 
-function ServersList() {
+function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
+  const currServer = useSelector((state) => state.server.current);
 
-  const handleServerClick = async (server) => {
-    await dispatch(setCurrentServerThunk(server));
-    await dispatch(getAllChannelsThunk(server));
-    await dispatch(clearCurrentChannelThunk())
-    await dispatch(clearCurrentMessagesThunk())
-    const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
-
-
-    if (channel) {
-      await dispatch(getAllMessagesThunk(channel.id));
-    } else {
-      await dispatch(clearCurrentMessagesThunk());
-    }
+  const handleServerClick = (server) => {
+    setPrevRoom(curRoom);
+    setCurRoom(server.channels[0].id);
+    dispatch(setCurrentServerThunk(server));
+    dispatch(getAllChannelsThunk(server));
+    dispatch(setCurrentChannelThunk(server.channels[0]));
+    dispatch(getAllMessagesThunk(server.channels[0].id));
   };
 
   return (
@@ -48,7 +40,9 @@ function ServersList() {
           return (
             <button
               title={server.name}
-              className={styles.button}
+              className={`${styles.button} ${
+                currServer.id === server.id && styles.selected
+              }`}
               key={server.id}
               onClick={(e) => {
                 e.preventDefault();

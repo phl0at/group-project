@@ -5,7 +5,6 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL = "messages/getAll";
-const CLEAR = "messages/clearCurrent";
 const CREATE = "messages/create";
 const EDIT = "messages/edit";
 const DELETE = "messages/delete";
@@ -28,7 +27,6 @@ export const getAllMessagesThunk = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`);
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
       dispatch(action(GET_ALL, data));
       return data;
     }
@@ -58,16 +56,6 @@ export const editMessageThunk = (message) => async (dispatch) => {
   }
 };
 
-
-//! --------------------------------------------------------------------
-
-export const clearCurrentMessagesThunk = () => async (dispatch) => {
-  try {
-    dispatch(action(CLEAR));
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 //! --------------------------------------------------------------------
 
@@ -125,7 +113,7 @@ const initialState = {};
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = {};
+      const newState = { ...state };
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }
@@ -139,9 +127,6 @@ const messageReducer = (state = initialState, action) => {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
-    }
-    case CLEAR: {
-      return {};
     }
     default:
       return state;

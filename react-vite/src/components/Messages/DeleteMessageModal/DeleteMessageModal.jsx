@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./DeleteMessageModal.module.css";
 import {
   deleteMessageThunk,
-  getAllMessagesThunk,
 } from "../../../redux/messages";
 
-const DeleteMessage = ({ message }) => {
+const DeleteMessage = ({ message, socket }) => {
   const channel = useSelector((state) => state.channel.current);
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
-  const onClick = async () => {
+  const onClick = () => {
     try {
-      await dispatch(deleteMessageThunk(message));
-      dispatch(getAllMessagesThunk(channel));
+      dispatch(deleteMessageThunk(message));
+      socket.emit("message", { room: channel.id, message });
       closeModal();
     } catch (e) {
       closeModal();

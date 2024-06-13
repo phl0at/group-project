@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
   createServerThunk,
-  setCurrentServerThunk,
 } from "../../../redux/servers";
 import { useEffect } from "react";
+<<<<<<< HEAD
 import { clearCurrentMessagesThunk } from "../../../redux/messages";
 import { clearCurrentChannelThunk } from "../../../redux/channels";
 import ServerImageUpload from "../ServerImageUpload";
+=======
+
+>>>>>>> dev
 
 const CreateServerModal = () => {
   const dispatch = useDispatch();
@@ -37,10 +40,23 @@ const CreateServerModal = () => {
       if (!serverName.trim().length) {
         setErrors({ error: "Server Name is required" });
       } else {
+<<<<<<< HEAD
         const newServer = await dispatch(createServerThunk(formData));
         await dispatch(setCurrentServerThunk(newServer));
         dispatch(clearCurrentMessagesThunk());
         dispatch(clearCurrentChannelThunk());
+=======
+        // this will need to be changed when the
+        // image upload feature is
+        // integrated with AWS below
+        await dispatch(
+          createServerThunk({
+            serverName,
+            ownerId: sessionUser.id,
+            image_url: null,
+          })
+        );
+>>>>>>> dev
         closeModal();
       }
     } catch (e) {
@@ -60,8 +76,21 @@ const CreateServerModal = () => {
           onChange={(e) => setServerName(e.target.value)}
           required
         />
+<<<<<<< HEAD
         <ServerImageUpload setImage={setImage} />
         <button className={styles.submit} type="submit">Create</button>
+=======
+        {/*
+          create ServerProfileImageUpload by copy/pasting UserProfileImageUpload component
+          import that component into this file and render it here
+
+          <ServerProfileImageUpload />
+
+        */}
+        <button className={styles.submit} type="submit">
+          Create
+        </button>
+>>>>>>> dev
       </form>
     </main>
   );

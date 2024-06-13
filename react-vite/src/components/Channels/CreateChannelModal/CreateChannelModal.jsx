@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
   createChannelThunk,
+  getAllChannelsThunk,
   setCurrentChannelThunk,
 } from "../../../redux/channels";
 import { getAllMessagesThunk } from "../../../redux/messages";
@@ -35,8 +36,9 @@ const CreateChannelModal = () => {
       if (response.errors) {
         setErrors(response.errors);
       } else {
+        dispatch(getAllChannelsThunk(server));
         dispatch(setCurrentChannelThunk(response));
-        dispatch(getAllMessagesThunk(response));
+        dispatch(getAllMessagesThunk(response.id));
         closeModal();
       }
     } catch (e) {
@@ -49,14 +51,16 @@ const CreateChannelModal = () => {
       <div className={styles.title}>Make a new channel!</div>
       <div className={styles.error}>{errors.error && errors.error}</div>
       <form className={styles.form} onSubmit={handleSubmit}>
-          <input
-            placeholder="Enter a name..."
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        <button className={styles.submit} type="submit">Create Channel</button>
+        <input
+          placeholder="Enter a name..."
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <button className={styles.submit} type="submit">
+          Create Channel
+        </button>
       </form>
     </main>
   );

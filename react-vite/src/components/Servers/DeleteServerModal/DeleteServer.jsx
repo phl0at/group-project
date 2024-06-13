@@ -2,16 +2,7 @@ import { useState } from "react";
 import { useModal } from "../../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DeleteServer.module.css";
-import {
-  getAllServersThunk,
-  deleteServerThunk,
-  setCurrentServerThunk,
-} from "../../../redux/servers";
-import {
-  getAllChannelsThunk,
-  setCurrentChannelThunk,
-} from "../../../redux/channels";
-import { getAllMessagesThunk } from "../../../redux/messages";
+import { initialLoadThunk, deleteServerThunk } from "../../../redux/servers";
 
 const DeleteServer = () => {
   const server = useSelector((state) => state.server.current);
@@ -19,20 +10,10 @@ const DeleteServer = () => {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
-  const loadDefault = async () => {
-    const allServers = await dispatch(getAllServersThunk());
-    await dispatch(setCurrentServerThunk(allServers[0]));
-    const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
-    const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
-    if (currChannel) {
-      await dispatch(getAllMessagesThunk(currChannel));
-    }
-  };
-
-  const onClick = async () => {
+  const onClick = () => {
     try {
-      await dispatch(deleteServerThunk(server));
-      loadDefault();
+      dispatch(deleteServerThunk(server));
+      dispatch(initialLoadThunk());
       closeModal();
     } catch (e) {
       setErrors({ error: "An unexpected error occurred" });

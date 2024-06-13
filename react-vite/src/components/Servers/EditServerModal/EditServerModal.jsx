@@ -20,7 +20,7 @@ const EditServerModal = () => {
     }
   }, [errors]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
     const formData = new FormData();
@@ -31,7 +31,7 @@ const EditServerModal = () => {
       if (!serverName.trim().length) {
         setErrors({ error: "Server Name is required" });
       } else {
-        await dispatch(
+        dispatch(
           updateServerThunk({
             id: server.id,
             formData,

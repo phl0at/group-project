@@ -3,7 +3,6 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import {
   getChannelsArray,
   setCurrentChannelThunk,
-  setLastChannelThunk,
 } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
@@ -16,17 +15,21 @@ import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
 
-function ChannelsList() {
+function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
+  const server = useSelector((state) => state.server.current);
   const allChannels = useSelector(getChannelsArray);
   const currChannel = useSelector((state) => state.channel.current);
-  const server = useSelector((state) => state.server.current);
-  const user = useSelector((state) => state.session.user);
+  const serverChannels = allChannels.filter(
+    (channel) => channel.server_id === server.id
+  );
 
-  const handleChannelClick = async (channel) => {
-    await dispatch(setLastChannelThunk(currChannel));
-    await dispatch(setCurrentChannelThunk(channel));
-    await dispatch(getAllMessagesThunk(channel.id));
+  const handleChannelClick = (channel) => {
+    setPrevRoom(curRoom);
+    setCurRoom(channel.id);
+    dispatch(setCurrentChannelThunk(channel));
+    dispatch(getAllMessagesThunk(channel.id));
   };
 
   return (
@@ -40,13 +43,14 @@ function ChannelsList() {
         )}
         <div className={styles.channel_list}>
           {server &&
-            allChannels.map((channel) => {
+            serverChannels.map((channel) => {
               const selected = currChannel?.id === channel.id ? true : false;
               if (channel.server_id === server.id) {
                 return (
                   <div
-                    id={`${selected ? "selected" : ""}`}
-                    className={styles.channel}
+                    className={
+                      selected ? styles.selected_channel : styles.channel
+                    }
                     key={channel.id}
                   >
                     <button
@@ -62,17 +66,19 @@ function ChannelsList() {
                     <div className={styles.channel_buttons}>
                       {server.owner_id === user.id && (
                         <>
-                          <OpenModalButton
-                            title="Delete Channel"
-                            buttonText={<HiOutlineTrash />}
-                            modalComponent={
-                              <DeleteChannelModal
-                                allChannels={allChannels}
-                                channel={channel}
-                                server={server}
-                              />
-                            }
-                          />
+                          {serverChannels.length > 1 && (
+                            <OpenModalButton
+                              title="Delete Channel"
+                              buttonText={<HiOutlineTrash />}
+                              modalComponent={
+                                <DeleteChannelModal
+                                  allChannels={allChannels}
+                                  channel={channel}
+                                  server={server}
+                                />
+                              }
+                            />
+                          )}
                           <OpenModalButton
                             title="Rename Channel"
                             buttonText={<HiOutlineDocumentText />}
@@ -94,7 +100,11 @@ function ChannelsList() {
       </div>
       <div className={styles.profileBar}>
         <div>
-          <NavLink to="/profile" className={styles.profileButton}>
+          <NavLink
+            title="View Profile"
+            to="/profile"
+            className={styles.profileButton}
+          >
             <img
               className={styles.userImage}
               src={user.image_url ? user.image_url : default_user}
