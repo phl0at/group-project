@@ -39,7 +39,8 @@ function MainComponent() {
     const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
     if (currChannel) {
-      await dispatch(getAllMessagesThunk(currChannel));
+      await dispatch(setLastChannelThunk(currChannel));
+      await dispatch(getAllMessagesThunk(currChannel.id));
     }
   };
 
