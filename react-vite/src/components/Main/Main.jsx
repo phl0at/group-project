@@ -25,6 +25,7 @@ function MainComponent() {
   useEffect(() => {
     if (user) {
       loadDefault();
+
     } else {
       clearCurrentServerThunk()
       clearChannelsThunk()
