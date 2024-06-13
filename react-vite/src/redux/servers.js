@@ -5,9 +5,8 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL = "servers/getAll";
-const GET_CURRENT = "servers/getCurrent";
+const SET_CURRENT = "servers/setCurrent";
 const CLEAR_CURRENT = "servers/clearCurrent";
-const CLEAR_ALL = "servers/clearAll";
 const CREATE = "servers/create";
 const UPDATE = "servers/update";
 const DELETE = "servers/delete";
@@ -27,7 +26,7 @@ const action = (type, payload) => ({
 
 export const setCurrentServerThunk = (server) => async (dispatch) => {
   try {
-    dispatch(action(GET_CURRENT, server));
+    dispatch(action(SET_CURRENT, server));
     return server;
   } catch (error) {
     console.log(error);
@@ -36,12 +35,18 @@ export const setCurrentServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const getAllServersThunk = () => async (dispatch) => {
+export const initialLoadThunk = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/servers/");
+    const response = await fetch("/api/servers/init_load");
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL, data));
+      const { servers, first_server, channels, messages } = data;
+      dispatch(action(GET_ALL, servers));
+      dispatch(action(SET_CURRENT, first_server));
+      dispatch(action("channels/getAll", channels));
+      dispatch(action("channels/setCurrent", channels[0]));
+      dispatch(action("channels/setLast", channels[0]));
+      dispatch(action("messages/getAll", messages));
       return data;
     }
   } catch (error) {
@@ -59,10 +64,13 @@ export const createServerThunk = (server) => async (dispatch) => {
       body: JSON.stringify(server),
     });
 
-    console.log("!!!!", JSON.stringify(server));
     if (response.ok) {
       const data = await response.json();
+      dispatch(action("messages/clearCurrent"));
       dispatch(action(CREATE, data));
+      dispatch(action(SET_CURRENT, data));
+      dispatch(action("channels/getAll", data.channels));
+      dispatch(action("channels/setCurrent", data.channels[0]));
       return data;
     }
   } catch (error) {
@@ -98,9 +106,8 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       dispatch(action(UPDATE, data));
-      dispatch(action(GET_CURRENT, data));
+      dispatch(action(SET_CURRENT, data));
       return data;
     }
   } catch (error) {
@@ -113,16 +120,6 @@ export const updateServerThunk = (server) => async (dispatch) => {
 export const clearCurrentServerThunk = () => async (dispatch) => {
   try {
     dispatch(action(CLEAR_CURRENT));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//! --------------------------------------------------------------------
-
-export const clearServersThunk = () => async (dispatch) => {
-  try {
-    dispatch(action(CLEAR_ALL));
   } catch (error) {
     console.log(error);
   }
@@ -163,7 +160,7 @@ const serverReducer = (state = initialState, action) => {
     case UPDATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case GET_CURRENT: {
+    case SET_CURRENT: {
       return { ...state, current: action.payload };
     }
     case CLEAR_CURRENT: {
@@ -175,9 +172,6 @@ const serverReducer = (state = initialState, action) => {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
-    }
-    case CLEAR_ALL: {
-      return {};
     }
     default:
       return state;

@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.models import db, Server, User
+from app.models import db, Server, User, Channel
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from app.forms import CreateServerForm
@@ -11,6 +11,17 @@ ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@servers_routes.route("/init_load")
+@login_required
+def init_load():
+    all_servers = Server.query.filter(Server.DM == False)
+    first_server = [server.to_dict() for server in all_servers][0]
+    return { 'servers': [server.to_dict() for server in all_servers],
+            'first_server': first_server, 'channels': first_server['channels'],
+            'messages': first_server['channels'][0]['messages']}
+
+
 
 @servers_routes.route("/")
 @login_required
@@ -51,6 +62,7 @@ def create_server():
         image_url=form.data['image_url']
         )
 
+
     if server.name.isspace():
         return { "errors": 'server name required'}, 400
 
@@ -60,8 +72,18 @@ def create_server():
     else:
         db.session.add(server)
         db.session.commit()
-        return server.to_dict(), 200
 
+
+    general_chanel = Channel(
+        server_id=server.to_dict()['id'],
+        name='General'
+    )
+
+    db.session.add(general_chanel)
+    db.session.commit()
+
+
+    return server.to_dict(), 200
 
 
 @servers_routes.route('/<int:server_id>', methods=['PUT'])

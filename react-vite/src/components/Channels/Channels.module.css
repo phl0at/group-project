@@ -50,29 +50,42 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 214px;
 }
-
 .channel:hover {
   color: #fff;
 }
 
+.selected_channel {
+  width: 214px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #383a40;
+  border-radius: 5px;
+}
+.selected_channel:hover {
+  color: #fff;
+}
+
 .channel_name {
+  width: 167px;
   padding: 10px;
-  width: 100%;
   display: flex;
 }
 
 .channel_buttons {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 45px;
 }
 
 .channel_buttons > button {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 20px;
 }
 

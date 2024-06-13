@@ -4,7 +4,6 @@ import {
   createMessageThunk,
   getMessagesArray,
   editMessageThunk,
-  getAllMessagesThunk,
 } from "../../redux/messages";
 import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";
@@ -15,14 +14,12 @@ import DeleteMessage from "./DeleteMessageModal/";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
-import { socket } from "../../app";
+import { socket } from "../../socket";
 
-
-function MessagesList() {
+function MessagesList({curRoom, prevRoom}) {
   const dispatch = useDispatch();
   const messages = useSelector(getMessagesArray);
   const currChannel = useSelector((state) => state.channel.current);
-  const lastChannel = useSelector((state) => state.channel.last);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
   const [inputText, setInputText] = useState("");
@@ -34,22 +31,19 @@ function MessagesList() {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-    socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
-    });
-
   }, []);
 
   useEffect(() => {
-    socket.emit("leave", { room: lastChannel?.id });
-    socket.emit("join", { room: currChannel?.id });
+    socket.emit("leave", { room: prevRoom });
+    socket.emit("join", { room: curRoom });
     setInputText("");
-  }, [currChannel]);
+  }, [curRoom]);
 
   useEffect(() => {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
+
   }, [messages]);
 
   const handleSubmit = (e) => {
@@ -60,9 +54,7 @@ function MessagesList() {
       text: inputText,
     };
 
-    if (!inputText.trim().length) {
-      setErrors({ error: "Message Text Required" });
-    } else if (inputText.length > 250) {
+    if (inputText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
       dispatch(createMessageThunk(currChannel.id, message));
@@ -188,7 +180,7 @@ function MessagesList() {
                               modalComponent={
                                 <DeleteMessage
                                   message={message}
-                                  socket={socket}
+                                  curRoom={curRoom}
                                 />
                               }
                             />
@@ -210,6 +202,7 @@ function MessagesList() {
             onSubmit={handleSubmit}
           >
             <input
+              required
               className={styles.input}
               type="text"
               value={inputText}
@@ -219,7 +212,6 @@ function MessagesList() {
                 setErrors({});
               }}
             />
-            <div className={styles.error}>{errors.error && errors.error}</div>
           </form>
         )}
       </div>

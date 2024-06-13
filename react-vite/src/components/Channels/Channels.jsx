@@ -1,10 +1,6 @@
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
-import {
-  getChannelsArray,
-  setCurrentChannelThunk,
-  setLastChannelThunk,
-} from "../../redux/channels";
+import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
 import EditChannelModal from "./EditChannelModal ";
@@ -16,17 +12,18 @@ import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
 
-function ChannelsList() {
+function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
+  const server = useSelector((state) => state.server.current);
   const allChannels = useSelector(getChannelsArray);
   const currChannel = useSelector((state) => state.channel.current);
-  const server = useSelector((state) => state.server.current);
-  const user = useSelector((state) => state.session.user);
 
-  const handleChannelClick = async (channel) => {
-    await dispatch(setLastChannelThunk(currChannel));
-    await dispatch(setCurrentChannelThunk(channel));
-    await dispatch(getAllMessagesThunk(channel.id));
+  const handleChannelClick = (channel) => {
+    setPrevRoom(curRoom);
+    setCurRoom(channel.id);
+    dispatch(setCurrentChannelThunk(channel));
+    dispatch(getAllMessagesThunk(channel.id));
   };
 
   return (
@@ -45,8 +42,9 @@ function ChannelsList() {
               if (channel.server_id === server.id) {
                 return (
                   <div
-                    id={`${selected ? "selected" : ""}`}
-                    className={styles.channel}
+                    className={
+                      selected ? styles.selected_channel : styles.channel
+                    }
                     key={channel.id}
                   >
                     <button
@@ -62,27 +60,32 @@ function ChannelsList() {
                     <div className={styles.channel_buttons}>
                       {server.owner_id === user.id && (
                         <>
-                          <OpenModalButton
-                            title="Delete Channel"
-                            buttonText={<HiOutlineTrash />}
-                            modalComponent={
-                              <DeleteChannelModal
-                                allChannels={allChannels}
-                                channel={channel}
-                                server={server}
+                          {channel.name.toLowerCase() != "general" && (
+                            <>
+                              <OpenModalButton
+                                title="Delete Channel"
+                                buttonText={<HiOutlineTrash />}
+                                modalComponent={
+                                  <DeleteChannelModal
+                                    allChannels={allChannels}
+                                    channel={channel}
+                                    server={server}
+                                  />
+                                }
                               />
-                            }
-                          />
-                          <OpenModalButton
-                            title="Rename Channel"
-                            buttonText={<HiOutlineDocumentText />}
-                            modalComponent={
-                              <EditChannelModal
-                                channel={channel}
-                                serverId={channel.server_id}
+
+                              <OpenModalButton
+                                title="Rename Channel"
+                                buttonText={<HiOutlineDocumentText />}
+                                modalComponent={
+                                  <EditChannelModal
+                                    channel={channel}
+                                    serverId={channel.server_id}
+                                  />
+                                }
                               />
-                            }
-                          />
+                            </>
+                          )}
                         </>
                       )}
                     </div>
@@ -94,7 +97,11 @@ function ChannelsList() {
       </div>
       <div className={styles.profileBar}>
         <div>
-          <NavLink to="/profile" className={styles.profileButton}>
+          <NavLink
+            title="View Profile"
+            to="/profile"
+            className={styles.profileButton}
+          >
             <img
               className={styles.userImage}
               src={user.image_url ? user.image_url : default_user}

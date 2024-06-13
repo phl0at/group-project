@@ -5,7 +5,6 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL = "messages/getAll";
-const CLEAR = "messages/clearCurrent";
 const CREATE = "messages/create";
 const EDIT = "messages/edit";
 const DELETE = "messages/delete";
@@ -57,16 +56,6 @@ export const editMessageThunk = (message) => async (dispatch) => {
   }
 };
 
-
-//! --------------------------------------------------------------------
-
-export const clearCurrentMessagesThunk = () => async (dispatch) => {
-  try {
-    dispatch(action(CLEAR));
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 //! --------------------------------------------------------------------
 
@@ -138,9 +127,6 @@ const messageReducer = (state = initialState, action) => {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
-    }
-    case CLEAR: {
-      return {};
     }
     default:
       return state;

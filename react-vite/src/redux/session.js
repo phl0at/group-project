@@ -4,11 +4,10 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
-const GET_ALL = 'session/getAll'
-const UPDATE = 'session/update';
-
+const SET_USER = "session/setUser";
+const REMOVE_USER = "session/removeUser";
+const GET_ALL = "session/getAll";
+const UPDATE = "session/update";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -43,34 +42,34 @@ export const editUserThunk = (formData, userId) => async (dispatch) => {
 //! --------------------------------------------------------------------
 
 export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/");
-	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-			return;
-		}
+  const response = await fetch("/api/auth/");
+  if (response.ok) {
+    const data = await response.json();
+    if (data.errors) {
+      return;
+    }
 
-		dispatch(action(SET_USER, data));
-	}
+    dispatch(action(SET_USER, data));
+  }
 };
 
 //! --------------------------------------------------------------------
 
-export const thunkLogin = (credentials) => async dispatch => {
+export const thunkLogin = (credentials) => async (dispatch) => {
   const response = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials)
+    body: JSON.stringify(credentials),
   });
 
-  if(response.ok) {
+  if (response.ok) {
     const data = await response.json();
     dispatch(action(SET_USER, data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
-    return errorMessages
+    return errorMessages;
   } else {
-    return { server: "Something went wrong. Please try again" }
+    return { server: "Something went wrong. Please try again" };
   }
 };
 
@@ -80,17 +79,17 @@ export const thunkSignup = (user) => async (dispatch) => {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user),
   });
 
-  if(response.ok) {
+  if (response.ok) {
     const data = await response.json();
     dispatch(action(SET_USER, data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
-    return errorMessages
+    return errorMessages;
   } else {
-    return { server: "Something went wrong. Please try again" }
+    return { server: "Something went wrong. Please try again" };
   }
 };
 
@@ -146,7 +145,13 @@ function sessionReducer(state = initialState, action) {
       return { ...state, user: null };
     case GET_ALL: {
       const newState = { ...state };
-      action.payload.forEach((user) => (newState[user.id] = user));
+      action.payload.forEach(
+        (user) =>
+          (newState[user.id] = {
+            username: user.username,
+            image_url: user.image_url,
+          })
+      );
       return newState;
     }
     case UPDATE: {

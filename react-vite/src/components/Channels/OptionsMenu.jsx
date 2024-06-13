@@ -2,12 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./OptionsMenu.module.css";
 import { useDispatch } from "react-redux";
 import { thunkLogout } from "../../redux/session";
-import { clearChannelsThunk } from "../../redux/channels";
-import { clearCurrentMessagesThunk } from "../../redux/messages";
-import { clearServersThunk } from "../../redux/servers";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-function OptionsMenu({ socket }) {
+function OptionsMenu() {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -35,23 +32,14 @@ function OptionsMenu({ socket }) {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(clearServersThunk());
-    dispatch(clearChannelsThunk());
-    dispatch(clearCurrentMessagesThunk());
     dispatch(thunkLogout());
-    if (socket) {
-      socket.disconnect();
-      socket.on("disconnect", () => {
-        console.log("*****SOCKET DISCONNECTED*****");
-      });
-    }
     closeMenu();
   };
 
   return (
     <main>
-      <button onClick={toggleMenu}>
-        <HiCog6Tooth />
+      <button  onClick={toggleMenu}>
+        <HiCog6Tooth size="25" />
       </button>
       {showMenu && (
         <ul ref={ulRef}>
