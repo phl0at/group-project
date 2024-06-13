@@ -4,16 +4,16 @@ import styles from "./DeleteMessageModal.module.css";
 import {
   deleteMessageThunk,
 } from "../../../redux/messages";
+import { socket } from "../../../socket";
 
-const DeleteMessage = ({ message, socket }) => {
-  const channel = useSelector((state) => state.channel.current);
+const DeleteMessage = ({ message, curRoom }) => {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
   const onClick = () => {
     try {
       dispatch(deleteMessageThunk(message));
-      socket.emit("message", { room: channel.id, message });
+      socket.emit("message", { room: curRoom, message });
       closeModal();
     } catch (e) {
       closeModal();

@@ -43,6 +43,7 @@ function MessagesList({curRoom, prevRoom}) {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
+
   }, [messages]);
 
   const handleSubmit = (e) => {
@@ -179,7 +180,7 @@ function MessagesList({curRoom, prevRoom}) {
                               modalComponent={
                                 <DeleteMessage
                                   message={message}
-                                  socket={socket}
+                                  curRoom={curRoom}
                                 />
                               }
                             />

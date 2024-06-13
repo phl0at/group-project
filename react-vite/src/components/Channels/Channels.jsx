@@ -1,9 +1,6 @@
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
-import {
-  getChannelsArray,
-  setCurrentChannelThunk,
-} from "../../redux/channels";
+import { getChannelsArray, setCurrentChannelThunk } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
 import EditChannelModal from "./EditChannelModal ";
@@ -21,9 +18,6 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
   const server = useSelector((state) => state.server.current);
   const allChannels = useSelector(getChannelsArray);
   const currChannel = useSelector((state) => state.channel.current);
-  const serverChannels = allChannels.filter(
-    (channel) => channel.server_id === server.id
-  );
 
   const handleChannelClick = (channel) => {
     setPrevRoom(curRoom);
@@ -43,7 +37,7 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
         )}
         <div className={styles.channel_list}>
           {server &&
-            serverChannels.map((channel) => {
+            allChannels.map((channel) => {
               const selected = currChannel?.id === channel.id ? true : false;
               if (channel.server_id === server.id) {
                 return (
@@ -66,29 +60,32 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
                     <div className={styles.channel_buttons}>
                       {server.owner_id === user.id && (
                         <>
-                          {serverChannels.length > 1 && (
-                            <OpenModalButton
-                              title="Delete Channel"
-                              buttonText={<HiOutlineTrash />}
-                              modalComponent={
-                                <DeleteChannelModal
-                                  allChannels={allChannels}
-                                  channel={channel}
-                                  server={server}
-                                />
-                              }
-                            />
-                          )}
-                          <OpenModalButton
-                            title="Rename Channel"
-                            buttonText={<HiOutlineDocumentText />}
-                            modalComponent={
-                              <EditChannelModal
-                                channel={channel}
-                                serverId={channel.server_id}
+                          {channel.name.toLowerCase() != "general" && (
+                            <>
+                              <OpenModalButton
+                                title="Delete Channel"
+                                buttonText={<HiOutlineTrash />}
+                                modalComponent={
+                                  <DeleteChannelModal
+                                    allChannels={allChannels}
+                                    channel={channel}
+                                    server={server}
+                                  />
+                                }
                               />
-                            }
-                          />
+
+                              <OpenModalButton
+                                title="Rename Channel"
+                                buttonText={<HiOutlineDocumentText />}
+                                modalComponent={
+                                  <EditChannelModal
+                                    channel={channel}
+                                    serverId={channel.server_id}
+                                  />
+                                }
+                              />
+                            </>
+                          )}
                         </>
                       )}
                     </div>
