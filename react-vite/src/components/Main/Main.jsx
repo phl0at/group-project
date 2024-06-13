@@ -18,16 +18,13 @@ function MainComponent() {
   useEffect(() => {
     if (user) {
       socket.connect();
+      socket.on("message", (message) => {
+        dispatch(getAllMessagesThunk(message.message["channel_id"]));
+      });
       dispatch(initialLoadThunk());
     }
     return () => socket.disconnect();
   }, [user]);
-
-  useEffect(() => {
-    socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
-    });
-  }, []);
 
   return (
     <>
