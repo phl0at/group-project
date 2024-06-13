@@ -2,9 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./OptionsMenu.module.css";
 import { useDispatch } from "react-redux";
 import { thunkLogout } from "../../redux/session";
-import { clearChannelsThunk } from "../../redux/channels";
-import { clearCurrentMessagesThunk } from "../../redux/messages";
-import { clearServersThunk } from "../../redux/servers";
 import { HiCog6Tooth } from "react-icons/hi2";
 
 function OptionsMenu({ socket }) {
@@ -35,9 +32,6 @@ function OptionsMenu({ socket }) {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(clearServersThunk());
-    dispatch(clearChannelsThunk());
-    dispatch(clearCurrentMessagesThunk());
     dispatch(thunkLogout());
     if (socket) {
       socket.disconnect();

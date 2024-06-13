@@ -5,15 +5,11 @@ import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { clearCurrentServerThunk, initialLoadThunk } from "../../redux/servers";
-import { clearChannelsThunk } from "../../redux/channels";
+import { initialLoadThunk } from "../../redux/servers";
 import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
-import {
-  clearCurrentMessagesThunk,
-  getAllMessagesThunk,
-} from "../../redux/messages";
+import { getAllMessagesThunk } from "../../redux/messages";
 
 function MainComponent() {
   const dispatch = useDispatch();
@@ -23,12 +19,7 @@ function MainComponent() {
     if (user) {
       socket.connect();
       dispatch(initialLoadThunk());
-    } else {
-      clearCurrentServerThunk();
-      clearChannelsThunk();
-      clearCurrentMessagesThunk();
     }
-
     return () => socket.disconnect();
   }, [user]);
 

@@ -7,7 +7,6 @@ import { createSelector } from "reselect";
 const GET_ALL = "servers/getAll";
 const SET_CURRENT = "servers/setCurrent";
 const CLEAR_CURRENT = "servers/clearCurrent";
-const CLEAR_ALL = "servers/clearAll";
 const CREATE = "servers/create";
 const UPDATE = "servers/update";
 const DELETE = "servers/delete";
@@ -66,7 +65,11 @@ export const createServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
+      dispatch(action('messages/clearCurrent'))
       dispatch(action(CREATE, data));
+      dispatch(action(SET_CURRENT, data))
+      dispatch(action('channels/getAll', data.channels))
+      dispatch(action('channels/setCurrent', data.channels[0]))
       return data;
     }
   } catch (error) {
@@ -122,16 +125,6 @@ export const clearCurrentServerThunk = () => async (dispatch) => {
 };
 
 //! --------------------------------------------------------------------
-
-export const clearServersThunk = () => async (dispatch) => {
-  try {
-    dispatch(action(CLEAR_ALL));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//! --------------------------------------------------------------------
 //*                            Selectors
 //! --------------------------------------------------------------------
 
@@ -178,9 +171,6 @@ const serverReducer = (state = initialState, action) => {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;
-    }
-    case CLEAR_ALL: {
-      return {};
     }
     default:
       return state;

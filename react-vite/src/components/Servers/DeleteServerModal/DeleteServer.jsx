@@ -10,10 +10,10 @@ const DeleteServer = () => {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
-  const onClick = async () => {
+  const onClick = () => {
     try {
-      await dispatch(deleteServerThunk(server));
-      await dispatch(initialLoadThunk());
+      dispatch(deleteServerThunk(server));
+      dispatch(initialLoadThunk());
       closeModal();
     } catch (e) {
       setErrors({ error: "An unexpected error occurred" });

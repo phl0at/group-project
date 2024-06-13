@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
   createServerThunk,
-  setCurrentServerThunk,
 } from "../../../redux/servers";
 import { useEffect } from "react";
-import { clearCurrentMessagesThunk } from "../../../redux/messages";
-import { clearCurrentChannelThunk } from "../../../redux/channels";
+
 
 const CreateServerModal = () => {
   const dispatch = useDispatch();
@@ -33,21 +31,17 @@ const CreateServerModal = () => {
         // this will need to be changed when the
         // image upload feature is
         // integrated with AWS below
-        const newServer = await dispatch(
+        await dispatch(
           createServerThunk({
             serverName,
             ownerId: sessionUser.id,
             image_url: null,
-
           })
         );
-        await dispatch(setCurrentServerThunk(newServer));
-        await dispatch(clearCurrentMessagesThunk());
-        await dispatch(clearCurrentChannelThunk());
         closeModal();
       }
     } catch (e) {
-      console.log;
+      console.log(e);
     }
   };
 
@@ -70,7 +64,9 @@ const CreateServerModal = () => {
           <ServerProfileImageUpload />
 
         */}
-        <button className={styles.submit} type="submit">Create</button>
+        <button className={styles.submit} type="submit">
+          Create
+        </button>
       </form>
     </main>
   );

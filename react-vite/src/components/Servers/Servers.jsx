@@ -3,14 +3,11 @@ import { getServersArray, setCurrentServerThunk } from "../../redux/servers";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Servers.module.css";
 import {
-  clearCurrentChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
+  setLastChannelThunk,
 } from "../../redux/channels";
-import {
-  clearCurrentMessagesThunk,
-  getAllMessagesThunk,
-} from "../../redux/messages";
+import { getAllMessagesThunk } from "../../redux/messages";
 import CreateServerModal from "../Servers/CreateServerModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
@@ -19,18 +16,14 @@ import { HiMiniCpuChip } from "react-icons/hi2";
 function ServersList() {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
+  const channel = useSelector((state) => state.channel.current);
 
-  const handleServerClick = async (server) => {
-    await dispatch(clearCurrentMessagesThunk());
-    await dispatch(setCurrentServerThunk(server));
-    await dispatch(getAllChannelsThunk(server));
-    const channel = await dispatch(setCurrentChannelThunk(server.channels[0]));
-
-    if (channel) {
-      await dispatch(getAllMessagesThunk(channel.id));
-    } else {
-      await dispatch(clearCurrentMessagesThunk());
-    }
+  const handleServerClick = (server) => {
+    dispatch(setLastChannelThunk(channel))
+    dispatch(setCurrentServerThunk(server));
+    dispatch(getAllChannelsThunk(server));
+    dispatch(setCurrentChannelThunk(server.channels[0]));
+    dispatch(getAllMessagesThunk(server.channels[0].id));
   };
 
   return (

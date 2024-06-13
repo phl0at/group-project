@@ -62,6 +62,7 @@ def create_server():
         image_url=form.data['image_url']
         )
 
+
     if server.name.isspace():
         return { "errors": 'server name required'}, 400
 
@@ -71,8 +72,18 @@ def create_server():
     else:
         db.session.add(server)
         db.session.commit()
-        return server.to_dict(), 200
 
+
+    general_chanel = Channel(
+        server_id=server.to_dict()['id'],
+        name='General'
+    )
+    
+    db.session.add(general_chanel)
+    db.session.commit()
+
+
+    return server.to_dict(), 200
 
 
 @servers_routes.route('/<int:server_id>', methods=['PUT'])

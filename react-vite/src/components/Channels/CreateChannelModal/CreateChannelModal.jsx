@@ -2,17 +2,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import {
-  clearChannelsThunk,
-  clearCurrentChannelThunk,
   createChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
   setLastChannelThunk,
 } from "../../../redux/channels";
-import {
-  clearCurrentMessagesThunk,
-  getAllMessagesThunk,
-} from "../../../redux/messages";
+import { getAllMessagesThunk } from "../../../redux/messages";
 import styles from "./CreateChannelModal.module.css";
 
 const CreateChannelModal = () => {
@@ -43,10 +38,9 @@ const CreateChannelModal = () => {
       if (response.errors) {
         setErrors(response.errors);
       } else {
-        await dispatch(setLastChannelThunk(channel));
-        await dispatch(getAllChannelsThunk(server));
-        await dispatch(setCurrentChannelThunk(response));
-        await dispatch(getAllMessagesThunk(response.id));
+        dispatch(getAllChannelsThunk(server));
+        dispatch(setCurrentChannelThunk(response));
+        dispatch(getAllMessagesThunk(response.id));
         closeModal();
       }
     } catch (e) {
