@@ -43,6 +43,7 @@ app.register_blueprint(reactions_routes, url_prefix='/api/reactions')
 db.init_app(app)
 Migrate(app, db)
 socketio.init_app(app)
+socketio.run(app)
 
 # Application Security
 CORS(app)
