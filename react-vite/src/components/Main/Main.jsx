@@ -21,6 +21,7 @@ function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
+<<<<<<< HEAD
 
   useEffect(() => {
     if (user) {
@@ -33,16 +34,23 @@ function MainComponent() {
     }
   }, [user]);
 
+=======
+>>>>>>> main
   const loadDefault = async () => {
     const allServers = await dispatch(getAllServersThunk());
     await dispatch(setCurrentServerThunk(allServers[0]));
     const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
     const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
     if (currChannel) {
-      await dispatch(setLastChannelThunk(currChannel));
-      await dispatch(getAllMessagesThunk(currChannel.id));
+      await dispatch(getAllMessagesThunk(currChannel));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      loadDefault();
+    }
+  }, [user]);
 
   return (
     <>
