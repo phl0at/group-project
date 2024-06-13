@@ -44,6 +44,12 @@ function MainComponent() {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      loadDefault();
+    }
+  }, [user]);
+
   return (
     <>
       {user ? (

@@ -15,7 +15,7 @@ def allowed_file(filename):
 @servers_routes.route("/")
 @login_required
 def all_servers():
-    all_servers = Server.query.filter(Server.DM == 0)
+    all_servers = Server.query.filter(Server.DM == False)
     return [server.to_dict() for server in all_servers]
 
 @servers_routes.route("/direct")
