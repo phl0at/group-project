@@ -5,7 +5,7 @@ import { createSelector } from "reselect";
 //! --------------------------------------------------------------------
 
 const GET_ALL = "servers/getAll";
-const GET_CURRENT = "servers/getCurrent";
+const SET_CURRENT = "servers/setCurrent";
 const CLEAR_CURRENT = "servers/clearCurrent";
 const CLEAR_ALL = "servers/clearAll";
 const CREATE = "servers/create";
@@ -27,7 +27,7 @@ const action = (type, payload) => ({
 
 export const setCurrentServerThunk = (server) => async (dispatch) => {
   try {
-    dispatch(action(GET_CURRENT, server));
+    dispatch(action(SET_CURRENT, server));
     return server;
   } catch (error) {
     console.log(error);
@@ -36,13 +36,17 @@ export const setCurrentServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const getAllServersThunk = () => async (dispatch) => {
+export const initialLoadThunk = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/servers/");
+    const response = await fetch("/api/servers/init_load");
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL, data));
-      return data;
+      dispatch(action(GET_ALL, data.servers));
+      dispatch(action(SET_CURRENT, data.servers[0]));
+      dispatch(action("channels/setCurrent", data.servers[0]));
+      dispatch(action("channels/getAll", data.servers[0].channels));
+      dispatch(action("messages/getAll", data.servers[0].channels[0].messages));
+      return data
     }
   } catch (error) {
     console.log(error);
@@ -59,7 +63,6 @@ export const createServerThunk = (server) => async (dispatch) => {
       body: JSON.stringify(server),
     });
 
-    console.log("!!!!", JSON.stringify(server));
     if (response.ok) {
       const data = await response.json();
       dispatch(action(CREATE, data));
@@ -98,9 +101,8 @@ export const updateServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       dispatch(action(UPDATE, data));
-      dispatch(action(GET_CURRENT, data));
+      dispatch(action(SET_CURRENT, data));
       return data;
     }
   } catch (error) {
@@ -163,7 +165,7 @@ const serverReducer = (state = initialState, action) => {
     case UPDATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case GET_CURRENT: {
+    case SET_CURRENT: {
       return { ...state, current: action.payload };
     }
     case CLEAR_CURRENT: {

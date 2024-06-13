@@ -15,8 +15,7 @@ import DeleteMessage from "./DeleteMessageModal/";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
-import { socket } from "../../app";
-
+import { socket } from "../../socket";
 
 function MessagesList() {
   const dispatch = useDispatch();
@@ -34,10 +33,6 @@ function MessagesList() {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-    socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
-    });
-
   }, []);
 
   useEffect(() => {

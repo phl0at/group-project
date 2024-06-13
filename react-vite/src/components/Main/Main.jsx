@@ -1,52 +1,38 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { clearCurrentServerThunk, getAllServersThunk, setCurrentServerThunk } from "../../redux/servers";
-import {
-  clearChannelsThunk,
-  getAllChannelsThunk,
-  setCurrentChannelThunk,
-  setLastChannelThunk,
-} from "../../redux/channels";
-import ServersList from "../Servers/Servers";
-import ChannelsList from "../Channels/";
-import MessagesList from "../Messages/";
 import styles from "./Main.module.css";
-import { clearCurrentMessagesThunk, getAllMessagesThunk } from "../../redux/messages";
+import { socket } from "../../socket";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { clearCurrentServerThunk, initialLoadThunk } from "../../redux/servers";
+import { clearChannelsThunk } from "../../redux/channels";
+import ServersList from "../Servers/Servers";
+import ChannelsList from "../Channels/";
+import MessagesList from "../Messages/";
+import {
+  clearCurrentMessagesThunk,
+  getAllMessagesThunk,
+} from "../../redux/messages";
 
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
+  useEffect(() => {
+    socket.on("message", (message) => {
+      dispatch(getAllMessagesThunk(message.message["channel_id"]));
+    });
+  }, []);
 
   useEffect(() => {
     if (user) {
-      loadDefault();
-
+      socket.connect();
+      dispatch(initialLoadThunk());
     } else {
-      clearCurrentServerThunk()
-      clearChannelsThunk()
-      clearCurrentMessagesThunk()
-    }
-  }, [user]);
-
-  const loadDefault = async () => {
-    const allServers = await dispatch(getAllServersThunk());
-    await dispatch(setCurrentServerThunk(allServers[0]));
-    const allChannels = await dispatch(getAllChannelsThunk(allServers[0]));
-    const currChannel = await dispatch(setCurrentChannelThunk(allChannels[0]));
-    if (currChannel) {
-      await dispatch(setLastChannelThunk(currChannel));
-      await dispatch(getAllMessagesThunk(currChannel.id));
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      loadDefault();
+      clearCurrentServerThunk();
+      clearChannelsThunk();
+      clearCurrentMessagesThunk();
     }
   }, [user]);
 

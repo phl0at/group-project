@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.models import db, Server, User
+from app.models import db, Server, User, Channel
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from app.forms import CreateServerForm
@@ -11,6 +11,16 @@ ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@servers_routes.route("/init_load")
+@login_required
+def init_load():
+    all_servers = Server.query.filter(Server.DM == False)
+    first_server = [server.to_dict() for server in all_servers][0]
+    return { 'servers': [server.to_dict() for server in all_servers], 'current': first_server, 'channels': first_server['channels'], 'messages': first_server['channels'][0]['messages']}
+    # all_channels = Channel.query.filter(Channel.)
+
+
 
 @servers_routes.route("/")
 @login_required

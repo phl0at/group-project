@@ -6,14 +6,8 @@ import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
 import { createChannelThunk } from "./redux/channels";
+import { getAllMessagesThunk } from "./redux/messages";
 import "./index.css";
-import { io } from "socket.io-client";
-
-export const socket = io(
-  import.meta.env.NODE_ENV === "production"
-    ? undefined
-    : "http://localhost:8000"
-);
 
 const store = configureStore();
 
@@ -22,6 +16,8 @@ if (import.meta.env.MODE !== "production") {
   window.sessionActions = sessionActions;
   window.createChannelThunk = createChannelThunk;
 }
+
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
