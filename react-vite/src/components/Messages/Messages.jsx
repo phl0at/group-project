@@ -54,9 +54,7 @@ function MessagesList() {
       text: inputText,
     };
 
-    if (!inputText.trim().length) {
-      setErrors({ error: "Message Text Required" });
-    } else if (inputText.length > 250) {
+    if (inputText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
       dispatch(createMessageThunk(currChannel.id, message));

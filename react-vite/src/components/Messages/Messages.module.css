@@ -126,17 +126,16 @@
 }
 
 .form {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: start;
-  padding-left: 10px;
+  padding-left: 20px;
   padding-top: 5px;
-  bottom: 10px;
+  padding-bottom: 25px;
 }
 .input {
-  width: 95%;
+  width: 98%;
   height: 40px;
   padding-left: 10px;
   border: none;

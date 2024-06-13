@@ -40,13 +40,14 @@ export const initialLoadThunk = () => async (dispatch) => {
     const response = await fetch("/api/servers/init_load");
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL, data.servers));
-      dispatch(action(SET_CURRENT, data.servers[0]));
-      dispatch(action("channels/setCurrent", data.servers[0]));
-      dispatch(action("channels/getAll", data.servers[0].channels));
-      dispatch(action("channels/setLast", data.servers[0].channels[0]))
-      dispatch(action("messages/getAll", data.servers[0].channels[0].messages));
-      return data
+      const { servers, first_server, channels, messages } = data;
+      dispatch(action(GET_ALL, servers));
+      dispatch(action(SET_CURRENT, first_server));
+      dispatch(action("channels/getAll", channels));
+      dispatch(action("channels/setCurrent", channels[0]));
+      dispatch(action("channels/setLast", channels[0]));
+      dispatch(action("messages/getAll", messages));
+      return data;
     }
   } catch (error) {
     console.log(error);
@@ -65,11 +66,11 @@ export const createServerThunk = (server) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      dispatch(action('messages/clearCurrent'))
+      dispatch(action("messages/clearCurrent"));
       dispatch(action(CREATE, data));
-      dispatch(action(SET_CURRENT, data))
-      dispatch(action('channels/getAll', data.channels))
-      dispatch(action('channels/setCurrent', data.channels[0]))
+      dispatch(action(SET_CURRENT, data));
+      dispatch(action("channels/getAll", data.channels));
+      dispatch(action("channels/setCurrent", data.channels[0]));
       return data;
     }
   } catch (error) {

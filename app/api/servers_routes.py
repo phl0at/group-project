@@ -18,7 +18,7 @@ def init_load():
     all_servers = Server.query.filter(Server.DM == False)
     first_server = [server.to_dict() for server in all_servers][0]
     return { 'servers': [server.to_dict() for server in all_servers],
-            'current': first_server, 'channels': first_server['channels'],
+            'first_server': first_server, 'channels': first_server['channels'],
             'messages': first_server['channels'][0]['messages']}
 
 
@@ -78,7 +78,7 @@ def create_server():
         server_id=server.to_dict()['id'],
         name='General'
     )
-    
+
     db.session.add(general_chanel)
     db.session.commit()
 

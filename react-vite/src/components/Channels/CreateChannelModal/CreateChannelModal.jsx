@@ -5,7 +5,6 @@ import {
   createChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
-  setLastChannelThunk,
 } from "../../../redux/channels";
 import { getAllMessagesThunk } from "../../../redux/messages";
 import styles from "./CreateChannelModal.module.css";
@@ -13,7 +12,6 @@ import styles from "./CreateChannelModal.module.css";
 const CreateChannelModal = () => {
   const dispatch = useDispatch();
   const server = useSelector((state) => state.server.current);
-  const channel = useSelector((state) => state.channel.current);
   const [name, setName] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
