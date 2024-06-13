@@ -45,6 +45,7 @@ export const initialLoadThunk = () => async (dispatch) => {
       dispatch(action(SET_CURRENT, data.servers[0]));
       dispatch(action("channels/setCurrent", data.servers[0]));
       dispatch(action("channels/getAll", data.servers[0].channels));
+      dispatch(action("channels/setLast", data.servers[0].channels[0]))
       dispatch(action("messages/getAll", data.servers[0].channels[0].messages));
       return data
     }

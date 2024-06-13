@@ -4,7 +4,6 @@ import {
   createMessageThunk,
   getMessagesArray,
   editMessageThunk,
-  getAllMessagesThunk,
 } from "../../redux/messages";
 import { useEffect, useState, useRef } from "react";
 import OpenModalButton from "../OpenModalButton/";

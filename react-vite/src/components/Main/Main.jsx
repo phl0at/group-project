@@ -20,12 +20,6 @@ function MainComponent() {
   const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
-    });
-  }, []);
-
-  useEffect(() => {
     if (user) {
       socket.connect();
       dispatch(initialLoadThunk());
@@ -34,7 +28,15 @@ function MainComponent() {
       clearChannelsThunk();
       clearCurrentMessagesThunk();
     }
+
+    return () => socket.disconnect();
   }, [user]);
+
+  useEffect(() => {
+    socket.on("message", (message) => {
+      dispatch(getAllMessagesThunk(message.message["channel_id"]));
+    });
+  }, []);
 
   return (
     <>

@@ -17,8 +17,9 @@ def allowed_file(filename):
 def init_load():
     all_servers = Server.query.filter(Server.DM == False)
     first_server = [server.to_dict() for server in all_servers][0]
-    return { 'servers': [server.to_dict() for server in all_servers], 'current': first_server, 'channels': first_server['channels'], 'messages': first_server['channels'][0]['messages']}
-    # all_channels = Channel.query.filter(Channel.)
+    return { 'servers': [server.to_dict() for server in all_servers],
+            'current': first_server, 'channels': first_server['channels'],
+            'messages': first_server['channels'][0]['messages']}
 
 
 
