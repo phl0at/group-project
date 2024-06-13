@@ -6,7 +6,7 @@ import {
   getAllMessagesThunk,
 } from "../../../redux/messages";
 
-const DeleteMessage = ({ message }) => {
+const DeleteMessage = ({ message, socket }) => {
   const channel = useSelector((state) => state.channel.current);
   const { closeModal } = useModal();
   const dispatch = useDispatch();
@@ -14,6 +14,7 @@ const DeleteMessage = ({ message }) => {
   const onClick = async () => {
     try {
       await dispatch(deleteMessageThunk(message));
+      socket.emit('message', {room: channel.id, message})
       dispatch(getAllMessagesThunk(channel));
       closeModal();
     } catch (e) {

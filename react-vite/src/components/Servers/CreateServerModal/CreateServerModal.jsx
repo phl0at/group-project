@@ -42,8 +42,8 @@ const CreateServerModal = () => {
           })
         );
         await dispatch(setCurrentServerThunk(newServer));
-        dispatch(clearCurrentMessagesThunk());
-        dispatch(clearCurrentChannelThunk());
+        await dispatch(clearCurrentMessagesThunk());
+        await dispatch(clearCurrentChannelThunk());
         closeModal();
       }
     } catch (e) {

@@ -54,7 +54,7 @@ export const addReactionThunk = (message, reactionType) => async (dispatch) => {
     console.log(error);
   }
 };
-  
+
 
 export const deleteReactionThunk = (reaction) => async (dispatch) => {
   try {
@@ -64,6 +64,7 @@ export const deleteReactionThunk = (reaction) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(action(DELETE_REACTION, { id: reaction.id }));
+      return data
     } else {
       const errorData = await response.json();
       console.log(errorData.error);
@@ -108,7 +109,7 @@ const reactionReducer = (state = initialState, action) => {
       return newState;
     }
 
-      
+
     default:
       return state;
   }

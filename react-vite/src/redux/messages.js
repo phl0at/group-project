@@ -28,7 +28,6 @@ export const getAllMessagesThunk = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`);
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
       dispatch(action(GET_ALL, data));
       return data;
     }
@@ -125,7 +124,7 @@ const initialState = {};
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = {};
+      const newState = { ...state };
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }

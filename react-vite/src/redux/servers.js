@@ -153,7 +153,7 @@ const initialState = {};
 const serverReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = { current: { ...state["current"] } };
+      const newState = { ...state, current: { ...state["current"] } };
       action.payload.forEach((server) => (newState[server.id] = server));
       return newState;
     }

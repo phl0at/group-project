@@ -21,6 +21,21 @@ function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
+<<<<<<< HEAD
+
+  useEffect(() => {
+    if (user) {
+      loadDefault();
+
+    } else {
+      clearCurrentServerThunk()
+      clearChannelsThunk()
+      clearCurrentMessagesThunk()
+    }
+  }, [user]);
+
+=======
+>>>>>>> main
   const loadDefault = async () => {
     const allServers = await dispatch(getAllServersThunk());
     await dispatch(setCurrentServerThunk(allServers[0]));

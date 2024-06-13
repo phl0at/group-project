@@ -8,10 +8,11 @@ import {
   setCurrentServerThunk,
 } from "../../../redux/servers";
 import {
+  clearCurrentChannelThunk,
   getAllChannelsThunk,
   setCurrentChannelThunk,
 } from "../../../redux/channels";
-import { getAllMessagesThunk } from "../../../redux/messages";
+import { clearCurrentMessagesThunk, getAllMessagesThunk } from "../../../redux/messages";
 
 const DeleteServer = () => {
   const server = useSelector((state) => state.server.current);
@@ -32,6 +33,8 @@ const DeleteServer = () => {
   const onClick = async () => {
     try {
       await dispatch(deleteServerThunk(server));
+      await dispatch(clearCurrentMessagesThunk())
+      await dispatch(clearCurrentChannelThunk())
       loadDefault();
       closeModal();
     } catch (e) {

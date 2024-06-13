@@ -168,6 +168,7 @@ const channelReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
       const newState = {
+        ...state,
         current: { ...state["current"] },
         last: { ...state["last"] },
       };
