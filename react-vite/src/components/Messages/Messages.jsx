@@ -17,8 +17,8 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 import { io } from "socket.io-client";
 
-let socket;
-const SOCKET_URL = import.meta.env.SOCKET_URL;
+// let socket;
+// const SOCKET_URL = import.meta.env.SOCKET_URL;
 
 function MessagesList() {
   const dispatch = useDispatch();
@@ -34,19 +34,19 @@ function MessagesList() {
   const [showReactions, setShowReactions] = useState(null);
   const scroll = useRef(null);
 
-  useEffect(() => {
-    // async () => await
-    dispatch(thunkGetAll());
-    socket = io(SOCKET_URL);
-    socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
-    });
-  }, []);
+  // useEffect(() => {
+  //   // async () => await
+  //   dispatch(thunkGetAll());
+  //   socket = io(SOCKET_URL);
+  //   socket.on("message", (message) => {
+  //     dispatch(getAllMessagesThunk(message.message["channel_id"]));
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    socket.emit("leave", { room: lastChannel?.id });
-    socket.emit("join", { room: currChannel?.id });
-  }, [lastChannel, currChannel]);
+  // useEffect(() => {
+  //   socket.emit("leave", { room: lastChannel?.id });
+  //   socket.emit("join", { room: currChannel?.id });
+  // }, [lastChannel, currChannel]);
 
   useEffect(() => {
     if (messages.length) {
@@ -68,7 +68,7 @@ function MessagesList() {
       setErrors({ error: "Max length: 250" });
     } else {
       await dispatch(createMessageThunk(currChannel.id, message));
-      socket.emit("message", { room: currChannel.id, message });
+      // socket.emit("message", { room: currChannel.id, message });
       setInputText("");
     }
   };
@@ -185,7 +185,7 @@ function MessagesList() {
                             modalComponent={
                               <DeleteMessage
                                 message={message}
-                                socket={socket}
+                              // socket={socket}
                               />
                             }
                           />
