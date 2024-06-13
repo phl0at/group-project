@@ -204,6 +204,7 @@ function MessagesList() {
             onSubmit={handleSubmit}
           >
             <input
+              required
               className={styles.input}
               type="text"
               value={inputText}
@@ -213,7 +214,6 @@ function MessagesList() {
                 setErrors({});
               }}
             />
-            <div className={styles.error}>{errors.error && errors.error}</div>
           </form>
         )}
       </div>

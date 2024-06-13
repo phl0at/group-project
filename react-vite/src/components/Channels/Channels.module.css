@@ -50,15 +50,28 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 95%;
 }
-
 .channel:hover {
   color: #fff;
 }
 
+.selected_channel {
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #383a40;
+  border-radius: 5px;
+}
+.selected_channel:hover {
+  color: #fff;
+}
+
 .channel_name {
-  padding: 10px;
   width: 100%;
+  padding: 10px;
   display: flex;
 }
 

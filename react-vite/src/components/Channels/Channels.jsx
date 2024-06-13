@@ -48,8 +48,7 @@ function ChannelsList() {
               if (channel.server_id === server.id) {
                 return (
                   <div
-                    id={`${selected ? "selected" : ""}`}
-                    className={styles.channel}
+                    className={selected ? styles.selected_channel : styles.channel}
                     key={channel.id}
                   >
                     <button
@@ -99,7 +98,11 @@ function ChannelsList() {
       </div>
       <div className={styles.profileBar}>
         <div>
-          <NavLink to="/profile" className={styles.profileButton}>
+          <NavLink
+            title="View Profile"
+            to="/profile"
+            className={styles.profileButton}
+          >
             <img
               className={styles.userImage}
               src={user.image_url ? user.image_url : default_user}

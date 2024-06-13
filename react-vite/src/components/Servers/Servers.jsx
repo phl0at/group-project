@@ -17,9 +17,10 @@ function ServersList() {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
   const channel = useSelector((state) => state.channel.current);
+  const currServer = useSelector((state) => state.server.current);
 
   const handleServerClick = (server) => {
-    dispatch(setLastChannelThunk(channel))
+    dispatch(setLastChannelThunk(channel));
     dispatch(setCurrentServerThunk(server));
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentChannelThunk(server.channels[0]));
@@ -39,7 +40,7 @@ function ServersList() {
           return (
             <button
               title={server.name}
-              className={styles.button}
+              className={`${styles.button} ${currServer.id === server.id && styles.selected}`}
               key={server.id}
               onClick={(e) => {
                 e.preventDefault();
