@@ -17,6 +17,7 @@ from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
 
+
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
 # Setup login manager
@@ -43,7 +44,6 @@ app.register_blueprint(reactions_routes, url_prefix='/api/reactions')
 db.init_app(app)
 Migrate(app, db)
 socketio.init_app(app)
-# socketio.run(app)
 
 # Application Security
 CORS(app)
