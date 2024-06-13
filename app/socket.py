@@ -5,7 +5,9 @@ import os
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
         "http://hypercomm.onrender.com",
-        "https://hypercomm.onrender.com"
+        "https://hypercomm.onrender.com",
+        "ws://hypercomm.onrender.com",
+        "wss://hypercomm.onrender.com"
     ]
 else:
     origins = "*"
