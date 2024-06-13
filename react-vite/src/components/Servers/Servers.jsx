@@ -5,7 +5,7 @@ import styles from "./Servers.module.css";
 import {
   getAllChannelsThunk,
   setCurrentChannelThunk,
-  setLastChannelThunk,
+  // setLastChannelThunk,
 } from "../../redux/channels";
 import { getAllMessagesThunk } from "../../redux/messages";
 import CreateServerModal from "../Servers/CreateServerModal";
@@ -13,14 +13,14 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import { HiMiniCpuChip } from "react-icons/hi2";
 
-function ServersList() {
+function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
   const servers = useSelector(getServersArray);
-  const channel = useSelector((state) => state.channel.current);
   const currServer = useSelector((state) => state.server.current);
 
   const handleServerClick = (server) => {
-    dispatch(setLastChannelThunk(channel));
+    setPrevRoom(curRoom);
+    setCurRoom(server.channels[0].id);
     dispatch(setCurrentServerThunk(server));
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentChannelThunk(server.channels[0]));
@@ -40,7 +40,9 @@ function ServersList() {
           return (
             <button
               title={server.name}
-              className={`${styles.button} ${currServer.id === server.id && styles.selected}`}
+              className={`${styles.button} ${
+                currServer.id === server.id && styles.selected
+              }`}
               key={server.id}
               onClick={(e) => {
                 e.preventDefault();

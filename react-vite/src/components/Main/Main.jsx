@@ -4,7 +4,7 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../Auth/LoginFormModal";
 import SignupFormModal from "../Auth/SignupFormModal";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { initialLoadThunk } from "../../redux/servers";
 import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
@@ -14,6 +14,8 @@ import { getAllMessagesThunk } from "../../redux/messages";
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
+  const [curRoom, setCurRoom] = useState(1);
+  const [prevRoom, setPrevRoom] = useState(1);
 
   useEffect(() => {
     if (user) {
@@ -31,9 +33,17 @@ function MainComponent() {
       {user ? (
         <>
           <main className={styles.page}>
-            <ServersList />
-            <ChannelsList />
-            <MessagesList />
+            <ServersList
+              curRoom={curRoom}
+              setCurRoom={setCurRoom}
+              setPrevRoom={setPrevRoom}
+            />
+            <ChannelsList
+              curRoom={curRoom}
+              setCurRoom={setCurRoom}
+              setPrevRoom={setPrevRoom}
+            />
+            <MessagesList curRoom={curRoom} prevRoom={prevRoom} />
           </main>
         </>
       ) : (

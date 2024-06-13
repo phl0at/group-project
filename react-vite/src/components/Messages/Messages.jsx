@@ -16,11 +16,10 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 import { socket } from "../../socket";
 
-function MessagesList() {
+function MessagesList({curRoom, prevRoom}) {
   const dispatch = useDispatch();
   const messages = useSelector(getMessagesArray);
   const currChannel = useSelector((state) => state.channel.current);
-  const lastChannel = useSelector((state) => state.channel.last);
   const user = useSelector((state) => state.session.user);
   const allUsers = useSelector((state) => state.session);
   const [inputText, setInputText] = useState("");
@@ -35,10 +34,10 @@ function MessagesList() {
   }, []);
 
   useEffect(() => {
-    socket.emit("leave", { room: lastChannel?.id });
-    socket.emit("join", { room: currChannel?.id });
+    socket.emit("leave", { room: prevRoom });
+    socket.emit("join", { room: curRoom });
     setInputText("");
-  }, [currChannel]);
+  }, [curRoom]);
 
   useEffect(() => {
     if (messages.length) {

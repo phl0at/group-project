@@ -3,7 +3,6 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import {
   getChannelsArray,
   setCurrentChannelThunk,
-  setLastChannelThunk,
 } from "../../redux/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessagesThunk } from "../../redux/messages";
@@ -16,7 +15,7 @@ import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
 
-function ChannelsList() {
+function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const server = useSelector((state) => state.server.current);
@@ -27,7 +26,8 @@ function ChannelsList() {
   );
 
   const handleChannelClick = (channel) => {
-    dispatch(setLastChannelThunk(currChannel));
+    setPrevRoom(curRoom);
+    setCurRoom(channel.id);
     dispatch(setCurrentChannelThunk(channel));
     dispatch(getAllMessagesThunk(channel.id));
   };
@@ -48,7 +48,9 @@ function ChannelsList() {
               if (channel.server_id === server.id) {
                 return (
                   <div
-                    className={selected ? styles.selected_channel : styles.channel}
+                    className={
+                      selected ? styles.selected_channel : styles.channel
+                    }
                     key={channel.id}
                   >
                     <button
