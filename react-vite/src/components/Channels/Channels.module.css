@@ -50,14 +50,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 95%;
+  width: 214px;
 }
 .channel:hover {
   color: #fff;
 }
 
 .selected_channel {
-  width: 95%;
+  width: 214px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -70,7 +70,7 @@
 }
 
 .channel_name {
-  width: 100%;
+  width: 167px;
   padding: 10px;
   display: flex;
 }
@@ -78,14 +78,14 @@
 .channel_buttons {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 45px;
 }
 
 .channel_buttons > button {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 20px;
 }
 
