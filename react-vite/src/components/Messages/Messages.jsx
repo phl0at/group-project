@@ -18,7 +18,7 @@ import { VscReactions } from "react-icons/vsc";
 import { io } from "socket.io-client";
 
 let socket;
-const SOCKET_URL = import.meta.env.NODE_ENV === 'production' ? 'https://hypercomm.onrender.com/' : 'http://localhost:8000';
+const SOCKET_URL = import.meta.env.NODE_ENV === 'production' ? null : 'http://localhost:8000';
 
 function MessagesList() {
   const dispatch = useDispatch();
