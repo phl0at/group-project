@@ -1,3 +1,3 @@
 import { io } from "socket.io-client";
 
-export const socket = io("ws://hypercomm.onrender.com", { transports: ['websocket'] });
+export const socket = io("wss://hypercomm.onrender.com", { transports: ['websocket'] });
