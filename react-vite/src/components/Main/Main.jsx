@@ -20,17 +20,11 @@ function MainComponent() {
 
   useEffect(() => {
     if (user) {
-      console.log('User is logged in, attempting to connect to socket...');
-      console.log('Socket URL:', socket.io.uri);
       
       socket.connect();
       
-      socket.on('connect', () => {
-        console.log('Connected to WebSocket server');
-      });
-
-      socket.on('connect_error', (error) => {
-        console.error('WebSocket connection error:', error);
+      socket.on("message", (message) => {
+        dispatch(getAllMessagesThunk(message.message["channel_id"]));
       });
 
       dispatch(initialLoadThunk());
@@ -41,14 +35,6 @@ function MainComponent() {
     };
   }, [user]);
 
-  useEffect(() => {
-    socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
-    });
-    return () => {
-      socket.off("message");
-    };
-  }, [messages]);
 
   return (
     <>
