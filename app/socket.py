@@ -7,7 +7,8 @@ if os.environ.get("FLASK_ENV") == "production":
         "http://hypercomm.onrender.com",
         "https://hypercomm.onrender.com",
         "ws://hypercomm.onrender.com",
-        "wss://hypercomm.onrender.com"
+        "wss://hypercomm.onrender.com",
+
     ]
 else:
     origins = "*"

@@ -31,9 +31,9 @@
   overflow-y: auto;
   scrollbar-color: #1e1f22 #313338;
   scrollbar-width: thin;
-  }
+}
 
-  .message_list {
+.message_list {
   position: relative;
   max-width: 98%;
   max-height: 98%;
@@ -98,7 +98,7 @@
 }
 
 .message_actions > button {
-  display: none;
+  display: block;
 }
 
 .message_body:hover .message_actions > button {

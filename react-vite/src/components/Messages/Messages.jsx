@@ -16,7 +16,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 import { socket } from "../../socket";
 
-function MessagesList({curRoom, prevRoom}) {
+function MessagesList({ curRoom, prevRoom }) {
   const dispatch = useDispatch();
   const messages = useSelector(getMessagesArray);
   const currChannel = useSelector((state) => state.channel.current);
@@ -43,7 +43,6 @@ function MessagesList({curRoom, prevRoom}) {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-
   }, [messages]);
 
   const handleSubmit = (e) => {
@@ -160,9 +159,11 @@ function MessagesList({curRoom, prevRoom}) {
                         >
                           <VscReactions />
                         </button>
-                        {showReactions === message.id && (
-                          <MessageReactions message={message} />
-                        )}
+                        <div>
+                          {showReactions === message.id && (
+                            <MessageReactions message={message} />
+                          )}
+                        </div>
                         {user.id === message.user_id && (
                           <>
                             <button
