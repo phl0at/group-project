@@ -10,6 +10,7 @@ import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import { getAllMessagesThunk } from "../../redux/messages";
+// import { io } from 'socket.io-client';
 
 function MainComponent() {
   const dispatch = useDispatch();
@@ -20,13 +21,14 @@ function MainComponent() {
   useEffect(() => {
     if (user) {
       socket.connect();
+      // socket = io()
       socket.on("message", (message) => {
         dispatch(getAllMessagesThunk(message.message["channel_id"]));
       });
       dispatch(initialLoadThunk());
     }
     return () => socket.disconnect();
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <>
