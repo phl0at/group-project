@@ -1,6 +1,8 @@
+from flask import Flask
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 
+app = Flask(__name__)
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
@@ -8,13 +10,15 @@ if os.environ.get("FLASK_ENV") == "production":
         "https://hypercomm.onrender.com",
         "ws://hypercomm.onrender.com",
         "wss://hypercomm.onrender.com",
-
     ]
 else:
     origins = "*"
 
 socketio = SocketIO(cors_allowed_origins=origins)
 
+@app.route('/')
+def index():
+    return 'Server is running!'
 
 @socketio.on('join')
 def join(data):
