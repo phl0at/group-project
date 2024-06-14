@@ -22,11 +22,9 @@ function MainComponent() {
     if (user) {
       
       socket.connect();
-      
       socket.on("message", (message) => {
         dispatch(getAllMessagesThunk(message.message["channel_id"]));
       });
-
       dispatch(initialLoadThunk());
     }
     return () => {
