@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
 
-export const socket = io(
-  import.meta.env.NODE_ENV === "production"
-    ? "wss://hypercomm.onrender.com"
-    : "http://localhost:8000", { autoConnect: false }
-);
+const SOCKET_URL = import.meta.env.PROD
+  ? "wss://hypercomm.onrender.com"
+  : "http://localhost:8080";
+
+export const socket = io(SOCKET_URL, {
+  transports: ["websocket"],
+});

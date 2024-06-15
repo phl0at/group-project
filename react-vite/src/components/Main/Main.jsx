@@ -19,16 +19,16 @@ function MainComponent() {
   const [prevRoom, setPrevRoom] = useState(1);
 
   useEffect(() => {
+    socket.on("message", (message) => {
+      dispatch(getAllMessagesThunk(message.message["channel_id"]));
+    });
+  }, []);
+
+  useEffect(() => {
     if (user) {
-      socket.connect();
-      // socket = io()
-      socket.on("message", (message) => {
-        dispatch(getAllMessagesThunk(message.message["channel_id"]));
-      });
       dispatch(initialLoadThunk());
     }
-    return () => socket.disconnect();
-  }, [user, dispatch]);
+  }, [user]);
 
   return (
     <>
@@ -50,9 +50,12 @@ function MainComponent() {
         </>
       ) : (
         <main className={styles.greeting}>
-          <div className={styles.login_signup}>
-            <div className={styles.title}>Welcome to HyperComm!</div>
-            <div className={styles.buttons}>
+          <div  className={styles.left}>
+          <div className={styles.welcome}>welcome to</div>
+            <div className={styles.title}>hYpercomm</div>
+          </div>
+          <div className={styles.right}>
+            {/* <div className={styles.buttons}> */}
               <OpenModalButton
                 buttonText="Log In"
                 className={styles.login}
@@ -63,7 +66,7 @@ function MainComponent() {
                 className={styles.signup}
                 modalComponent={<SignupFormModal />}
               />
-            </div>
+            {/* </div> */}
           </div>
         </main>
       )}

@@ -5,7 +5,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(35, 34, 34);
+  border-radius: 10px;
+  background-color: #080b10;
+    /* background-color: rgb(35, 34, 34); */
 }
 
 .title {
@@ -41,6 +43,7 @@
 }
 
 .yes {
+  border-radius: 10px;
   background-color: rgb(57, 71, 36);
   width: 180px;
 }
@@ -49,6 +52,7 @@
 }
 
 .no {
+  border-radius: 10px;
   background-color: rgb(137, 33, 33);
   width: 180px;
 }
