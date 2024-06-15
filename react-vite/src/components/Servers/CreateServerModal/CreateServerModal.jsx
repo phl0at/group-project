@@ -39,14 +39,8 @@ const CreateServerModal = () => {
 
       const formData = new FormData();
       formData.append("file", file);
-      // formData.append("type", "server");
       formData.append("serverName", serverName);
       formData.append("ownerId", sessionUser.id);
-
-      // Debugging: Log the FormData entries
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
 
       dispatch(createServerThunk(formData));
       dispatch(getAllServersThunk());
