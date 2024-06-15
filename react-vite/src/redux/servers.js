@@ -56,6 +56,19 @@ export const initialLoadThunk = () => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
+export const getAllServersThunk = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/servers`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(GET_ALL, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+//! --------------------------------------------------------------------
 export const createServerThunk = (formData) => async (dispatch) => {
   for (let pair of formData.entries()) {
     console.log('!!!!!!!!!!!!!!!!!This is form data: ', pair[0] + ', ' + pair[1]);

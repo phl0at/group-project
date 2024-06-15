@@ -20,11 +20,11 @@ function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
 
   const handleServerClick = (server) => {
     setPrevRoom(curRoom);
-    setCurRoom(server.channels[0].id);
+    setCurRoom(server.channels[0]?.id);
     dispatch(setCurrentServerThunk(server));
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentChannelThunk(server.channels[0]));
-    dispatch(getAllMessagesThunk(server.channels[0].id));
+    dispatch(getAllMessagesThunk(server.channels[0]?.id));
   };
 
   return (
@@ -40,9 +40,8 @@ function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
           return (
             <button
               title={server.name}
-              className={`${styles.button} ${
-                currServer.id === server.id && styles.selected
-              }`}
+              className={`${styles.button} ${currServer.id === server.id && styles.selected
+                }`}
               key={server.id}
               onClick={(e) => {
                 e.preventDefault();

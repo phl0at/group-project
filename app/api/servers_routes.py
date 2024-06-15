@@ -60,7 +60,7 @@ def create_server():
 
         if 'file' not in request.files:
             print('!!!!!!!!!!!! File not in request.files')
-            return jsonify({"errors": "File is required"}), 400
+            return {"errors": "File is required"}, 400
 
         print('!!!!!!!!!!!!!!!!!!! Request files: ', request.files)
 
@@ -73,12 +73,12 @@ def create_server():
             upload_response = upload_file_to_s3(file)
             print('!!!!!!!!!!!! Upload response: ', upload_response)
             if "errors" in upload_response:
-                return jsonify(upload_response), 400
+                return upload_response, 400
             image_url = upload_response["url"]
             print('!!!!!!!!!!!!!!!!!!!! Image URL: ', image_url)
         else:
             print('!!!!!!!!!!!! Invalid file type')
-            return jsonify({"errors": "Invalid file type"}), 400
+            return {"errors": "Invalid file type"}, 400
 
         server_name = request.form.get('serverName')
         owner_id = request.form.get('ownerId')
@@ -87,7 +87,7 @@ def create_server():
         print('!!!!!!!!!!!! Owner ID: ', owner_id)
 
         if not server_name or server_name.isspace():
-            return jsonify({"errors": "Server name is required"}), 400
+            return {"errors": "Server name is required"}, 400
 
         server = Server(
             name=server_name,
@@ -98,21 +98,21 @@ def create_server():
         db.session.add(server)
         db.session.commit()
 
-        new_server = Server.query.filter(Server.owner_id==owner_id)
-
+        print(server.to_dict())
         general_channel = Channel(
-            server_id=new_server.id,
+            server_id=server.to_dict()['id'],
             name='General'
         )
+        print("!!!!!!!!!!General CHANNEL", general_channel)
 
         db.session.add(general_channel)
         db.session.commit()
 
-        return jsonify(server.to_dict()), 200
+        return server.to_dict(), 200
 
     except Exception as e:
         print("!!!!!!!!!!!! Exception: ", str(e))
-        return jsonify({"errors": str(e)}), 500
+        return {"errors": str(e)}, 500
 
 
 
