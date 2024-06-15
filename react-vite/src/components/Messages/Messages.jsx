@@ -89,7 +89,7 @@ function MessagesList({ curRoom, prevRoom }) {
           <div className={styles.message_list}>
             {messages.map((message) => {
               if (message.channel_id === currChannel?.id) {
-                const author = message[message.user_id];
+                const author = allUsers[message.user_id];
                 return (
                   <main key={message.id} className={styles.message_body}>
                     <div className={styles.left}>

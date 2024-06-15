@@ -156,7 +156,7 @@ function sessionReducer(state = initialState, action) {
       return newState;
     }
     case UPDATE: {
-      return { ...state, user: action.payload };
+      return { ...state, user: action.payload, [action.payload.id]: action.payload };
     }
     default:
       return state;
