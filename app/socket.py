@@ -32,4 +32,5 @@ def leave(data):
 @socketio.on('message')
 def message(data):
     print('\n********** MESSAGE TEXT: ', data['message'], 'TO ROOM: ', data['room'])
-    emit('message', data, broadcast=True, to=data['room'], include_self=False)
+    room = str(data['room'])
+    emit('message', data, broadcast=True, to=room, include_self=False)

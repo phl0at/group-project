@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserThunk } from '../../redux/session';
 import { useNavigate } from "react-router-dom";
+import { useModal } from '../../context/Modal';
+
+
 
 const UserProfileImageUpload = () => {
   const dispatch = useDispatch();
@@ -10,6 +13,7 @@ const UserProfileImageUpload = () => {
   const user = useSelector((state) => state.session.user);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
+  const { closeModal } = useModal();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -33,9 +37,9 @@ const UserProfileImageUpload = () => {
     } else {
       setError(null);
       setFile(null);
-      navigate('/')
+      closeModal()
     }
-  };
+  }; 
 
   return (
     <form onSubmit={handleSubmit}>

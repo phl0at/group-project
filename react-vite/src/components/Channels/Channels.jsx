@@ -11,6 +11,7 @@ import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
+import UserProfile from "../UserProfileImage/UserProfile";
 
 function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
@@ -25,6 +26,12 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
     dispatch(setCurrentChannelThunk(channel));
     dispatch(getAllMessagesThunk(channel.id));
   };
+
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    setModalContent(<UserProfile closeModal={closeModal} />);
+};
+
 
   return (
     <main className={styles.main}>
@@ -96,19 +103,20 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
         </div>
       </div>
       <div className={styles.profileBar}>
-        <div>
-          <NavLink
-            title="View Profile"
-            to="/profile"
-            className={styles.profileButton}
-          >
-            <img
-              className={styles.userImage}
-              src={user.image_url ? user.image_url : default_user}
-            />
-            <div className={styles.userName}>{`${user.username}`}</div>
-          </NavLink>
-        </div>
+      <OpenModalButton
+          title="View Profile"
+          buttonText={
+            <div className={styles.profileButton}>
+              <img
+                className={styles.userImage}
+                src={user.image_url ? user.image_url : default_user}
+                alt={`${user.username}'s profile`}
+              />
+              <div className={styles.userName}>{user.username}</div>
+            </div>
+          }
+          modalComponent={<UserProfile />}
+        />
         <OptionsMenu />
       </div>
     </main>

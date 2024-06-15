@@ -30,6 +30,7 @@ export const editUserThunk = (formData, userId) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(action(UPDATE, data));
+      console.log(data)
       return data;
     }
   } catch (error) {
