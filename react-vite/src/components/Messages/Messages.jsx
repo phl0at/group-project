@@ -28,7 +28,6 @@ function MessagesList({ curRoom, prevRoom }) {
   const [editText, setEditText] = useState("");
   const [editMode, setEditMode] = useState(null);
   const [showReactions, setShowReactions] = useState(null);
-
   const scroll = useRef(null);
 
   useEffect(() => {
