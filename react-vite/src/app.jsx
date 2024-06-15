@@ -6,7 +6,6 @@ import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
 import { createChannelThunk } from "./redux/channels";
-
 import "./index.css";
 
 const store = configureStore();
@@ -16,8 +15,6 @@ if (import.meta.env.MODE !== "production") {
   window.sessionActions = sessionActions;
   window.createChannelThunk = createChannelThunk;
 }
-
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

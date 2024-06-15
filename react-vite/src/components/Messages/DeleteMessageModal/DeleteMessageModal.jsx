@@ -1,9 +1,7 @@
 import { useModal } from "../../../context/Modal";
 import { useDispatch } from "react-redux";
 import styles from "./DeleteMessageModal.module.css";
-import {
-  deleteMessageThunk,
-} from "../../../redux/messages";
+import { deleteMessageThunk } from "../../../redux/messages";
 import { socket } from "../../../socket";
 
 const DeleteMessage = ({ message, curRoom }) => {
@@ -13,7 +11,10 @@ const DeleteMessage = ({ message, curRoom }) => {
   const onClick = () => {
     try {
       dispatch(deleteMessageThunk(message));
-      socket.emit("message", { room: curRoom, message });
+      socket.emit("message", {
+        room: curRoom,
+        message: { channel_id: curRoom, text: message["text"] },
+      });
       closeModal();
     } catch (e) {
       closeModal();

@@ -43,7 +43,6 @@ function MessagesList({ curRoom, prevRoom }) {
     if (messages.length) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-
   }, [messages]);
 
   const handleSubmit = (e) => {
@@ -160,9 +159,11 @@ function MessagesList({ curRoom, prevRoom }) {
                         >
                           <VscReactions />
                         </button>
-                        {showReactions === message.id && (
-                          <MessageReactions message={message} />
-                        )}
+                        <div>
+                          {showReactions === message.id && (
+                            <MessageReactions message={message} />
+                          )}
+                        </div>
                         {user.id === message.user_id && (
                           <>
                             <button
@@ -179,6 +180,7 @@ function MessagesList({ curRoom, prevRoom }) {
                               buttonText={<HiOutlineTrash />}
                               modalComponent={
                                 <DeleteMessage
+                                  messages={messages}
                                   message={message}
                                   curRoom={curRoom}
                                 />
@@ -206,7 +208,7 @@ function MessagesList({ curRoom, prevRoom }) {
               className={styles.input}
               type="text"
               value={inputText}
-              placeholder="Type your message here..."
+              placeholder={`Message # ${currChannel.name}`}
               onChange={(e) => {
                 setInputText(e.target.value);
                 setErrors({});

@@ -1,16 +1,18 @@
 .main {
   width: 72px;
+  background-color: #0a0e15;
+  /* background-color: #1e1f22; */
 }
 
 .list {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #1e1f22;
+
 }
 
-.selected{
-  box-shadow:inset 2px 0 .5px 0 #4F4F4F;
+.selected {
+  box-shadow: inset 2px 0 0.5px 0 #4f4f4f;
 }
 
 .button {
@@ -23,11 +25,19 @@
   width: 50px;
   border-radius: 50px;
 }
+.image:hover {
+  transition: all 0.3s ease-in-out;
+  outline: thick solid rgb(67, 71, 83);
+}
 
 .create {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.create:hover {
+  transition: all 0.2s ease-in-out;
+  color: rgb(55, 113, 38);
 }
 
 .hyper {
@@ -36,7 +46,6 @@
   justify-content: center;
   align-items: center;
   width: 72px;
-  padding-top: 4px;
-  margin-right: 3px;
-  background-color: #1e1f22;
+  padding-right: 5px;
+  /* background-color: #1e1f22; */
 }
