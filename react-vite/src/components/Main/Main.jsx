@@ -14,19 +14,19 @@ import { getAllMessagesThunk } from "../../redux/messages";
 function MainComponent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-  const messages = useSelector((state) => state.messages);
   const [curRoom, setCurRoom] = useState(1);
   const [prevRoom, setPrevRoom] = useState(1);
 
+  useEffect(()=>{
+    socket.on("message", (message) => {
+      dispatch(getAllMessagesThunk(message.message["channel_id"]));
+    });
+  }, [])
+
   useEffect(() => {
     if (user) {
-      socket.connect();
-      socket.on("message", (message) => {
-        dispatch(getAllMessagesThunk(message.message["channel_id"]));
-      });
       dispatch(initialLoadThunk());
     }
-    return () => socket.disconnect();
   }, [user]);
 
 
