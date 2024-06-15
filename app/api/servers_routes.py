@@ -55,11 +55,9 @@ def one_server(id):
 @login_required
 def create_server():
     try:
-        data = request.form if request.form else request.json
-
+        # data = request.form if request.form else request.json
         if 'file' not in request.files:
             return {"errors": "File is required"}, 400
-
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)

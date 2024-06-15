@@ -30,11 +30,11 @@ const CreateServerModal = () => {
 
     try {
       if (!serverName.trim().length) {
-        return setErrors("Server Name is required");
+        return setErrors({ errors: "Server Name is required" });
       }
 
       if (!file) {
-        return setErrors("Please select a file.");
+        return setErrors({ erorrs: "Please select a file." });
       }
 
       const formData = new FormData();
@@ -54,6 +54,7 @@ const CreateServerModal = () => {
     <main className={styles.main}>
       <div className={styles.title}>Make a new server!</div>
       <form className={styles.form} onSubmit={handleSubmit}>
+        <p className={styles.error}>{errors && errors.errors}</p>
         <input
           placeholder="Enter a name..."
           type="text"
@@ -63,7 +64,6 @@ const CreateServerModal = () => {
         />
         <div>
           <input type="file" onChange={handleFileChange} />
-          <p>{errors && { errors }}</p>
         </div>
         <button className={styles.submit} type="submit">
           Create

@@ -30,10 +30,10 @@ const EditServerModal = () => {
 
     try {
       if (!serverName.trim().length) {
-        setErrors("Server Name is required");
+        setErrors({ errors: "Server Name is required" });
       }
       if (!file) {
-        return setErrors("Please select a file.");
+        return setErrors({ errors: "Please select a file." });
       }
 
       const formData = new FormData();
@@ -52,6 +52,7 @@ const EditServerModal = () => {
     <main className={styles.main}>
       <div className={styles.title}>Edit Server</div>
       <form className={styles.form} onSubmit={handleSubmit}>
+        <p className={styles.error}>{errors && errors.errors}</p>
         <input
           type="text"
           value={serverName}
@@ -60,7 +61,6 @@ const EditServerModal = () => {
         />
         <div>
           <input type="file" onChange={handleFileChange} />
-          <p>{errors && { errors }}</p>
         </div>
         <button className={styles.submit} type="submit">
           Update Server

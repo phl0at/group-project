@@ -69,11 +69,11 @@ export const getAllServersThunk = () => async (dispatch) => {
   }
 };
 //! --------------------------------------------------------------------
-export const createServerThunk = (formData) => async (dispatch) => {
+export const createServerThunk = (serverData) => async (dispatch) => {
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
-      body: formData
+      body: serverData
     });
 
     if (response.ok) {
