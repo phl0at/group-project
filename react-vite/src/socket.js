@@ -6,4 +6,5 @@ const SOCKET_URL = import.meta.env.PROD
 
 export const socket = io(SOCKET_URL, {
   transports: ["websocket"],
+  autoConnect: false
 });

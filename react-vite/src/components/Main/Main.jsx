@@ -19,16 +19,21 @@ function MainComponent() {
   const [prevRoom, setPrevRoom] = useState(1);
 
   useEffect(() => {
+    if (user) {
+      dispatch(initialLoadThunk());
+      socket.connect()
+    }
+    // return () => {
+    //   socket.disconnect();
+    // }
+  }, [user]);
+
+  useEffect(() => {
     socket.on("message", (message) => {
       dispatch(getAllMessagesThunk(message.message["channel_id"]));
     });
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      dispatch(initialLoadThunk());
-    }
-  }, [user]);
 
   return (
     <>
@@ -50,22 +55,22 @@ function MainComponent() {
         </>
       ) : (
         <main className={styles.greeting}>
-          <div  className={styles.left}>
-          <div className={styles.welcome}>welcome to</div>
+          <div className={styles.left}>
+            <div className={styles.welcome}>welcome to</div>
             <div className={styles.title}>hYpercomm</div>
           </div>
           <div className={styles.right}>
             {/* <div className={styles.buttons}> */}
-              <OpenModalButton
-                buttonText="Log In"
-                className={styles.login}
-                modalComponent={<LoginFormModal />}
-              />
-              <OpenModalButton
-                buttonText="Sign Up"
-                className={styles.signup}
-                modalComponent={<SignupFormModal />}
-              />
+            <OpenModalButton
+              buttonText="Log In"
+              className={styles.login}
+              modalComponent={<LoginFormModal />}
+            />
+            <OpenModalButton
+              buttonText="Sign Up"
+              className={styles.signup}
+              modalComponent={<SignupFormModal />}
+            />
             {/* </div> */}
           </div>
         </main>
