@@ -86,7 +86,7 @@ function MessagesList({ curRoom, prevRoom }) {
         <div ref={scroll} className={styles.scroll}>
           <div className={styles.message_list}>
             {messages.map((message) => {
-              if (message.channel_id === currChannel?.id && !errors) {
+              if (message.channel_id === currChannel?.id) {
                 const author = allUsers[message.user_id];
                 return (
                   <main key={message.id} className={styles.message_body}>
