@@ -3,10 +3,13 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  background-color: #313338;
+  background-color: #1a2333;
+  /* background-color: #313338; */
 }
 
 .channel {
+  font-family: "Alexandria";
+  font-size: 15pt;
   position: relative;
   min-height: 48px;
   display: flex;
@@ -14,7 +17,7 @@
   align-items: center;
   margin: 0;
   justify-content: flex-start;
-  padding-left: 5%;
+  padding-left: 3%;
   box-shadow: 1px 1px 3px rgba(19, 21, 24, 0.8);
 }
 
@@ -29,13 +32,13 @@
 .scroll {
   padding-top: 10px;
   overflow-y: auto;
-  scrollbar-color: #1e1f22 #313338;
+  scrollbar-color: #0a0e15 #1a2333;
   scrollbar-width: thin;
 }
 
 .message_list {
   position: relative;
-  max-width: 95%;
+  max-width: 97%;
   max-height: 98%;
   min-width: 0;
   min-height: 0;
@@ -60,7 +63,7 @@
 }
 
 .user_info {
-  width: 85%;
+  width: 100%;
 }
 
 .message_body {
@@ -78,7 +81,8 @@
 }
 
 .message_body:hover {
-  background-color: #383a40;
+  background-color: #212b3d;
+  /* background-color: #383a40; */
 }
 
 .user {
@@ -116,7 +120,7 @@
 .message {
   word-wrap: break-word;
   position: relative;
-  width: 75%;
+  width: 100%;
   max-height: 100%;
   left: 10px;
   top: 5px;
@@ -153,7 +157,8 @@
   padding-left: 10px;
   border: none;
   border-radius: 7px;
-  background-color: #383a40;
+  background-color: #212b3d;
+  /* background-color: #383a40; */
   position: relative;
 }
 .error {

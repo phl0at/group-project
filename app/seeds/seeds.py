@@ -24,7 +24,7 @@ def create_seeder():
 
     ## SEED SERVERS
     server_list = [
-        {'name':'Aperture Science', 'DM':False, 'owner_id':1, 'image_url': 'https://live.staticflickr.com/3837/14917120181_e630d61231_b.jpg'},
+        {'name':'Aperture Science', 'DM':False, 'owner_id':3, 'image_url': 'https://live.staticflickr.com/3837/14917120181_e630d61231_b.jpg'},
         {'name':'AppAcademy', 'DM':False, 'owner_id':2, 'image_url': 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Appacademylogo.png'},
         {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1, 'image_url': ''}
     ]

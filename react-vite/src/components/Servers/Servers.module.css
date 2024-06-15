@@ -1,12 +1,14 @@
 .main {
   width: 72px;
+  background-color: #0a0e15;
+  /* background-color: #1e1f22; */
 }
 
 .list {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #1e1f22;
+
 }
 
 .selected {
@@ -45,5 +47,5 @@
   align-items: center;
   width: 72px;
   padding-right: 5px;
-  background-color: #1e1f22;
+  /* background-color: #1e1f22; */
 }
