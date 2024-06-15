@@ -71,17 +71,11 @@ export const getAllServersThunk = () => async (dispatch) => {
   }
 };
 //! --------------------------------------------------------------------
-export const createServerThunk = (formData) => async (dispatch) => {
-  for (let pair of formData.entries()) {
-    console.log(
-      "!!!!!!!!!!!!!!!!!This is form data: ",
-      pair[0] + ", " + pair[1]
-    );
-  }
+export const createServerThunk = (serverData) => async (dispatch) => {
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
-      body: formData,
+      body: serverData
     });
 
     if (response.ok) {
@@ -116,26 +110,22 @@ export const deleteServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const updateServerThunk =
-  ({ id, formData }) =>
-  async (dispatch) => {
-    try {
-      const response = await fetch(`/api/servers/${seid}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(action(UPDATE, data));
-        dispatch(action(SET_CURRENT, data));
-        return data;
-      }
-    } catch (error) {
-      console.log(error);
+export const updateServerThunk = (id, formData) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/servers/${id}`, {
+      method: "PUT",
+      body: formData
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(UPDATE, data));
+      dispatch(action(SET_CURRENT, data));
+      return data;
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //! --------------------------------------------------------------------
 

@@ -1,15 +1,16 @@
 .main {
-  width: 400px;
-  height: 100px;
+  width: 480px;
+  height: 500px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgb(35, 34, 34);
+  /* align-items: space-between; */
+  justify-content: space-evenly;
+  border-radius: 10px;
+  background-color: #080b10;
 }
 
 .title {
-  padding-top: 20px;
+  /* padding-top: 20px; */
   height: 15%;
   width: 100%;
   display: flex;
@@ -27,26 +28,37 @@
 }
 
 .form {
-  width: 380px;
+  /* width: 380px; */
+  height: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   position: relative;
   height: 30px;
   bottom: 10px;
+  margin-bottom: 150px;
 }
 
 input {
-  padding-left: 15px;
+  padding: 10px;
+  color: #fff;
   border: none;
   background-color: #383a40;
   position: relative;
+  margin: 20px;
+  height: 50px;
+  width: 370px;
+  border-radius: 5px;
 }
 
 .submit {
   border-radius: 10px;
   background-color: rgb(57, 71, 36);
   width: 180px;
+  padding: 5px;
 }
+
 .submit:hover {
   background-color: rgb(83, 113, 38);
 }
