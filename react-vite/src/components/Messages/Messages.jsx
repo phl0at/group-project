@@ -37,7 +37,7 @@ function MessagesList({ curRoom, prevRoom }) {
     socket.emit("leave", { room: prevRoom });
     socket.emit("join", { room: curRoom });
     setInputText("");
-  }, [curRoom, prevRoom]);
+  }, [curRoom]);
 
   useEffect(() => {
     if (messages.length) {
