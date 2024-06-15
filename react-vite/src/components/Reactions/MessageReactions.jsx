@@ -7,6 +7,7 @@ import {
 
 const MessagesReaction = ({ message }) => {
   const dispatch = useDispatch();
+  const currChannel = useSelector((state) => state.channel.current);
   const userId = useSelector((state) => state.session.user.id);
   const reactions = useSelector(getReactionsArray);
   const messageReactions = reactions.filter(
@@ -16,39 +17,26 @@ const MessagesReaction = ({ message }) => {
     (reaction) => reaction.user_id === userId
   );
 
-  const handleToggleReaction = (reactionType) => {
+  const handleToggleReaction = (type) => {
     const existingReaction = userReactions.find(
-      (reaction) => reaction.type === reactionType
+      (reaction) => reaction.type === type
     );
-
     if (existingReaction) {
       dispatch(deleteReactionThunk(existingReaction));
     } else {
-      // If the user has any reaction on the message, remove it before adding a new one
-      if (userReactions.length > 0) {
-        dispatch(deleteReactionThunk(userReactions[0]));
-      }
-      dispatch(addReactionThunk(message, reactionType));
+      const reaction = {
+        type,
+        channel_id: currChannel.id,
+      };
+      dispatch(addReactionThunk(message, reaction));
     }
   };
 
   return (
     <main>
-      <div>
-        {userReactions?.map((reaction) => (
-          <div key={reaction.id}>
-            <span >{reaction.type}</span>
-            <button
-              onClick={() => handleToggleReaction(reaction.type)}
-            ></button>
-          </div>
-        ))}
-      </div>
-      <div>
-        <button onClick={() => handleToggleReaction("👍")}>👍</button>
-        <button onClick={() => handleToggleReaction("👎")}>👎</button>
-        <button onClick={() => handleToggleReaction("😊")}>😊</button>
-      </div>
+      <button onClick={() => handleToggleReaction("thumbsup")}>👍</button>
+      <button onClick={() => handleToggleReaction("thumbsdown")}>👎</button>
+      <button onClick={() => handleToggleReaction("smile")}>😊</button>
     </main>
   );
 };
