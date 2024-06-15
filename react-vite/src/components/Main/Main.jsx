@@ -17,18 +17,17 @@ function MainComponent() {
   const [curRoom, setCurRoom] = useState(1);
   const [prevRoom, setPrevRoom] = useState(1);
 
-  useEffect(()=>{
+  useEffect(() => {
     socket.on("message", (message) => {
       dispatch(getAllMessagesThunk(message.message["channel_id"]));
     });
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (user) {
       dispatch(initialLoadThunk());
     }
   }, [user]);
-
 
   return (
     <>

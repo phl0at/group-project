@@ -9,8 +9,8 @@
   background-color: #1e1f22;
 }
 
-.selected{
-  box-shadow:inset 2px 0 .5px 0 #4F4F4F;
+.selected {
+  box-shadow: inset 2px 0 0.5px 0 #4f4f4f;
 }
 
 .button {
@@ -23,11 +23,17 @@
   width: 50px;
   border-radius: 50px;
 }
+.image:hover {
+  outline: thick solid rgb(67, 71, 83);
+}
 
 .create {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.create:hover {
+  color: rgb(55, 113, 38);
 }
 
 .hyper {
@@ -36,7 +42,6 @@
   justify-content: center;
   align-items: center;
   width: 72px;
-  padding-top: 4px;
-  margin-right: 3px;
+  padding-right: 5px;
   background-color: #1e1f22;
 }

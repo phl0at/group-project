@@ -54,7 +54,7 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
                         handleChannelClick(channel);
                       }}
                     >
-                      {channel.name}
+                      # {channel.name}
                     </button>
 
                     <div className={styles.channel_buttons}>

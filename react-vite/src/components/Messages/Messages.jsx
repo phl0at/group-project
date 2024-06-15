@@ -180,6 +180,7 @@ function MessagesList({ curRoom, prevRoom }) {
                               buttonText={<HiOutlineTrash />}
                               modalComponent={
                                 <DeleteMessage
+                                  messages={messages}
                                   message={message}
                                   curRoom={curRoom}
                                 />
@@ -207,7 +208,7 @@ function MessagesList({ curRoom, prevRoom }) {
               className={styles.input}
               type="text"
               value={inputText}
-              placeholder="Type your message here..."
+              placeholder={`Message # ${currChannel.name}`}
               onChange={(e) => {
                 setInputText(e.target.value);
                 setErrors({});
