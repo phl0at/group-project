@@ -10,7 +10,7 @@ import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
 import { getAllMessagesThunk } from "../../redux/messages";
-// import { io } from 'socket.io-client';
+
 
 function MainComponent() {
   const dispatch = useDispatch();
