@@ -15,6 +15,7 @@ import { HiOutlineDocumentText } from "react-icons/hi2";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 import { socket } from "../../socket";
+import ReactionButton from "../Reactions/ReactionButton";
 
 function MessagesList({ curRoom, prevRoom }) {
   const dispatch = useDispatch();
@@ -27,11 +28,12 @@ function MessagesList({ curRoom, prevRoom }) {
   const [editText, setEditText] = useState("");
   const [editMode, setEditMode] = useState(null);
   const [showReactions, setShowReactions] = useState(null);
+
   const scroll = useRef(null);
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     socket.emit("leave", { room: prevRoom });
@@ -87,7 +89,7 @@ function MessagesList({ curRoom, prevRoom }) {
           <div className={styles.message_list}>
             {messages.map((message) => {
               if (message.channel_id === currChannel?.id) {
-                const author = allUsers[message.user_id];
+                const author = message[message.user_id];
                 return (
                   <main key={message.id} className={styles.message_body}>
                     <div className={styles.left}>
@@ -151,6 +153,7 @@ function MessagesList({ curRoom, prevRoom }) {
                             </>
                           )}
                         </div>
+                        <ReactionButton message={message} />
                       </div>
                       <div className={styles.message_actions}>
                         <button

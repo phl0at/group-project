@@ -10,8 +10,8 @@ import { getAllMessagesThunk } from "../../redux/messages";
 import CreateServerModal from "../Servers/CreateServerModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
-import { HiMiniCpuChip } from "react-icons/hi2";
 import { FcElectricalSensor } from "react-icons/fc";
+import { getAllReactionsThunk } from "../../redux/reactions";
 
 function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentChannelThunk(server.channels[0]));
     dispatch(getAllMessagesThunk(server.channels[0]?.id));
+    dispatch(getAllReactionsThunk(server.channels[0]?.id));
   };
 
   return (

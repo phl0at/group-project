@@ -86,13 +86,14 @@ def create_seeder():
 
     ## SEED REACTIONS
     reaction_list = [
-        {'message_id':1, 'user_id':3, 'type':'😊'},
-        {'message_id':2, 'user_id':2, 'type':'👍'},
-        {'message_id':3, 'user_id':1, 'type':'👍'},
+        {'message_id':1, 'channel_id': 1, 'user_id':3, 'type':'smile'},
+        {'message_id':2, 'channel_id': 1, 'user_id':2, 'type':'thumbsup'},
+        {'message_id':3, 'channel_id': 1, 'user_id':1, 'type':'thumbsdown'},
     ]
 
     for reaction_data in reaction_list:
         reaction = Reaction(
+            channel_id=reaction_data['channel_id'],
             message_id=reaction_data['message_id'],
             user_id=reaction_data['user_id'],
             type=reaction_data['type']

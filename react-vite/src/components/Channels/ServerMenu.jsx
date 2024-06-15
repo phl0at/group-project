@@ -6,7 +6,7 @@ import CreateChannelModal from "./CreateChannelModal";
 import EditServerModal from "../Servers/EditServerModal";
 import DeleteServer from "../Servers/DeleteServerModal/DeleteServer";
 
-function ServerMenu() {
+function ServerMenu({ curRoom, setCurRoom, setPrevRoom }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -33,7 +33,11 @@ function ServerMenu() {
 
   return (
     <div>
-      <button title="Server Settings" className={styles.menu_button} onClick={toggleMenu}>
+      <button
+        title="Server Settings"
+        className={styles.menu_button}
+        onClick={toggleMenu}
+      >
         <HiMiniAdjustmentsHorizontal />
       </button>
       {showMenu && (
@@ -42,7 +46,13 @@ function ServerMenu() {
             <OpenModalButton
               onButtonClick={closeMenu}
               buttonText={"Create Channel"}
-              modalComponent={<CreateChannelModal />}
+              modalComponent={
+                <CreateChannelModal
+                  curRoom={curRoom}
+                  setCurRoom={setCurRoom}
+                  setPrevRoom={setPrevRoom}
+                />
+              }
             />
           </div>
           <div className={styles.serverEdit}>
@@ -55,7 +65,7 @@ function ServerMenu() {
               <OpenModalButton
                 title={"Delete Server"}
                 buttonText={"Delete Server"}
-                modalComponent={<DeleteServer />}
+                modalComponent={<DeleteServer setCurRoom={setCurRoom} />}
               />
             </div>
           </div>

@@ -24,10 +24,22 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const setCurrentServerThunk = (server) => async (dispatch) => {
+export const initialLoadThunk = () => async (dispatch) => {
   try {
-    dispatch(action(SET_CURRENT, server));
-    return server;
+    const response = await fetch("/api/servers/init_load");
+    if (response.ok) {
+      const data = await response.json();
+      const { servers, first_server, channels, messages, reactions } = data;
+      console.log(reactions)
+      dispatch(action(GET_ALL, servers));
+      dispatch(action(SET_CURRENT, first_server));
+      dispatch(action("channels/getAll", channels));
+      dispatch(action("channels/setCurrent", channels[0]));
+      dispatch(action("channels/setLast", channels[0]));
+      dispatch(action("messages/getAll", messages));
+      dispatch(action("reactions/getAll", reactions));
+      return data;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -35,20 +47,10 @@ export const setCurrentServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const initialLoadThunk = () => async (dispatch) => {
+export const setCurrentServerThunk = (server) => async (dispatch) => {
   try {
-    const response = await fetch("/api/servers/init_load");
-    if (response.ok) {
-      const data = await response.json();
-      const { servers, first_server, channels, messages } = data;
-      dispatch(action(GET_ALL, servers));
-      dispatch(action(SET_CURRENT, first_server));
-      dispatch(action("channels/getAll", channels));
-      dispatch(action("channels/setCurrent", channels[0]));
-      dispatch(action("channels/setLast", channels[0]));
-      dispatch(action("messages/getAll", messages));
-      return data;
-    }
+    dispatch(action(SET_CURRENT, server));
+    return server;
   } catch (error) {
     console.log(error);
   }
@@ -71,12 +73,15 @@ export const getAllServersThunk = () => async (dispatch) => {
 //! --------------------------------------------------------------------
 export const createServerThunk = (formData) => async (dispatch) => {
   for (let pair of formData.entries()) {
-    console.log('!!!!!!!!!!!!!!!!!This is form data: ', pair[0] + ', ' + pair[1]);
+    console.log(
+      "!!!!!!!!!!!!!!!!!This is form data: ",
+      pair[0] + ", " + pair[1]
+    );
   }
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
-      body: formData
+      body: formData,
     });
 
     if (response.ok) {
@@ -111,24 +116,26 @@ export const deleteServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const updateServerThunk = ({ id, formData }) => async (dispatch) => {
-  try {
-    const response = await fetch(`/api/servers/${seid}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: formData,
-    });
+export const updateServerThunk =
+  ({ id, formData }) =>
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/servers/${seid}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: formData,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      dispatch(action(UPDATE, data));
-      dispatch(action(SET_CURRENT, data));
-      return data;
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(action(UPDATE, data));
+        dispatch(action(SET_CURRENT, data));
+        return data;
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-};
+  };
 
 //! --------------------------------------------------------------------
 

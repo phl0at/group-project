@@ -11,6 +11,7 @@ import OptionsMenu from "./OptionsMenu";
 import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
+import { getAllReactionsThunk } from "../../redux/reactions";
 
 function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
     setCurRoom(channel.id);
     dispatch(setCurrentChannelThunk(channel));
     dispatch(getAllMessagesThunk(channel.id));
+    dispatch(getAllReactionsThunk(channel.id));
   };
 
   return (
@@ -32,7 +34,13 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
         {server && (
           <div className={styles.server}>
             <div className={styles.server_name}>{server.name}</div>
-            {server.owner_id === user.id && <ServerMenu />}
+            {server.owner_id === user.id && (
+              <ServerMenu
+                curRoom={curRoom}
+                setCurRoom={setCurRoom}
+                setPrevRoom={setPrevRoom}
+              />
+            )}
           </div>
         )}
         <div className={styles.channel_list}>
@@ -67,6 +75,8 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
                                 buttonText={<HiOutlineTrash />}
                                 modalComponent={
                                   <DeleteChannelModal
+                                    setPrevRoom={setPrevRoom}
+                                    setCurRoom={setCurRoom}
                                     allChannels={allChannels}
                                     channel={channel}
                                     server={server}

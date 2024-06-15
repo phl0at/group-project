@@ -6,11 +6,9 @@ import {
   getAllChannelsThunk,
   setCurrentChannelThunk,
 } from "../../../redux/channels";
-import { getAllMessagesThunk } from "../../../redux/messages";
 import styles from "./CreateChannelModal.module.css";
-import { socket } from "../../../socket";
 
-const CreateChannelModal = () => {
+const CreateChannelModal = ({ curRoom, setCurRoom, setPrevRoom }) => {
   const dispatch = useDispatch();
   const server = useSelector((state) => state.server.current);
   const [name, setName] = useState("");
@@ -39,7 +37,8 @@ const CreateChannelModal = () => {
       } else {
         dispatch(getAllChannelsThunk(server));
         dispatch(setCurrentChannelThunk(response));
-        dispatch(getAllMessagesThunk(response.id));
+        setPrevRoom(curRoom)
+        setCurRoom(response.id)
         closeModal();
       }
     } catch (e) {

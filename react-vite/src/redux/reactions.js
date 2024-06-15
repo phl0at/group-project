@@ -4,9 +4,9 @@ import { createSelector } from "reselect";
 //*                          Action Types
 //! --------------------------------------------------------------------
 
-const GET_ALL_REACTIONS = "reactions/GET_ALL";
-const ADD_REACTION = "reactions/ADD_REACTION";
-const DELETE_REACTION = "reactions/REMOVE_REACTION";
+const GET_ALL = "reactions/getAll";
+const CREATE = "reactions/create";
+const DELETE = "reactions/delete";
 
 //! --------------------------------------------------------------------
 //*                         Action Creator
@@ -21,12 +21,12 @@ const action = (type, payload) => ({
 //*                             Thunks
 //! --------------------------------------------------------------------
 
-export const getAllReactionsThunk = () => async (dispatch) => {
+export const getAllReactionsThunk = (channelId) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/reactions/`);
+    const response = await fetch(`/api/reactions/${channelId}`);
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(GET_ALL_REACTIONS, data.reactions));
+      dispatch(action(GET_ALL, data.reactions));
       return data;
     }
   } catch (error) {
@@ -34,16 +34,16 @@ export const getAllReactionsThunk = () => async (dispatch) => {
   }
 };
 
-export const addReactionThunk = (message, reactionType) => async (dispatch) => {
+export const addReactionThunk = (message, reaction) => async (dispatch) => {
   try {
     const response = await fetch(`/api/reactions/${message.id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: reactionType }),
+      body: JSON.stringify(reaction),
     });
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(ADD_REACTION, data));
+      dispatch(action(CREATE, data));
       return data;
     } else {
       const errorData = await response.json();
@@ -61,7 +61,7 @@ export const deleteReactionThunk = (reaction) => async (dispatch) => {
     });
     if (response.ok) {
       const data = await response.json();
-      dispatch(action(DELETE_REACTION, { id: reaction.id }));
+      dispatch(action(DELETE, { id: reaction.id }));
       return data;
     } else {
       const errorData = await response.json();
@@ -88,15 +88,15 @@ export const getReactionsArray = createSelector(
 const initialState = {};
 const reactionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_REACTIONS: {
+    case GET_ALL: {
       const newState = { ...state };
       action.payload.forEach((reaction) => (newState[reaction.id] = reaction));
       return newState;
     }
-    case ADD_REACTION: {
+    case CREATE: {
       return { ...state, [action.payload.id]: action.payload };
     }
-    case DELETE_REACTION: {
+    case DELETE: {
       let newState = { ...state };
       delete newState[action.payload.id];
       return newState;

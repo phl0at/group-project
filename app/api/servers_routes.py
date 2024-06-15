@@ -17,9 +17,11 @@ def allowed_file(filename):
 def init_load():
     all_servers = Server.query.filter(Server.DM == False)
     first_server = [server.to_dict() for server in all_servers][0]
+
     return { 'servers': [server.to_dict() for server in all_servers],
             'first_server': first_server, 'channels': first_server['channels'],
-            'messages': first_server['channels'][0]['messages']}
+            'messages': first_server['channels'][0]['messages'],
+            'reactions': first_server['channels'][0]['reactions'] }
 
 
 @servers_routes.route("/")
