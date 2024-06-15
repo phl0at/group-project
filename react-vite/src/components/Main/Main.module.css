@@ -1,77 +1,136 @@
-p {
-  width: 100%;
-  font-size: 70%;
-  text-align: center;
-}
-
-.profile {
-  position: absolute;
-}
-
-.nav {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: row;
-  height: 5vh;
-  width: 100%;
-  box-shadow: -10px 10px rgba(19, 21, 24, 0.8);
-}
-
 .page {
   display: flex;
   height: 100vh;
+  animation: fadeIn 5s;
+  -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
 }
 
-.loading {
-  size: 100;
-  margin-left: 50%;
-  margin-top: 25%;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .greeting {
   width: 100vw;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+  animation: fadeIn 6s;
+  -webkit-animation: fadeIn 6s;
+  -moz-animation: fadeIn 6s;
+  -o-animation: fadeIn 6s;
+  -ms-animation: fadeIn 6s;
 }
-.login_signup {
-  width: 480px;
-  height: 240px;
+
+.left {
+  font-family: "Alexandria";
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  background-color: #1e1f22;
+  width: 50vw;
+  height: 100vh;
+  background: radial-gradient(
+    circle at 115%,
+    #161d34,
+    #0a0e15 50%,
+    #1b2546 75%,
+    #1b2546 65%
+  );
+  box-shadow: inset -2px 2px 7px 0 #343333;
+}
+
+.welcome {
+  font-size: 20pt;
+  color: rgb(154, 153, 151) e;
 }
 
 .title {
-  height: 440px;
-  display: flex;
-  align-items: center;
+  font-size: 65pt;
+  color: rgb(104, 130, 187);
 }
 
-.buttons {
-  width: 480px;
+.right {
   display: flex;
-  flex-direction: row;
-  align-items: space-between;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 2px 2px 7px 0 #343333;
+  height: 100vh;
+  width: 50vw;
+  background-color: #0a0e15;
+  border-left: solid 5px black;
 }
+
 .login {
-  width: 235px;
-  height: 40px;
-  background-color: black;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  width: 300px;
+  height: 80px;
+  background-color: rgb(104, 130, 187);
+  position: relative;
+  bottom: 40px;
 }
+
 .signup {
-  width: 235px;
-  height: 40px;
-  background-color: black;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  top: 40px;
+  transition: all 0.2s ease-in-out;
+  width: 300px;
+  height: 80px;
+  background-color: rgb(104, 130, 187);
 }
 .login:hover {
-  background-color: #313338;
+  width: 340px;
+  height: 110px;
+  background-color: #1b2546;
 }
 .signup:hover {
-  background-color: #313338;
+  width: 340px;
+  height: 110px;
+  background-color: #1b2546;
 }

@@ -49,9 +49,12 @@ function MainComponent() {
         </>
       ) : (
         <main className={styles.greeting}>
-          <div className={styles.login_signup}>
-            <div className={styles.title}>Welcome to HyperComm!</div>
-            <div className={styles.buttons}>
+          <div  className={styles.left}>
+          <div className={styles.welcome}>welcome to</div>
+            <div className={styles.title}>hYpercomm</div>
+          </div>
+          <div className={styles.right}>
+            {/* <div className={styles.buttons}> */}
               <OpenModalButton
                 buttonText="Log In"
                 className={styles.login}
@@ -62,7 +65,7 @@ function MainComponent() {
                 className={styles.signup}
                 modalComponent={<SignupFormModal />}
               />
-            </div>
+            {/* </div> */}
           </div>
         </main>
       )}

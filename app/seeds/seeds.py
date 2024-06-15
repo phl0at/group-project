@@ -8,8 +8,8 @@ def create_seeder():
     ## SEED USERS
     user_list = [
         {'username':'Demo', 'email':'demo@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
-        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password"), 'image_url': ''},
-        {'username':'GLaDOS', 'email':'cake@aperture.com', 'nocake123':generate_password_hash("password"), 'image_url': ''},
+        {'username':'marnie', 'email':'marnie@aa.io', 'password':generate_password_hash("password"), 'image_url': 'https://t3.ftcdn.net/jpg/06/17/13/26/360_F_617132669_YptvM7fIuczaUbYYpMe3VTLimwZwzlWf.jpg'},
+        {'username':'GLaDOS', 'email':'cake@aperture.com', 'password':generate_password_hash("nocake123"), 'image_url': 'https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d5c4073a-773c-4845-9014-cb20307c0e2a/width=450/00061-376789901.jpeg'},
     ]
 
     for user_data in user_list:
@@ -24,8 +24,8 @@ def create_seeder():
 
     ## SEED SERVERS
     server_list = [
-        {'name':'Aperture Science', 'DM':False, 'owner_id':1, 'image_url': 'https://i.etsystatic.com/22360457/r/il/8256ab/2199607580/il_570xN.2199607580_g2jf.jpg'},
-        {'name':'AppAcademy', 'DM':False, 'owner_id':2, 'image_url': ''},
+        {'name':'Aperture Science', 'DM':False, 'owner_id':1, 'image_url': 'https://live.staticflickr.com/3837/14917120181_e630d61231_b.jpg'},
+        {'name':'AppAcademy', 'DM':False, 'owner_id':2, 'image_url': 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Appacademylogo.png'},
         {'name':'user_1: 1, user_2: 2', 'DM':True, 'owner_id':1, 'image_url': ''}
     ]
 
