@@ -30,7 +30,7 @@ const EditServerModal = () => {
 
     try {
       if (!serverName.trim().length) {
-        setErrors({ errors: "Server Name is required" });
+        return setErrors({ errors: "Server Name is required" });
       }
       if (!file) {
         return setErrors({ errors: "Please select a file." });

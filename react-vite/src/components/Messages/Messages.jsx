@@ -119,6 +119,7 @@ function MessagesList({ curRoom, prevRoom }) {
                                 type="text"
                                 value={editText}
                                 onChange={(e) => setEditText(e.target.value)}
+                                required
                               />
                               <div className={styles.message_buttons}>
                                 <button

@@ -34,7 +34,7 @@ const CreateServerModal = () => {
       }
 
       if (!file) {
-        return setErrors({ erorrs: "Please select a file." });
+        return setErrors({ errors: "Please select a file." });
       }
 
       const formData = new FormData();

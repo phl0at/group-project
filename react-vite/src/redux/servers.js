@@ -72,6 +72,7 @@ export const getAllServersThunk = () => async (dispatch) => {
 };
 //! --------------------------------------------------------------------
 export const createServerThunk = (serverData) => async (dispatch) => {
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!', serverData)
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
