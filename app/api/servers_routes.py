@@ -22,7 +22,6 @@ def init_load():
             'messages': first_server['channels'][0]['messages']}
 
 
-
 @servers_routes.route("/")
 @login_required
 def all_servers():
@@ -55,35 +54,66 @@ def one_server(id):
 @servers_routes.route("/", methods=["POST"])
 @login_required
 def create_server():
-    form = CreateServerForm()
-    server = Server(
-        name = form.data['serverName'],
-        owner_id=form.data['ownerId'],
-        image_url=form.data['image_url']
+    try:
+        print('!!!!!!!!!!!!!!!!!!!! Inside create route')
+        data = request.form if request.form else request.json
+
+        if 'file' not in request.files:
+            print('!!!!!!!!!!!! File not in request.files')
+            return {"errors": "File is required"}, 400
+
+        print('!!!!!!!!!!!!!!!!!!! Request files: ', request.files)
+
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            print('!!!!!!!!!!!!!!!!!!!!!! File is good')
+            filename = secure_filename(file.filename)
+            unique_filename = get_unique_filename(filename)
+            file.filename = unique_filename
+            upload_response = upload_file_to_s3(file)
+            print('!!!!!!!!!!!! Upload response: ', upload_response)
+            if "errors" in upload_response:
+                return upload_response, 400
+            image_url = upload_response["url"]
+            print('!!!!!!!!!!!!!!!!!!!! Image URL: ', image_url)
+        else:
+            print('!!!!!!!!!!!! Invalid file type')
+            return {"errors": "Invalid file type"}, 400
+
+        server_name = request.form.get('serverName')
+        owner_id = request.form.get('ownerId')
+
+        print('!!!!!!!!!!!! Server name: ', server_name)
+        print('!!!!!!!!!!!! Owner ID: ', owner_id)
+
+        if not server_name or server_name.isspace():
+            return {"errors": "Server name is required"}, 400
+
+        server = Server(
+            name=server_name,
+            owner_id=owner_id,
+            image_url=image_url
         )
 
-
-    if server.name.isspace():
-        return { "errors": 'server name required'}, 400
-
-    if len(server.name) < 1 or len(server.name) > 50:
-        return {"errors": "Name must be between 1 and 50 characters"}, 400
-
-    else:
         db.session.add(server)
         db.session.commit()
 
+        print(server.to_dict())
+        general_channel = Channel(
+            server_id=server.to_dict()['id'],
+            name='General'
+        )
+        print("!!!!!!!!!!General CHANNEL", general_channel)
 
-    general_chanel = Channel(
-        server_id=server.to_dict()['id'],
-        name='General'
-    )
+        db.session.add(general_channel)
+        db.session.commit()
 
-    db.session.add(general_chanel)
-    db.session.commit()
+        return server.to_dict(), 200
 
+    except Exception as e:
+        print("!!!!!!!!!!!! Exception: ", str(e))
+        return {"errors": str(e)}, 500
 
-    return server.to_dict(), 200
 
 
 @servers_routes.route('/<int:server_id>', methods=['PUT'])
@@ -120,7 +150,6 @@ def update_server(server_id):
     except Exception as e:
         db.session.rollback()
         return {"error": str(e)}, 500
-
 
 
 

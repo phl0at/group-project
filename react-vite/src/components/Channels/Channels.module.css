@@ -3,7 +3,8 @@
 }
 
 .main {
-  background-color: #2b2d31;
+  background-color: #151b27;
+  /* background-color: #2b2d31; */
   min-width: 240px;
   display: flex;
   flex-direction: column;
@@ -20,6 +21,7 @@
   box-shadow: 1px 1px 3px rgba(19, 21, 24, 0.8);
 }
 .server_name {
+  font-family: "Alexandria";
   position: relative;
   left: 10px;
 }
@@ -62,7 +64,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: #383a40;
+  background-color: #212b3d;
+  /* background-color: #383a40; */
   border-radius: 5px;
 }
 .selected_channel:hover {
@@ -96,7 +99,8 @@
   justify-content: space-between;
   height: 53px;
   width: 240px;
-  background-color: #232528;
+  /* background-color: #232528; */
+  background-color: #0e141f;
   padding: 15px;
 }
 

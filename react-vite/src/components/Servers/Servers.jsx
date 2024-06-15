@@ -5,13 +5,13 @@ import styles from "./Servers.module.css";
 import {
   getAllChannelsThunk,
   setCurrentChannelThunk,
-  // setLastChannelThunk,
 } from "../../redux/channels";
 import { getAllMessagesThunk } from "../../redux/messages";
 import CreateServerModal from "../Servers/CreateServerModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { HiMiniPlusCircle } from "react-icons/hi2";
 import { HiMiniCpuChip } from "react-icons/hi2";
+import { FcElectricalSensor } from "react-icons/fc";
 
 function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
   const dispatch = useDispatch();
@@ -20,18 +20,18 @@ function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
 
   const handleServerClick = (server) => {
     setPrevRoom(curRoom);
-    setCurRoom(server.channels[0].id);
+    setCurRoom(server.channels[0]?.id);
     dispatch(setCurrentServerThunk(server));
     dispatch(getAllChannelsThunk(server));
     dispatch(setCurrentChannelThunk(server.channels[0]));
-    dispatch(getAllMessagesThunk(server.channels[0].id));
+    dispatch(getAllMessagesThunk(server.channels[0]?.id));
   };
 
   return (
     <main className={styles.main}>
       <div className={styles.hyper}>
-        <button className={styles.directImg}>
-          <HiMiniCpuChip size={"75%"} />
+        <button className={styles.direct_button}>
+          <FcElectricalSensor size={"60"}/>
         </button>
       </div>
       <div className={styles.list}>
@@ -40,9 +40,8 @@ function ServersList({ curRoom, setCurRoom, setPrevRoom }) {
           return (
             <button
               title={server.name}
-              className={`${styles.button} ${
-                currServer.id === server.id && styles.selected
-              }`}
+              className={`${styles.button} ${currServer.id === server.id && styles.selected
+                }`}
               key={server.id}
               onClick={(e) => {
                 e.preventDefault();

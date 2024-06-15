@@ -56,12 +56,27 @@ export const initialLoadThunk = () => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const createServerThunk = (server) => async (dispatch) => {
+export const getAllServersThunk = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/servers`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(action(GET_ALL, data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+//! --------------------------------------------------------------------
+export const createServerThunk = (formData) => async (dispatch) => {
+  for (let pair of formData.entries()) {
+    console.log('!!!!!!!!!!!!!!!!!This is form data: ', pair[0] + ', ' + pair[1]);
+  }
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(server),
+      body: formData
     });
 
     if (response.ok) {
@@ -96,12 +111,12 @@ export const deleteServerThunk = (server) => async (dispatch) => {
 
 //! --------------------------------------------------------------------
 
-export const updateServerThunk = (server) => async (dispatch) => {
+export const updateServerThunk = ({ id, formData }) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/servers/${server.id}`, {
+    const response = await fetch(`/api/servers/${seid}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: server.name }),
+      body: formData,
     });
 
     if (response.ok) {

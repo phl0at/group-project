@@ -113,7 +113,7 @@ const initialState = {};
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = { ...state };
+      const newState = { };
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }

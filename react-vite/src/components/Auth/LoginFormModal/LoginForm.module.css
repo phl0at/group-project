@@ -5,7 +5,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(35, 34, 34);
+  background-color: #0a0e15;
+  border-radius: 10px;
 }
 
 .top {
@@ -64,10 +65,14 @@
 .login {
   width: 210px;
   height: 40px;
-  background-color: rgb(57, 71, 36);
+  border-radius: 10px;
+  background-color: rgb(65, 81, 41);
+  transition: all 0.2s ease-in-out;
 }
 .login:hover {
-  background-color: rgb(55, 113, 38);
+  width: 220px;
+  height: 50px;
+  background-color: rgb(90, 147, 72);
 }
 
 input {

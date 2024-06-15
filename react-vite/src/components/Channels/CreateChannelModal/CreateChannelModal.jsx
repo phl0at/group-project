@@ -8,6 +8,7 @@ import {
 } from "../../../redux/channels";
 import { getAllMessagesThunk } from "../../../redux/messages";
 import styles from "./CreateChannelModal.module.css";
+import { socket } from "../../../socket";
 
 const CreateChannelModal = () => {
   const dispatch = useDispatch();
