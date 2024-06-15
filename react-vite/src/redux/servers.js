@@ -57,11 +57,13 @@ export const initialLoadThunk = () => async (dispatch) => {
 //! --------------------------------------------------------------------
 
 export const createServerThunk = (formData) => async (dispatch) => {
+  for (let pair of formData.entries()) {
+    console.log('!!!!!!!!!!!!!!!!!This is form data: ', pair[0] + ', ' + pair[1]);
+  }
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: formData,
+      body: formData
     });
 
     if (response.ok) {

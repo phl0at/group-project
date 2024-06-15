@@ -16,7 +16,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { VscReactions } from "react-icons/vsc";
 import { socket } from "../../socket";
 
-function MessagesList({curRoom, prevRoom}) {
+function MessagesList({ curRoom, prevRoom }) {
   const dispatch = useDispatch();
   const messages = useSelector(getMessagesArray);
   const currChannel = useSelector((state) => state.channel.current);
@@ -31,13 +31,13 @@ function MessagesList({curRoom, prevRoom}) {
 
   useEffect(() => {
     dispatch(thunkGetAll());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     socket.emit("leave", { room: prevRoom });
     socket.emit("join", { room: curRoom });
     setInputText("");
-  }, [curRoom]);
+  }, [curRoom, prevRoom]);
 
   useEffect(() => {
     if (messages.length) {
@@ -87,7 +87,7 @@ function MessagesList({curRoom, prevRoom}) {
         <div ref={scroll} className={styles.scroll}>
           <div className={styles.message_list}>
             {messages.map((message) => {
-              if (message.channel_id === currChannel?.id) {
+              if (message.channel_id === currChannel?.id && !errors) {
                 const author = allUsers[message.user_id];
                 return (
                   <main key={message.id} className={styles.message_body}>

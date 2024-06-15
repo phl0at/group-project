@@ -26,7 +26,7 @@ function MainComponent() {
       dispatch(initialLoadThunk());
     }
     return () => socket.disconnect();
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <>
