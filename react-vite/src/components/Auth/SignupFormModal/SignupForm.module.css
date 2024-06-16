@@ -40,7 +40,7 @@
   justify-content: space-between;
 }
 .email {
-  background-color: #313338;
+  background-color: #212b3d;
   border: none;
   height: 35px;
   width: 370px;
@@ -48,7 +48,7 @@
   padding-left: 10px;
 }
 .user_name {
-  background-color: #313338;
+  background-color: #212b3d;
   border: none;
   height: 35px;
   width: 370px;
@@ -57,7 +57,7 @@
 }
 .password {
   padding-left: 10px;
-  background-color: #313338;
+  background-color: #212b3d;
   border: none;
   height: 35px;
   width: 370px;
@@ -65,7 +65,7 @@
 }
 .confirm_password {
   padding-left: 10px;
-  background-color: #313338;
+  background-color: #212b3d;
   border: none;
   height: 35px;
   width: 370px;

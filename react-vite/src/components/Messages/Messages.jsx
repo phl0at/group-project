@@ -57,7 +57,9 @@ function MessagesList({ curRoom, prevRoom }) {
     if (inputText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
-      const newMessage = await dispatch(createMessageThunk(currChannel.id, message));
+      const newMessage = await dispatch(
+        createMessageThunk(currChannel.id, message)
+      );
       socket.emit("message", { room: currChannel.id, message: newMessage });
       setInputText("");
     }
@@ -69,7 +71,9 @@ function MessagesList({ curRoom, prevRoom }) {
     } else if (editText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
-      const editedMessage = await dispatch(editMessageThunk({ id: message.id, text: editText }));
+      const editedMessage = await dispatch(
+        editMessageThunk({ id: message.id, text: editText })
+      );
       socket.emit("message", { room: currChannel.id, message: editedMessage });
       setEditMode(null);
       setEditText("");
@@ -153,44 +157,43 @@ function MessagesList({ curRoom, prevRoom }) {
                             </>
                           )}
                         </div>
-                        <ReactionButton message={message} />
+                        <ReactionButton currChannel={currChannel} message={message} />
                       </div>
                       <div className={styles.message_actions}>
-                        <button
-                          className={styles.reactions}
-                          onClick={() => toggleReactions(message.id)}
-                        >
-                          <VscReactions size={"20"} />
-                        </button>
-                        <div>
+                        <div className={styles.reaction_buttons}>
                           {showReactions === message.id && (
                             <MessageReactions message={message} />
                           )}
                         </div>
-                        {user.id === message.user_id && (
-                          <>
-                            <button
-                              className={styles.edit_button}
-                              onClick={() => {
-                                setEditMode(message.id);
-                                setEditText(message.text);
-                              }}
-                            >
-                              <HiOutlineDocumentText size={"20"} />
-                            </button>
-                            <OpenModalButton
-                              className={styles.delete_button}
-                              buttonText={<HiOutlineTrash size={"20"} />}
-                              modalComponent={
-                                <DeleteMessage
-                                  messages={messages}
-                                  message={message}
-                                  curRoom={curRoom}
-                                />
-                              }
-                            />
-                          </>
-                        )}
+                        <div>
+                          <button onClick={() => toggleReactions(message.id)}>
+                            <VscReactions size={"21"} />
+                          </button>
+                          {user.id === message.user_id && (
+                            <>
+                              <button
+                                className={styles.edit_button}
+                                onClick={() => {
+                                  setEditMode(message.id);
+                                  setEditText(message.text);
+                                }}
+                              >
+                                <HiOutlineDocumentText size={"21"} />
+                              </button>
+                              <OpenModalButton
+                                className={styles.delete_button}
+                                buttonText={<HiOutlineTrash size={"21"} />}
+                                modalComponent={
+                                  <DeleteMessage
+                                    messages={messages}
+                                    message={message}
+                                    curRoom={curRoom}
+                                  />
+                                }
+                              />
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </main>
