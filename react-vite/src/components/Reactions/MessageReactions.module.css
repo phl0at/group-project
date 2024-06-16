@@ -25,6 +25,7 @@
 
 #reaction_button {
   border: 1px solid rgb(30, 143, 191);
+  background-color: #151b27;
   position: relative;
   left: 10px;
   border-radius: 5px;
