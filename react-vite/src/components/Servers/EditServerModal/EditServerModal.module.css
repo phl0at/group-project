@@ -1,18 +1,15 @@
 .main {
+  font-family: "Alexandria";
   width: 480px;
   height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  /* align-items: center; */
-  /* justify-content: space-between; */
   border-radius: 10px;
   background-color: #080b10;
-  /* background-color: rgb(35, 34, 34); */
 }
 
 .title {
-  /* padding-top: 20px; */
   height: 15%;
   width: 100%;
   display: flex;
@@ -54,7 +51,6 @@ input {
   width: 370px;
   border-radius: 5px;
 }
-
 
 .submit {
   border-radius: 10px;

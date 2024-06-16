@@ -29,10 +29,7 @@ function MainComponent() {
       dispatch(socketCreate(message));
     });
     socket.on("delete", (message) => {
-      // Need to add some kind of logic to remove
-      // all reactions to this message from the Redux store.
-      // Thinking separate thunk that checks the store for
-      // reactions to the message and removes them
+
       dispatch(socketDelete(message));
     });
   }, []);

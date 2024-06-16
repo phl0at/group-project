@@ -1,4 +1,5 @@
 .main {
+  font-family: 'Alexandria';
   width: 480px;
   height: 540px;
   display: flex;
@@ -9,16 +10,30 @@
   border-radius: 10px;
 }
 
+.top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
 .title {
-  height: 160px;
+  height: 100%;
+  width: 59%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: large;
+  justify-content: flex-end;
+  font-size: larger;
+}
+
+.close {
+  width: 25px;
+  display: flex;
+  padding-top: 10px;
 }
 
 .form {
-  height: 380px;
+  height: 430px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,30 +73,20 @@
 }
 
 .errors {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 10pt;
   padding-top: 10px;
   width: 350px;
-  height: 40px;
+  height: 20px;
   color: rgba(251, 72, 72, 0.884);
 }
-
-.buttons {
-  width: 440px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.cancel {
-  width: 200px;
-  height: 30px;
-  border-radius: 10px;
-  background-color: rgb(137, 33, 33);
-}
-
 .submit {
+  position: relative;
+  bottom: 10px;
   width: 200px;
-  height: 30px;
+  height: 40px;
   border-radius: 10px;
   background-color: rgb(65, 81, 41);
 }

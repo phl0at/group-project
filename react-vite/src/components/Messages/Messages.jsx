@@ -160,7 +160,7 @@ function MessagesList({ curRoom, prevRoom }) {
                           className={styles.reactions}
                           onClick={() => toggleReactions(message.id)}
                         >
-                          <VscReactions />
+                          <VscReactions size={"20"} />
                         </button>
                         <div>
                           {showReactions === message.id && (
@@ -176,11 +176,11 @@ function MessagesList({ curRoom, prevRoom }) {
                                 setEditText(message.text);
                               }}
                             >
-                              <HiOutlineDocumentText />
+                              <HiOutlineDocumentText size={"20"} />
                             </button>
                             <OpenModalButton
                               className={styles.delete_button}
-                              buttonText={<HiOutlineTrash />}
+                              buttonText={<HiOutlineTrash size={"20"} />}
                               modalComponent={
                                 <DeleteMessage
                                   messages={messages}

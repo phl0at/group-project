@@ -1,6 +1,8 @@
 .page {
   display: flex;
   height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   animation: fadeIn 2s;
   -webkit-animation: fadeIn 2s;
   -moz-animation: fadeIn 2s;
@@ -94,6 +96,11 @@
   height: 110px;
   background-color: #1b2546;
 }
+
+
+/*
+FADE-IN ANIMATIONS !!!!!!!!!!!
+*/
 
 @keyframes fadeIn {
   0% {

@@ -1,53 +1,54 @@
 .main {
-    width: 400px;
-    height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 10px;
-    background-color: #080b10;
-  }
+  font-family: "Alexandria";
+  width: 400px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: #080b10;
+}
 
-  .title {
-    padding-top: 20px;
-    height: 15%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.title {
+  padding-top: 20px;
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .error {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    width: 350px;
-    height: 20px;
-    color: rgba(251, 72, 72, 0.884);
-  }
+.error {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 350px;
+  height: 20px;
+  color: rgba(251, 72, 72, 0.884);
+}
 
-  .form {
-    width: 380px;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    height: 30px;
-    bottom: 10px;
-  }
+.form {
+  width: 380px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  height: 30px;
+  bottom: 10px;
+}
 
-  input {
-    padding-left: 15px;
-    border: none;
-    background-color: #383a40;
-    position: relative;
-  }
+input {
+  padding-left: 15px;
+  border: none;
+  background-color: #383a40;
+  position: relative;
+}
 
-  .submit {
-    border-radius: 10px;
-    background-color: rgb(57, 71, 36);
-    width: 180px;
-  }
-  .submit:hover {
-    background-color: rgb(83, 113, 38);
-  }
+.submit {
+  border-radius: 10px;
+  background-color: rgb(57, 71, 36);
+  width: 180px;
+}
+.submit:hover {
+  background-color: rgb(83, 113, 38);
+}

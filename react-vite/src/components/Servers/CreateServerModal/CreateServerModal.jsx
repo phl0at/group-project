@@ -43,7 +43,7 @@ const CreateServerModal = () => {
       formData.append("ownerId", sessionUser.id);
 
       dispatch(createServerThunk(formData));
-      dispatch(getAllServersThunk());
+      // dispatch(getAllServersThunk());
       closeModal();
     } catch (e) {
       setErrors(e.message || "An unexpected error occurred");

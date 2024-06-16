@@ -8,12 +8,11 @@ import styles from "./EditServerModal.module.css";
 const EditServerModal = () => {
   const server = useSelector((state) => state.server.current);
   const dispatch = useDispatch();
-  // const sessionUser = useSelector((state) => state.session.user);
   const [serverName, setServerName] = useState(server.name);
   const [errors, setErrors] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(server.image_url);
   const { closeModal } = useModal();
-
+  console.log(server)
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };

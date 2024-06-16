@@ -99,8 +99,12 @@ export const deleteMessageThunk = (message) => async (dispatch) => {
 export const socketDelete = (message) => async (dispatch) => {
   // If User A deletes their own message, User B needs that message to be deleted
   // only from their redux store when the socket detects a 'delete' emission
+  // ***
+  // Need to add some kind of logic to remove
+  // all reactions to this message from the Redux store.
   try {
       dispatch(action(DELETE, message));
+      console.log('\n===== MESSAGE DELETED', message)
   } catch (error) {
     console.log(error);
   }
