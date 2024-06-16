@@ -35,7 +35,16 @@ const EditServerModal = () => {
       if (!file) {
         return setErrors({ errors: "Please select a file." });
       }
+      const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
+      const fileName = file.name;
+      const imgExt = fileName.split('.').pop();
 
+      const checkExt = () => {
+        return allowedExtensions.includes(imgExt)
+      }
+      if (!checkExt()) {
+        return setErrors({ errors: "File extension not supported." })
+      }
       const formData = new FormData();
       formData.append("file", file);
       formData.append("serverName", serverName);
