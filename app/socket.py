@@ -1,14 +1,12 @@
-from flask import Flask
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
-
-app = Flask(__name__)
 
 if os.environ.get("FLASK_ENV") == "production":
     origins = [
         "http://hypercomm.onrender.com",
         "https://hypercomm.onrender.com",
-        "wss://hypercomm.onrender.com"
+        "wss://hypercomm.onrender.com",
+        "ws://hypercomm.onrender.com",
     ]
 else:
     origins = "*"
@@ -27,6 +25,11 @@ def leave(data):
     leave_room(data['room'])
 
 @socketio.on('message')
-def message(data):
+def send(data):
     print('\n********** MESSAGE TEXT: ', data['message'], 'TO ROOM: ', data['room'])
-    emit('message', data, broadcast=True, to=data['room'], include_self=True)
+    emit('message', data['message'], broadcast=True, to=data['room'], include_self=True)
+
+@socketio.on('delete')
+def delete(data):
+    print('\n********** DELETING MESSAGE: ', data['message'], 'FROM ROOM: ', data['room'])
+    emit('delete', data['message'], broadcast=True, include_self=True)

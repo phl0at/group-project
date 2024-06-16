@@ -9,8 +9,7 @@ import { initialLoadThunk } from "../../redux/servers";
 import ServersList from "../Servers/Servers";
 import ChannelsList from "../Channels/";
 import MessagesList from "../Messages/";
-import { getAllMessagesThunk } from "../../redux/messages";
-
+import { socketDelete, socketCreate } from "../../redux/messages";
 
 function MainComponent() {
   const dispatch = useDispatch();
@@ -21,19 +20,22 @@ function MainComponent() {
   useEffect(() => {
     if (user) {
       dispatch(initialLoadThunk());
-      socket.connect()
+      socket.connect();
     }
-    // return () => {
-    //   socket.disconnect();
-    // }
   }, [user]);
 
   useEffect(() => {
     socket.on("message", (message) => {
-      dispatch(getAllMessagesThunk(message.message["channel_id"]));
+      dispatch(socketCreate(message));
+    });
+    socket.on("delete", (message) => {
+      // Need to add some kind of logic to remove
+      // all reactions to this message from the Redux store.
+      // Thinking separate thunk that checks the store for
+      // reactions to the message and removes them
+      dispatch(socketDelete(message));
     });
   }, []);
-
 
   return (
     <>
@@ -60,7 +62,6 @@ function MainComponent() {
             <div className={styles.title}>hYpercomm</div>
           </div>
           <div className={styles.right}>
-            {/* <div className={styles.buttons}> */}
             <OpenModalButton
               buttonText="Log In"
               className={styles.login}
@@ -71,7 +72,6 @@ function MainComponent() {
               className={styles.signup}
               modalComponent={<SignupFormModal />}
             />
-            {/* </div> */}
           </div>
         </main>
       )}

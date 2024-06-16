@@ -46,7 +46,7 @@ function MessagesList({ curRoom, prevRoom }) {
     }
   }, [messages]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     const message = {
@@ -57,20 +57,20 @@ function MessagesList({ curRoom, prevRoom }) {
     if (inputText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
-      dispatch(createMessageThunk(currChannel.id, message));
-      socket.emit("message", { room: currChannel.id, message });
+      const newMessage = await dispatch(createMessageThunk(currChannel.id, message));
+      socket.emit("message", { room: currChannel.id, message: newMessage });
       setInputText("");
     }
   };
 
-  const handleEditSubmit = (message) => {
+  const handleEditSubmit = async (message) => {
     if (!editText.trim().length) {
       setErrors({ error: "Message Text Required" });
     } else if (editText.length > 250) {
       setErrors({ error: "Max length: 250" });
     } else {
-      dispatch(editMessageThunk({ id: message.id, text: editText }));
-      socket.emit("message", { room: currChannel.id, message });
+      const editedMessage = await dispatch(editMessageThunk({ id: message.id, text: editText }));
+      socket.emit("message", { room: currChannel.id, message: editedMessage });
       setEditMode(null);
       setEditText("");
     }

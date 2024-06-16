@@ -35,7 +35,6 @@ export const getAllMessagesThunk = (channelId) => async (dispatch) => {
   }
 };
 
-
 //! --------------------------------------------------------------------
 
 export const editMessageThunk = (message) => async (dispatch) => {
@@ -55,7 +54,6 @@ export const editMessageThunk = (message) => async (dispatch) => {
     console.log(error);
   }
 };
-
 
 //! --------------------------------------------------------------------
 
@@ -97,6 +95,31 @@ export const deleteMessageThunk = (message) => async (dispatch) => {
 };
 
 //! --------------------------------------------------------------------
+
+export const socketDelete = (message) => async (dispatch) => {
+  // If User A deletes their own message, User B needs that message to be deleted
+  // only from their redux store when the socket detects a 'delete' emission
+  try {
+      dispatch(action(DELETE, message));
+  } catch (error) {
+    console.log(error);
+  }
+};
+//! --------------------------------------------------------------------
+
+export const socketCreate = (message) => async (dispatch) => {
+  // with our original implementation, when a message is sent from User A,
+  // User B would then fetch for ALL messages. This is inefficient
+  // and counter-intuitive within a Redux environment, so we are now grabbing the
+  // message from the socket event data and adding it directly to the Redux store.
+  try {
+      dispatch(action(CREATE, message));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! --------------------------------------------------------------------
 //*                            Selectors
 //! --------------------------------------------------------------------
 
@@ -113,7 +136,7 @@ const initialState = {};
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
-      const newState = { };
+      const newState = { ...state };
       action.payload.forEach((message) => (newState[message.id] = message));
       return newState;
     }

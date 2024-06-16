@@ -11,9 +11,9 @@ const DeleteMessage = ({ message, curRoom }) => {
   const onClick = () => {
     try {
       dispatch(deleteMessageThunk(message));
-      socket.emit("message", {
+      socket.emit("delete", {
         room: curRoom,
-        message: { channel_id: curRoom, text: message["text"] },
+        message,
       });
       closeModal();
     } catch (e) {
