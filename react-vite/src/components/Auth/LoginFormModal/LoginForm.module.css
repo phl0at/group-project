@@ -61,13 +61,13 @@
   color: rgba(251, 72, 72, 0.884);
 }
 
-
 .login {
   width: 210px;
   height: 40px;
   border-radius: 10px;
   background-color: rgb(65, 81, 41);
   transition: all 0.2s ease-in-out;
+  margin-bottom: 1em;
 }
 .login:hover {
   width: 220px;

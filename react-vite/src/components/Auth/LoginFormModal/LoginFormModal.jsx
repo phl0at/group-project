@@ -29,6 +29,18 @@ function LoginFormModal() {
     }
   };
 
+
+  const handleDemoUser = ()=> {
+    const user = {
+      email: 'demo@aa.io',
+      password: 'password'
+    }
+
+    dispatch(thunkLogin(user)).then(()=>{
+      closeModal()
+    })
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.top}>
@@ -61,6 +73,11 @@ function LoginFormModal() {
         <button className={styles.login} type="submit">
           Log In
         </button>
+
+        <button className={styles.login} onClick={handleDemoUser}>
+          Demo Login
+        </button>
+
       </form>
     </main>
   );
