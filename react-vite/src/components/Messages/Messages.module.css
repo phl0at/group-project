@@ -78,11 +78,11 @@
   padding-top: 10px;
   padding-right: 10px;
   padding-left: 3px;
-  animation: fadeIn 0.7s;
-  -webkit-animation: fadeIn 0.7s;
-  -moz-animation: fadeIn 0.7s;
-  -o-animation: fadeIn 0.7s;
-  -ms-animation: fadeIn 0.7s;
+  animation: fadeIn 0.85s;
+  -webkit-animation: fadeIn 0.85s;
+  -moz-animation: fadeIn 0.85s;
+  -o-animation: fadeIn 0.85s;
+  -ms-animation: fadeIn 0.85s;
 }
 
 .message_body:hover {
@@ -108,9 +108,9 @@
   color: white;
 }
 
-.reaction_buttons{
+.reaction_buttons {
   position: absolute;
-  top:-15px;
+  top: -15px;
   z-index: 1;
 }
 
@@ -175,9 +175,8 @@
   position: relative;
 }
 .error {
-  padding-top: 2px;
-  display: flex;
-  height: 15px;
+  position: absolute;
+  margin-left: 20px;
   color: rgba(251, 72, 72, 0.884);
 }
 .edit_form {
@@ -185,7 +184,6 @@
   flex-direction: column;
   height: 100px;
   width: 100%;
-
 }
 
 .message_edit {
@@ -231,7 +229,6 @@
   padding-bottom: 30%;
   color: #ffffff96;
 }
-
 
 /*
 FADE-IN ANIMATIONS !!!!!!!!!!!

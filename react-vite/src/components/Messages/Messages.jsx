@@ -55,7 +55,7 @@ function MessagesList({ curRoom, prevRoom }) {
     };
 
     if (inputText.length > 250) {
-      setErrors({ error: "Max length: 250" });
+      setErrors({ error: "Message size limit: 250 characters" });
     } else {
       const newMessage = await dispatch(
         createMessageThunk(currChannel.id, message)
@@ -69,7 +69,7 @@ function MessagesList({ curRoom, prevRoom }) {
     if (!editText.trim().length) {
       setErrors({ error: "Message Text Required" });
     } else if (editText.length > 250) {
-      setErrors({ error: "Max length: 250" });
+      setErrors({ error: "Message size limit: 250 characters" });
     } else {
       const editedMessage = await dispatch(
         editMessageThunk({ id: message.id, text: editText })
@@ -157,7 +157,10 @@ function MessagesList({ curRoom, prevRoom }) {
                             </>
                           )}
                         </div>
-                        <ReactionButton currChannel={currChannel} message={message} />
+                        <ReactionButton
+                          currChannel={currChannel}
+                          message={message}
+                        />
                       </div>
                       <div className={styles.message_actions}>
                         <div className={styles.reaction_buttons}>
@@ -204,6 +207,8 @@ function MessagesList({ curRoom, prevRoom }) {
         </div>
 
         {currChannel && (
+          <>
+
           <form
             name="new_message"
             className={styles.form}
@@ -221,6 +226,8 @@ function MessagesList({ curRoom, prevRoom }) {
               }}
             />
           </form>
+          <div className={styles.error}>{errors && errors.error}</div>
+          </>
         )}
       </div>
     </main>

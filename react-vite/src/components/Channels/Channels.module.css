@@ -4,7 +4,6 @@
 
 .main {
   background-color: #151b27;
-  /* background-color: #2b2d31; */
   min-width: 240px;
   display: flex;
   flex-direction: column;

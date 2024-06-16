@@ -8,7 +8,6 @@ import DeleteChannelModal from "./DeleteChannelModal";
 import styles from "./Channels.module.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import OptionsMenu from "./OptionsMenu";
-import { NavLink } from "react-router-dom";
 import default_user from "../../../../images/default_user.jpg";
 import ServerMenu from "./ServerMenu";
 import UserProfile from "../UserProfileImage/UserProfile";
@@ -28,12 +27,6 @@ function ChannelsList({ curRoom, setCurRoom, setPrevRoom }) {
     dispatch(getAllMessagesThunk(channel.id));
     dispatch(getAllReactionsThunk(channel.id));
   };
-
-  const handleOpenModal = (e) => {
-    e.preventDefault();
-    setModalContent(<UserProfile closeModal={closeModal} />);
-};
-
 
   return (
     <main className={styles.main}>

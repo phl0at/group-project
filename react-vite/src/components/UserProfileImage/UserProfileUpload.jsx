@@ -1,15 +1,10 @@
-// UserProfileImage.js
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { editUserThunk } from '../../redux/session';
-import { useNavigate } from "react-router-dom";
-import { useModal } from '../../context/Modal';
-
-
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editUserThunk } from "../../redux/session";
+import { useModal } from "../../context/Modal";
 
 const UserProfileImageUpload = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
   const user = useSelector((state) => state.session.user);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
@@ -37,9 +32,9 @@ const UserProfileImageUpload = () => {
     } else {
       setError(null);
       setFile(null);
-      closeModal()
+      closeModal();
     }
-  }; 
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -49,6 +44,5 @@ const UserProfileImageUpload = () => {
     </form>
   );
 };
-
 
 export default UserProfileImageUpload;

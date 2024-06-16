@@ -37,8 +37,8 @@ const CreateChannelModal = ({ curRoom, setCurRoom, setPrevRoom }) => {
       } else {
         dispatch(getAllChannelsThunk(server));
         dispatch(setCurrentChannelThunk(response));
-        setPrevRoom(curRoom)
-        setCurRoom(response.id)
+        setPrevRoom(curRoom);
+        setCurRoom(response.id);
         closeModal();
       }
     } catch (e) {
@@ -52,6 +52,7 @@ const CreateChannelModal = ({ curRoom, setCurRoom, setPrevRoom }) => {
       <div className={styles.error}>{errors.error && errors.error}</div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
+          className={styles.input}
           placeholder="Enter a name..."
           type="text"
           value={name}

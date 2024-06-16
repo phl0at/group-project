@@ -106,37 +106,36 @@ def create_server():
 @servers_routes.route('/<int:server_id>', methods=['PUT'])
 @login_required
 def update_server(server_id):
+
     server = Server.query.get(server_id)
+
     if not server:
         return {"error": "Server not found"}, 404
 
-    try:
+    # data = request.form if request.form else request.json
+    if 'file' in request.files:
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            unique_filename = get_unique_filename(filename)
+            file.filename = unique_filename
+            upload_response = upload_file_to_s3(file)
 
-        # data = request.form if request.form else request.json
-        if 'file' in request.files:
-            file = request.files['file']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                unique_filename = get_unique_filename(filename)
-                file.filename = unique_filename
-                upload_response = upload_file_to_s3(file)
+            if "errors" in upload_response:
+                return upload_response, 400
 
-                if "errors" in upload_response:
-                    return upload_response, 400
+            if server.image_url:
+                remove_file_from_s3(server.image_url)
 
-                if server.image_url:
-                    remove_file_from_s3(server.image_url)
+            server.image_url = upload_response["url"]
 
-                server.image_url = upload_response["url"]
-
+    if(request.form.get('serverName')):
         server.name = request.form.get('serverName')
 
-        db.session.commit()
-        return server.to_dict(), 200
+    db.session.commit()
+    return server.to_dict(), 200
 
-    except Exception as e:
-        db.session.rollback()
-        return {"error": str(e)}, 500
+
 
 
 
