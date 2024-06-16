@@ -29,7 +29,6 @@ function MainComponent() {
       dispatch(socketCreate(message));
     });
     socket.on("delete", (message) => {
-
       dispatch(socketDelete(message));
     });
   }, []);
