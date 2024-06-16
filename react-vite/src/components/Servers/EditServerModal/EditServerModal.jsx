@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { updateServerThunk } from "../../../redux/servers";
 import styles from "./EditServerModal.module.css";
-import ServerImageUpload from "../ServerImageUpload";
+
 
 const EditServerModal = () => {
   const server = useSelector((state) => state.server.current);
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+  // const sessionUser = useSelector((state) => state.session.user);
   const [serverName, setServerName] = useState(server.name);
-  const [errors, setErrors] = useState({});
-  const [image, setImage] = useState(null);
+  const [errors, setErrors] = useState("");
+  const [file, setFile] = useState(null);
   const { closeModal } = useModal();
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   useEffect(() => {
     if (errors.length) {
@@ -22,23 +26,32 @@ const EditServerModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
-    const formData = new FormData();
-    formData.append("name", serverName);
-    if (image) formData.append("file", image);
+    setErrors("");
 
     try {
       if (!serverName.trim().length) {
-        setErrors({ error: "Server Name is required" });
-      } else {
-        dispatch(
-          updateServerThunk({
-            id: server.id,
-            formData,
-          })
-        );
-        closeModal();
+        return setErrors({ errors: "Server Name is required" });
       }
+      if (!file) {
+        return setErrors({ errors: "Please select a file." });
+      }
+      const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
+      const fileName = file.name;
+      const imgExt = fileName.split('.').pop();
+
+      const checkExt = () => {
+        return allowedExtensions.includes(imgExt)
+      }
+      if (!checkExt()) {
+        return setErrors({ errors: "File extension not supported." })
+      }
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("serverName", serverName);
+
+      dispatch(updateServerThunk(server.id, formData));
+      closeModal();
+
     } catch (e) {
       console.log(e);
     }
@@ -46,16 +59,18 @@ const EditServerModal = () => {
 
   return (
     <main className={styles.main}>
-      <div className={styles.title}>Rename Server</div>
-      <div className={styles.error}>{errors.error && errors.error}</div>
+      <div className={styles.title}>Edit Server</div>
       <form className={styles.form} onSubmit={handleSubmit}>
+        <p className={styles.error}>{errors && errors.errors}</p>
         <input
           type="text"
           value={serverName}
           onChange={(e) => setServerName(e.target.value)}
           required
         />
-        <ServerImageUpload setImage={setImage} />
+        <div>
+          <input type="file" onChange={handleFileChange} />
+        </div>
         <button className={styles.submit} type="submit">
           Update Server
         </button>

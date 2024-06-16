@@ -15,9 +15,6 @@ else:
 
 socketio = SocketIO(cors_allowed_origins=origins)
 
-@app.route('/')
-def index():
-    return 'Server is running!'
 
 @socketio.on('join')
 def join(data):
@@ -32,5 +29,4 @@ def leave(data):
 @socketio.on('message')
 def message(data):
     print('\n********** MESSAGE TEXT: ', data['message'], 'TO ROOM: ', data['room'])
-    room = str(data['room'])
-    emit('message', data, broadcast=True, to=room, include_self=False)
+    emit('message', data, broadcast=True, to=data['room'], include_self=True)

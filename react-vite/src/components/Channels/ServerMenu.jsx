@@ -57,8 +57,8 @@ function ServerMenu({ curRoom, setCurRoom, setPrevRoom }) {
           </div>
           <div className={styles.serverEdit}>
             <OpenModalButton
-              title="Rename Server"
-              buttonText={"Rename Server"}
+              title="Edit Server"
+              buttonText={"Edit Server"}
               modalComponent={<EditServerModal />}
             />
             <div className={styles.delete}>

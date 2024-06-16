@@ -28,7 +28,6 @@ function MessagesList({ curRoom, prevRoom }) {
   const [editText, setEditText] = useState("");
   const [editMode, setEditMode] = useState(null);
   const [showReactions, setShowReactions] = useState(null);
-
   const scroll = useRef(null);
 
   useEffect(() => {
@@ -89,7 +88,7 @@ function MessagesList({ curRoom, prevRoom }) {
           <div className={styles.message_list}>
             {messages.map((message) => {
               if (message.channel_id === currChannel?.id) {
-                const author = message[message.user_id];
+                const author = allUsers[message.user_id];
                 return (
                   <main key={message.id} className={styles.message_body}>
                     <div className={styles.left}>
@@ -119,6 +118,7 @@ function MessagesList({ curRoom, prevRoom }) {
                                 type="text"
                                 value={editText}
                                 onChange={(e) => setEditText(e.target.value)}
+                                required
                               />
                               <div className={styles.message_buttons}>
                                 <button
