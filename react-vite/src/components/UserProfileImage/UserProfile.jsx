@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import UserProfileImageUpload from './UserProfileUpload';
 import default_user from "../../../../images/default_user.jpg"
@@ -20,7 +19,7 @@ const UserProfile = () => {
         <UserProfileImageUpload className={styles.button}/>
       </div>
     </div>
-    
+
     );
   };
 

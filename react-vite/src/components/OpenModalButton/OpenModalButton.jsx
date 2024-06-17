@@ -1,5 +1,4 @@
 import { useModal } from "../../context/Modal";
-import styles from "./OpenModalButton.module.css";
 
 function OpenModalButton({
   title, // create and set text for a mouse hover tooltip

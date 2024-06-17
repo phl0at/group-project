@@ -18,9 +18,18 @@ function SignupFormModal() {
 
     if (password !== confirmPassword) {
       return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+        confirmPassword: "Passwords must match",
       });
+    }
+
+    const emailTLD = email.split(".").length - 1;
+    const validTLD = ["com", "org", "net", "live", "edu", "gov", "mil", "io"];
+
+    if (
+      !email.includes("@") ||
+      !validTLD.includes(email.split(".")[emailTLD])
+    ) {
+      return setErrors({ email: "Please enter a valid email address" });
     }
 
     const serverResponse = await dispatch(
@@ -40,7 +49,12 @@ function SignupFormModal() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.title}>Sign Up</div>
+      <div className={styles.top}>
+        <div className={styles.title}>Sign Up</div>
+        <button className={styles.close} onClick={closeModal}>
+          X
+        </button>
+      </div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
           className={styles.email}
@@ -85,14 +99,9 @@ function SignupFormModal() {
         <div className={styles.errors}>
           {errors.confirmPassword && errors.confirmPassword}
         </div>
-        <div className={styles.buttons}>
-          <button className={styles.cancel} onClick={closeModal}>
-            Cancel
-          </button>
-          <button className={styles.submit} type="submit">
-            Submit
-          </button>
-        </div>
+        <button className={styles.submit} type="submit">
+          Submit
+        </button>
       </form>
     </main>
   );

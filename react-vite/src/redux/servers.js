@@ -72,7 +72,6 @@ export const getAllServersThunk = () => async (dispatch) => {
 };
 //! --------------------------------------------------------------------
 export const createServerThunk = (serverData) => async (dispatch) => {
-  console.log('!!!!!!!!!!!!!!!!!!!!!!!!', serverData)
   try {
     const response = await fetch("/api/servers/", {
       method: "POST",
@@ -113,6 +112,7 @@ export const deleteServerThunk = (server) => async (dispatch) => {
 
 export const updateServerThunk = (id, formData) => async (dispatch) => {
   try {
+    console.log(formData)
     const response = await fetch(`/api/servers/${id}`, {
       method: "PUT",
       body: formData

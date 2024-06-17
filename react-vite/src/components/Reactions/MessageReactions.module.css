@@ -1,30 +1,38 @@
 .reactionsContainer {
-    position: relative;
-  }
+  position: relative;
+}
 
-  .reactions {
-    display: none;
-  }
+.reactions {
+  display: none;
+}
 
-  .message:hover .reactions {
-    display: flex;
-    gap: 8px;
-  }
+.message:hover .reactions {
+  display: flex;
+  gap: 8px;
+}
 
-  .active {
-    font-weight: bold;
-    color: blue;
-  }
+.active {
+  font-weight: bold;
+  color: blue;
+}
 
-  .reactionList {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-  }
+.reaction_list {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  bottom: 10px;
+}
 
-  .reaction {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+#reaction_button {
+  border: 1px solid rgb(30, 143, 191);
+  background-color: #151b27;
+  position: relative;
+  left: 10px;
+  border-radius: 5px;
+  padding-right: 3px;
+  padding-bottom: 3px;
+}
+
+.hide {
+  display: none;
+}

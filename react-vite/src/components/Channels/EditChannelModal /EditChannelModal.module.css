@@ -1,13 +1,13 @@
 .main {
+  font-family: "Alexandria";
   width: 400px;
-  height: 100px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
   background-color: #080b10;
-    /* background-color: rgb(35, 34, 34); */
 }
 
 .title {
@@ -31,24 +31,28 @@
 .form {
   width: 380px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  height: 30px;
+  height: 70px;
   bottom: 10px;
 }
 
-input {
+.input {
   padding-left: 15px;
   border: none;
-  background-color: #383a40;
-  position: relative;
+  background-color: #212b3d;
 }
 
 .submit {
+  margin-top: 10px;
   border-radius: 10px;
   background-color: rgb(57, 71, 36);
   width: 180px;
+  height: 40px;
+  transition: all 0.2s ease-in-out;
 }
 .submit:hover {
   background-color: rgb(83, 113, 38);
+  border-radius: 5px;
 }

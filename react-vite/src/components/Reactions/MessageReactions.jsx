@@ -33,11 +33,11 @@ const MessagesReaction = ({ message }) => {
   };
 
   return (
-    <main>
+    <>
       <button onClick={() => handleToggleReaction("thumbsup")}>👍</button>
       <button onClick={() => handleToggleReaction("thumbsdown")}>👎</button>
       <button onClick={() => handleToggleReaction("smile")}>😊</button>
-    </main>
+    </>
   );
 };
 

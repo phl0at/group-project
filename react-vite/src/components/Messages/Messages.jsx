@@ -46,7 +46,7 @@ function MessagesList({ curRoom, prevRoom }) {
     }
   }, [messages]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     const message = {
@@ -55,22 +55,26 @@ function MessagesList({ curRoom, prevRoom }) {
     };
 
     if (inputText.length > 250) {
-      setErrors({ error: "Max length: 250" });
+      setErrors({ error: "Message size limit: 250 characters" });
     } else {
-      dispatch(createMessageThunk(currChannel.id, message));
-      socket.emit("message", { room: currChannel.id, message });
+      const newMessage = await dispatch(
+        createMessageThunk(currChannel.id, message)
+      );
+      socket.emit("message", { room: currChannel.id, message: newMessage });
       setInputText("");
     }
   };
 
-  const handleEditSubmit = (message) => {
+  const handleEditSubmit = async (message) => {
     if (!editText.trim().length) {
       setErrors({ error: "Message Text Required" });
     } else if (editText.length > 250) {
-      setErrors({ error: "Max length: 250" });
+      setErrors({ error: "Message size limit: 250 characters" });
     } else {
-      dispatch(editMessageThunk({ id: message.id, text: editText }));
-      socket.emit("message", { room: currChannel.id, message });
+      const editedMessage = await dispatch(
+        editMessageThunk({ id: message.id, text: editText })
+      );
+      socket.emit("message", { room: currChannel.id, message: editedMessage });
       setEditMode(null);
       setEditText("");
     }
@@ -153,44 +157,46 @@ function MessagesList({ curRoom, prevRoom }) {
                             </>
                           )}
                         </div>
-                        <ReactionButton message={message} />
+                        <ReactionButton
+                          currChannel={currChannel}
+                          message={message}
+                        />
                       </div>
                       <div className={styles.message_actions}>
-                        <button
-                          className={styles.reactions}
-                          onClick={() => toggleReactions(message.id)}
-                        >
-                          <VscReactions />
-                        </button>
-                        <div>
+                        <div className={styles.reaction_buttons}>
                           {showReactions === message.id && (
                             <MessageReactions message={message} />
                           )}
                         </div>
-                        {user.id === message.user_id && (
-                          <>
-                            <button
-                              className={styles.edit_button}
-                              onClick={() => {
-                                setEditMode(message.id);
-                                setEditText(message.text);
-                              }}
-                            >
-                              <HiOutlineDocumentText />
-                            </button>
-                            <OpenModalButton
-                              className={styles.delete_button}
-                              buttonText={<HiOutlineTrash />}
-                              modalComponent={
-                                <DeleteMessage
-                                  messages={messages}
-                                  message={message}
-                                  curRoom={curRoom}
-                                />
-                              }
-                            />
-                          </>
-                        )}
+                        <div>
+                          <button onClick={() => toggleReactions(message.id)}>
+                            <VscReactions size={"21"} />
+                          </button>
+                          {user.id === message.user_id && (
+                            <>
+                              <button
+                                className={styles.edit_button}
+                                onClick={() => {
+                                  setEditMode(message.id);
+                                  setEditText(message.text);
+                                }}
+                              >
+                                <HiOutlineDocumentText size={"21"} />
+                              </button>
+                              <OpenModalButton
+                                className={styles.delete_button}
+                                buttonText={<HiOutlineTrash size={"21"} />}
+                                modalComponent={
+                                  <DeleteMessage
+                                    messages={messages}
+                                    message={message}
+                                    curRoom={curRoom}
+                                  />
+                                }
+                              />
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </main>
@@ -201,6 +207,8 @@ function MessagesList({ curRoom, prevRoom }) {
         </div>
 
         {currChannel && (
+          <>
+
           <form
             name="new_message"
             className={styles.form}
@@ -218,6 +226,8 @@ function MessagesList({ curRoom, prevRoom }) {
               }}
             />
           </form>
+          <div className={styles.error}>{errors && errors.error}</div>
+          </>
         )}
       </div>
     </main>

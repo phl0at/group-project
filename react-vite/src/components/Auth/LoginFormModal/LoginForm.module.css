@@ -1,4 +1,5 @@
 .main {
+  font-family: 'Alexandria';
   width: 480px;
   height: 540px;
   display: flex;
@@ -13,11 +14,12 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 100%;
 }
 
 .title {
-  height: 260px;
-  width: 295px;
+  height: 100%;
+  width: 62%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -31,14 +33,14 @@
 }
 
 .form {
-  height: 280px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
 .email {
-  background-color: #313338;
+  background-color: #212b3d;
   border: none;
   height: 50px;
   width: 370px;
@@ -47,7 +49,7 @@
 }
 .password {
   padding-left: 10px;
-  background-color: #313338;
+  background-color: #212b3d;
   border: none;
   height: 50px;
   width: 370px;
@@ -55,24 +57,35 @@
 }
 
 .errors {
+  font-size: 10pt;
   padding-top: 10px;
   width: 350px;
-  height: 50px;
+  height: 25px;
   color: rgba(251, 72, 72, 0.884);
 }
 
-
 .login {
+  position: relative;
+  margin-bottom: 30px;
   width: 210px;
   height: 40px;
   border-radius: 10px;
   background-color: rgb(65, 81, 41);
   transition: all 0.2s ease-in-out;
 }
+
 .login:hover {
-  width: 220px;
-  height: 50px;
   background-color: rgb(90, 147, 72);
+}
+
+.demo {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  bottom: 10px;
+}
+
+.demo:hover {
+  color: rgb(104, 130, 187);
 }
 
 input {

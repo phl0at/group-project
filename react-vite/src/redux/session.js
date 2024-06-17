@@ -30,7 +30,7 @@ export const editUserThunk = (formData, userId) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch(action(UPDATE, data));
-      console.log(data)
+      console.log(data);
       return data;
     }
   } catch (error) {
@@ -140,10 +140,6 @@ export const getUsersArray = createSelector(
 const initialState = { user: null };
 function sessionReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER:
-      return { ...state, user: action.payload };
-    case REMOVE_USER:
-      return { ...state, user: null };
     case GET_ALL: {
       const newState = { ...state };
       action.payload.forEach(
@@ -155,8 +151,16 @@ function sessionReducer(state = initialState, action) {
       );
       return newState;
     }
+    case SET_USER:
+      return { ...state, user: action.payload };
+    case REMOVE_USER:
+      return { ...state, user: null };
     case UPDATE: {
-      return { ...state, user: action.payload, [action.payload.id]: action.payload };
+      return {
+        ...state,
+        user: action.payload,
+        [action.payload.id]: action.payload,
+      };
     }
     default:
       return state;

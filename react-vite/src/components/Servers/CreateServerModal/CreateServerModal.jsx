@@ -2,9 +2,8 @@ import styles from "./CreateServerModal.module.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
-import { createServerThunk, getAllServersThunk } from "../../../redux/servers";
+import { createServerThunk } from "../../../redux/servers";
 import { useEffect } from "react";
-
 
 const CreateServerModal = () => {
   const dispatch = useDispatch();
@@ -43,7 +42,6 @@ const CreateServerModal = () => {
       formData.append("ownerId", sessionUser.id);
 
       dispatch(createServerThunk(formData));
-      dispatch(getAllServersThunk());
       closeModal();
     } catch (e) {
       setErrors(e.message || "An unexpected error occurred");
@@ -56,6 +54,7 @@ const CreateServerModal = () => {
       <form className={styles.form} onSubmit={handleSubmit}>
         <p className={styles.error}>{errors && errors.errors}</p>
         <input
+          className={styles.input}
           placeholder="Enter a name..."
           type="text"
           value={serverName}
@@ -63,7 +62,11 @@ const CreateServerModal = () => {
           required
         />
         <div>
-          <input type="file" onChange={handleFileChange} />
+          <input
+            className={styles.input}
+            type="file"
+            onChange={handleFileChange}
+          />
         </div>
         <button className={styles.submit} type="submit">
           Create
