@@ -1,5 +1,16 @@
 # HyperComm
-[LiveLink](https://hypercomm.onrender.com)
+Welcome to HyperComm, your streamlined and efficient alternative to Discord. Designed with simplicity and performance in mind, HyperComm enables users to create and manage servers and channels effortlessly. Dive into seamless communication and foster vibrant communities with ease. Enjoy features like:
+ * Server and Channel Creation: Easily set up your own servers and channels to organize your discussions.
+ * Instant Messaging: Send and receive messages in real-time, ensuring smooth and uninterrupted conversations.
+ * User-Friendly Interface: Navigate through a clean, intuitive interface that prioritizes user experience.
+ * Community Building: Foster and grow your communities with tools designed to enhance interaction and engagement.
+
+## Live Site 
+(https://hypercomm.onrender.com)
+
+## Wiki 
+
+
 ## Database Schema Design
 ![db-schema](./images/DB_SCHEMA.png)
 
