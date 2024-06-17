@@ -51,11 +51,14 @@ To see HyperComm live, click the link above. To run HyperComm locally on your ma
     - `flask db upgrade`
     - `flask seed all`
     - `pipenv run flask run`
-      - (the backend localhost database should now be running on port 8080)
+      - (the backend database should now be running on port 8080)
 
   - In a separate terminal, CD into react-app folder and run:
 
     - `npm install`
-
-  - And then to start the app enter:
     - `npm run dev`
+        - (the frontend localhost should be running on port 5173)
+
+
+  - In your favorite browser, navigate to http://localhost:5173
+      - (you can confirm the correct port number in the frontend terminal)
