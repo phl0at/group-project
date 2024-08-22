@@ -52,6 +52,7 @@ const EditChannelModel = ({ channel }) => {
       <div className={styles.error}>{errors.error && errors.error}</div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
+          className={styles.input}
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
