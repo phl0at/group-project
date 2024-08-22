@@ -39,9 +39,10 @@
 }
 
 .input {
-  padding-left: 15px;
+  padding: 5px;
   border: none;
   background-color: #212b3d;
+  border-radius: 5px;
 }
 
 .submit {
