@@ -30,7 +30,6 @@ export const initialLoadThunk = () => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       const { servers, first_server, channels, messages, reactions } = data;
-      console.log(reactions)
       dispatch(action(GET_ALL, servers));
       dispatch(action(SET_CURRENT, first_server));
       dispatch(action("channels/getAll", channels));
