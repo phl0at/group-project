@@ -9,7 +9,7 @@ Welcome to HyperComm, your streamlined and efficient alternative to Discord. Des
 
 ## Live Site
 
-(https://hypercomm.onrender.com)
+(https://group-project-qsed.onrender.com/)
 
 ## [Wiki](https://github.com/DevStudenko/HyperComm/wiki)
 
